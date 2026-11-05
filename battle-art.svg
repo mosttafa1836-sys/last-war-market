@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101d2b"/><stop offset=".55" stop-color="#172638"/><stop offset="1" stop-color="#090d14"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff5260"/><stop offset="1" stop-color="#941524"/></linearGradient>
+ <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e6edf4"/><stop offset="1" stop-color="#657486"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#e72c42" stop-opacity=".45"/><stop offset="1" stop-color="#e72c42" stop-opacity="0"/></radialGradient>
+ <filter id="shadow"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<rect width="520" height="520" rx="42" fill="url(#bg)"/>
+<circle cx="265" cy="255" r="235" fill="url(#glow)"/>
+<path d="M38 390 L482 390" stroke="#e52c40" stroke-width="5" opacity=".8"/>
+<path d="M50 420 L470 420" stroke="#8293a5" stroke-width="2" opacity=".35"/>
+<!-- distant battlefield -->
+<path d="M0 365 L75 305 118 340 180 270 235 350 300 285 355 340 420 295 520 360V450H0Z" fill="#101722"/>
+<path d="M0 400 L110 365 195 390 295 350 400 385 520 355V520H0Z" fill="#0b111a"/>
+<!-- helicopter -->
+<g transform="translate(95 118)" fill="none" stroke="url(#steel)" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M30 40 H220" stroke-width="7"/><path d="M120 40 L120 20" stroke-width="6"/>
+ <path d="M95 48 Q120 10 165 36 L185 55 Q160 76 112 67Z" fill="#27384b" stroke-width="5"/>
+ <path d="M182 50 L226 32 L218 59 L180 65" fill="#263648" stroke-width="5"/>
+ <path d="M112 69 L95 84 M165 67 L180 82" stroke-width="5"/>
+ <path d="M45 40 L20 27 L12 51 L45 55" fill="#27384b" stroke-width="4"/>
+ <path d="M120 20 L120 7 M65 7 H180" stroke="#e9eff5" stroke-width="5"/>
+</g>
+<!-- searchlight / targeting ring -->
+<circle cx="390" cy="150" r="54" fill="none" stroke="#e93449" stroke-width="4" opacity=".85"/>
+<circle cx="390" cy="150" r="34" fill="none" stroke="#f3c36a" stroke-width="2" opacity=".8"/>
+<path d="M390 78 V105 M390 195 V222 M318 150 H345 M435 150 H462" stroke="#f3c36a" stroke-width="4"/>
+<!-- tank -->
+<g transform="translate(65 260)">
+ <ellipse cx="205" cy="170" rx="175" ry="24" fill="#000" opacity=".55" filter="url(#shadow)"/>
+ <path d="M38 124 Q52 98 85 98 H340 Q370 98 385 130 L372 170 H50Z" fill="#283c39" stroke="#a8b5b5" stroke-width="5"/>
+ <rect x="46" y="139" width="330" height="43" rx="21" fill="#151e22" stroke="#89979c" stroke-width="5"/>
+ <g fill="#66777b"><circle cx="88" cy="160" r="16"/><circle cx="145" cy="160" r="16"/><circle cx="202" cy="160" r="16"/><circle cx="259" cy="160" r="16"/><circle cx="316" cy="160" r="16"/></g>
+ <path d="M105 106 L130 62 Q145 45 190 45 H258 Q285 45 305 82 L325 112Z" fill="url(#red)" stroke="#e9c06b" stroke-width="5"/>
+ <path d="M220 65 L415 42 L419 58 L255 92" fill="#8999a8" stroke="#d7e0e8" stroke-width="4"/>
+ <rect x="168" y="34" width="70" height="17" rx="8" fill="#b8c3cd"/>
+ <path d="M132 110 L292 110" stroke="#f4c66c" stroke-width="5" opacity=".85"/>
+</g>
+<g fill="#f3c36a" opacity=".9"><path d="M52 90 l8 18 18 8 -18 8 -8 18 -8 -18 -18 -8 18 -8Z"/><path d="M454 292 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6Z"/></g>
+<text x="260" y="485" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="5" fill="#f3c36a">BATTLE READY</text>
+</svg>
