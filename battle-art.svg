@@ -1,42 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520">
 <defs>
- <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101d2b"/><stop offset=".55" stop-color="#172638"/><stop offset="1" stop-color="#090d14"/></linearGradient>
- <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff5260"/><stop offset="1" stop-color="#941524"/></linearGradient>
- <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e6edf4"/><stop offset="1" stop-color="#657486"/></linearGradient>
- <radialGradient id="glow"><stop stop-color="#e72c42" stop-opacity=".45"/><stop offset="1" stop-color="#e72c42" stop-opacity="0"/></radialGradient>
- <filter id="shadow"><feGaussianBlur stdDeviation="9"/></filter>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#bfe8ff"/><stop offset=".55" stop-color="#5eb8ef"/><stop offset="1" stop-color="#1766a8"/></linearGradient>
+ <linearGradient id="uniform" x2="1" y2="1"><stop stop-color="#4e91c5"/><stop offset="1" stop-color="#173f70"/></linearGradient>
+ <linearGradient id="vest" x2="0" y2="1"><stop stop-color="#344e62"/><stop offset="1" stop-color="#172b3d"/></linearGradient>
+ <linearGradient id="skin" x2="0" y2="1"><stop stop-color="#f4c69e"/><stop offset="1" stop-color="#bd805e"/></linearGradient>
+ <linearGradient id="helmet" x2="0" y2="1"><stop stop-color="#8bc7ed"/><stop offset="1" stop-color="#245b88"/></linearGradient>
+ <filter id="shadow"><feGaussianBlur stdDeviation="12"/></filter>
 </defs>
-<rect width="520" height="520" rx="42" fill="url(#bg)"/>
-<circle cx="265" cy="255" r="235" fill="url(#glow)"/>
-<path d="M38 390 L482 390" stroke="#e52c40" stroke-width="5" opacity=".8"/>
-<path d="M50 420 L470 420" stroke="#8293a5" stroke-width="2" opacity=".35"/>
-<!-- distant battlefield -->
-<path d="M0 365 L75 305 118 340 180 270 235 350 300 285 355 340 420 295 520 360V450H0Z" fill="#101722"/>
-<path d="M0 400 L110 365 195 390 295 350 400 385 520 355V520H0Z" fill="#0b111a"/>
-<!-- helicopter -->
-<g transform="translate(95 118)" fill="none" stroke="url(#steel)" stroke-linecap="round" stroke-linejoin="round">
- <path d="M30 40 H220" stroke-width="7"/><path d="M120 40 L120 20" stroke-width="6"/>
- <path d="M95 48 Q120 10 165 36 L185 55 Q160 76 112 67Z" fill="#27384b" stroke-width="5"/>
- <path d="M182 50 L226 32 L218 59 L180 65" fill="#263648" stroke-width="5"/>
- <path d="M112 69 L95 84 M165 67 L180 82" stroke-width="5"/>
- <path d="M45 40 L20 27 L12 51 L45 55" fill="#27384b" stroke-width="4"/>
- <path d="M120 20 L120 7 M65 7 H180" stroke="#e9eff5" stroke-width="5"/>
-</g>
-<!-- searchlight / targeting ring -->
-<circle cx="390" cy="150" r="54" fill="none" stroke="#e93449" stroke-width="4" opacity=".85"/>
-<circle cx="390" cy="150" r="34" fill="none" stroke="#f3c36a" stroke-width="2" opacity=".8"/>
-<path d="M390 78 V105 M390 195 V222 M318 150 H345 M435 150 H462" stroke="#f3c36a" stroke-width="4"/>
-<!-- tank -->
-<g transform="translate(65 260)">
- <ellipse cx="205" cy="170" rx="175" ry="24" fill="#000" opacity=".55" filter="url(#shadow)"/>
- <path d="M38 124 Q52 98 85 98 H340 Q370 98 385 130 L372 170 H50Z" fill="#283c39" stroke="#a8b5b5" stroke-width="5"/>
- <rect x="46" y="139" width="330" height="43" rx="21" fill="#151e22" stroke="#89979c" stroke-width="5"/>
- <g fill="#66777b"><circle cx="88" cy="160" r="16"/><circle cx="145" cy="160" r="16"/><circle cx="202" cy="160" r="16"/><circle cx="259" cy="160" r="16"/><circle cx="316" cy="160" r="16"/></g>
- <path d="M105 106 L130 62 Q145 45 190 45 H258 Q285 45 305 82 L325 112Z" fill="url(#red)" stroke="#e9c06b" stroke-width="5"/>
- <path d="M220 65 L415 42 L419 58 L255 92" fill="#8999a8" stroke="#d7e0e8" stroke-width="4"/>
- <rect x="168" y="34" width="70" height="17" rx="8" fill="#b8c3cd"/>
- <path d="M132 110 L292 110" stroke="#f4c66c" stroke-width="5" opacity=".85"/>
-</g>
-<g fill="#f3c36a" opacity=".9"><path d="M52 90 l8 18 18 8 -18 8 -8 18 -8 -18 -18 -8 18 -8Z"/><path d="M454 292 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6Z"/></g>
-<text x="260" y="485" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="5" fill="#f3c36a">BATTLE READY</text>
+<rect width="520" height="520" rx="42" fill="url(#sky)"/>
+<circle cx="390" cy="95" r="58" fill="#fff" opacity=".25"/>
+<path d="M0 355 L90 285 155 340 235 255 310 340 400 270 520 350V520H0Z" fill="#2a6899" opacity=".55"/>
+<path d="M0 405 L120 350 230 390 350 330 520 390V520H0Z" fill="#174b7c" opacity=".65"/>
+<!-- distant blimp -->
+<g opacity=".72" fill="#eaf7ff"><ellipse cx="415" cy="190" rx="65" ry="20"/><path d="M380 205l-12 15h22l12-15" /><path d="M415 169v-15" stroke="#eaf7ff" stroke-width="3"/></g>
+<ellipse cx="255" cy="474" rx="165" ry="24" fill="#08375d" opacity=".35" filter="url(#shadow)"/>
+<!-- torso and shoulders -->
+<path d="M112 470 Q120 350 165 310 Q205 285 260 286 Q323 284 360 316 Q408 360 414 470Z" fill="url(#uniform)" stroke="#173f68" stroke-width="8"/>
+<path d="M160 328 Q112 338 94 400 L75 465 Q72 484 93 490 L145 490 188 367Z" fill="url(#uniform)" stroke="#17436e" stroke-width="8"/>
+<path d="M350 326 Q405 342 428 402 L449 464 Q454 485 432 492 L383 490 337 367Z" fill="url(#uniform)" stroke="#17436e" stroke-width="8"/>
+<!-- neck -->
+<path d="M218 264 L218 315 Q258 347 300 313 L296 260Z" fill="url(#skin)"/>
+<!-- face -->
+<path d="M173 155 Q180 94 260 94 Q340 94 347 157 L333 245 Q318 287 261 300 Q204 288 185 245Z" fill="url(#skin)" stroke="#8b604e" stroke-width="5"/>
+<path d="M180 194 Q210 225 260 222 Q315 225 340 190 L333 248 Q315 292 260 300 Q204 289 185 247Z" fill="#26394b"/>
+<!-- eyes / brows -->
+<path d="M204 190l34 -4 M282 186l34 5" stroke="#503b35" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="225" cy="207" rx="7" ry="5" fill="#182b3a"/><ellipse cx="299" cy="207" rx="7" ry="5" fill="#182b3a"/>
+<path d="M258 207l-10 31 18 2" fill="none" stroke="#a96f54" stroke-width="5" stroke-linecap="round"/>
+<path d="M230 261 Q260 276 292 258" fill="none" stroke="#533a34" stroke-width="7" stroke-linecap="round"/>
+<!-- helmet rim -->
+<path d="M151 167 Q145 71 260 62 Q374 68 368 168 L340 181 Q325 120 260 118 Q196 118 179 181Z" fill="url(#helmet)" stroke="#174a75" stroke-width="8"/>
+<path d="M148 164 Q260 130 372 164 Q383 177 364 190 Q260 164 156 190 Q137 180 148 164Z" fill="#1d527d" stroke="#a8dcf8" stroke-width="5"/>
+<path d="M208 92 Q260 68 314 91" fill="none" stroke="#c9edff" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+<!-- headset -->
+<path d="M169 178 Q145 210 177 237 M351 178 Q378 208 346 237" fill="none" stroke="#263c50" stroke-width="13"/>
+<circle cx="175" cy="225" r="15" fill="#79bde8" stroke="#1c486c" stroke-width="6"/>
+<!-- tactical vest -->
+<path d="M175 305 Q215 327 260 328 Q309 327 345 303 L366 455 Q260 488 153 455Z" fill="url(#vest)" stroke="#9fc8e2" stroke-width="6"/>
+<path d="M260 326v144 M190 352l-8 95 M330 350l10 96" stroke="#7ba6c4" stroke-width="7"/>
+<rect x="193" y="363" width="48" height="62" rx="8" fill="#42627a" stroke="#b5d5e9" stroke-width="4"/>
+<rect x="278" y="363" width="48" height="62" rx="8" fill="#42627a" stroke="#b5d5e9" stroke-width="4"/>
+<path d="M204 382h26 M289 382h26" stroke="#d3e9f8" stroke-width="5"/>
+<path d="M228 307l32 40 32-40" fill="none" stroke="#d3e9f8" stroke-width="8"/>
+<!-- shoulder insignia -->
+<path d="M130 345l28 -13 17 25 -28 18Z" fill="#e5bd68" stroke="#fff0bd" stroke-width="3"/>
+<path d="M359 340l28 12 -17 27 -29 -16Z" fill="#e5bd68" stroke="#fff0bd" stroke-width="3"/>
+<!-- gloved hands resting at sides -->
+<path d="M82 445q-15 25 7 42l31 2 17-32-25-24Z M420 445q15 25-7 42l-31 2-17-32 25-24Z" fill="#263c50" stroke="#9bc8e4" stroke-width="5"/>
+<!-- subtle stars -->
+<path d="M70 100l8 18 18 8-18 8-8 18-8-18-18-8 18-8Z" fill="#fff1b8"/>
+<path d="M448 270l6 13 13 6-13 6-6 13-6-13-13-6 13-6Z" fill="#fff1b8"/>
+<text x="260" y="506" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="4" fill="#f5fbff">LAST WAR MARKET</text>
 </svg>
