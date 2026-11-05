@@ -82,19 +82,22 @@ footer{padding-bottom:16px}
 @media(max-width:380px){.trust-strip>div{font-size:9px}.action-tile b{font-size:15px}.cards{grid-template-columns:1fr}}
 
 
-/* Dedicated add-listing page opened in a separate tab */
-.add-back{display:none}
-body.add-mode{padding-bottom:20px}
-body.add-mode main.wrap{padding-top:24px}
+/* Clean standalone listing form */
+body.add-mode{padding:0 0 24px!important;background:radial-gradient(ellipse at 50% 0%,#351018 0%,#0a0b10 48%);min-height:100vh}
+body.add-mode>header,body.add-mode .mobile-dock,body.add-mode footer{display:none!important}
+body.add-mode main.wrap{max-width:760px;padding:22px 14px!important;margin:0 auto}
 body.add-mode main.wrap>*:not(#sell){display:none!important}
-body.add-mode #sell{display:block!important;max-width:820px;margin:0 auto 30px}
-body.add-mode .mobile-dock,body.add-mode footer{display:none!important}
-body.add-mode header{position:relative}
-body.add-mode .topnav{grid-template-columns:1fr auto;min-height:76px}
-body.add-mode .topnav>.round-icon,body.add-mode .top-actions>button,body.add-mode .top-actions>a.round-icon{display:none!important}
-body.add-mode .brand-center{justify-content:flex-start;align-items:flex-start}
-body.add-mode .top-actions{display:flex}
-body.add-mode .add-back{display:inline-flex}
+body.add-mode #sell{display:block!important;margin:0 auto 24px;padding:22px 18px!important;border:1px solid #48404a;border-radius:22px;background:linear-gradient(145deg,#191b23,#101116);box-shadow:0 16px 44px #0009}
+body.add-mode #sell>.head{margin:0 0 20px;padding:0 0 14px;border-bottom:1px solid #343741}
+body.add-mode #sell>.head h2{font-size:27px}
+body.add-mode #sell .muted{line-height:1.8}
+body.add-mode #sellerForm .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+body.add-mode #sellerForm .field{margin:0}
+body.add-mode #sellerForm input{min-height:54px;font-size:16px}
+body.add-mode #sellerForm .notice{margin:18px 0}
+body.add-mode #sellerSubmit{width:100%;min-height:56px;font-size:18px;border-radius:14px}
+body.add-mode .add-back{display:none!important}
+@media(min-width:650px){body.add-mode #sellerForm .grid2{grid-template-columns:1fr 1fr}body.add-mode #sell{padding:30px!important}}
 
 /* Listing details photo gallery */
 .detail-photo-viewer{margin:12px 0 16px;padding:10px;background:#0c0e13;border:1px solid #343944;border-radius:16px}
