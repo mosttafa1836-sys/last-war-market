@@ -655,24 +655,48 @@ footer{background:#e5f1fc;border-top:1px solid #c6def3}
 </style>
 
 <style>
-/* Consistent blue-white visual system */
-body{background:#edf6ff!important;color:#123b63!important}
-.hero-showcase{background:linear-gradient(125deg,#073b70 0%,#075b9c 52%,#087fc0 100%)!important;border:0!important;box-shadow:0 14px 34px #164e7b30!important}
+/* Last War Market — unified blue & white marketplace */
+:root{--bg:#edf6ff;--panel:#fff;--panel2:#e8f3ff;--line:#c8def2;--txt:#123b63;--muted:#587895;--red:#087ed2;--gold:#e5ad36;--green:#16875b}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:linear-gradient(180deg,#f8fcff 0%,#eaf5ff 58%,#f7fbff 100%)!important;color:var(--txt)!important}
+header{background:rgba(255,255,255,.96)!important;border-bottom:1px solid #c8def2!important;box-shadow:0 4px 18px #174f7b12}
+.brand,.brand-main b{color:#123b63!important}.brand-main em{color:#078bdc!important}.brand-crown{color:#e5ad36!important}
+.mark{background:linear-gradient(145deg,#16a9f2,#0756ad)!important}
+.round-icon{background:linear-gradient(145deg,#087fc8,#064d91)!important;border:1px solid #62c5f5!important;color:#fff!important;box-shadow:0 4px 12px #087fc822}
+.btn{background:linear-gradient(120deg,#079be9,#0756b4)!important;color:#fff!important;box-shadow:0 4px 12px #087fc822}
+.btn.alt{background:#e8f4ff!important;color:#125083!important;border:1px solid #b9d8f2!important;box-shadow:none}
+.btn.gold{background:linear-gradient(120deg,#f4c75e,#d99a20)!important;color:#392600!important}
+.hero-showcase{background:linear-gradient(125deg,#073b70 0%,#075b9c 52%,#087fc0 100%)!important;border:1px solid #56baf0!important;box-shadow:0 14px 34px #164e7b24!important;color:#fff!important}
 .hero-showcase:before{background:radial-gradient(ellipse at 22% 45%,#65caff55,transparent 48%),linear-gradient(0deg,#062b5570,transparent 70%)!important}
 .hero-copy h1 span{color:#69d2ff!important;text-shadow:0 3px 0 #064a91!important}
 .trust-strip{background:linear-gradient(110deg,#fff,#e5f2ff)!important;color:#123b63!important;border:1px solid #c0dcf6!important}
 .trust-symbol{color:#087fd2!important}
 .action-tile,.sell-tile{background:linear-gradient(120deg,#078fe0,#0755ad)!important;border:1px solid #55c5ff!important;color:#fff!important}
 .buy-tile{background:linear-gradient(120deg,#fff,#e4f1ff)!important;color:#103d70!important;border-color:#c7e0fa!important}
-#directory{background:linear-gradient(140deg,#fff,#e7f2ff)!important;border:1px solid #c8ddf3!important;color:#143b65!important}
-.card{background:linear-gradient(145deg,#fff,#edf6ff)!important;border:1px solid #c8def3!important;color:#143b65!important}
-.card .stat{background:#e7f2ff!important;color:#173e68!important}
-.card .stat b{color:#087fd2!important}
-.panel,.item{background:#fff!important;border-color:#c7dcef!important;color:#143b65!important}
+#directory{padding:16px 0 22px!important;border-radius:24px!important;background:linear-gradient(145deg,#fff,#eaf5ff)!important;border:1px solid #c8ddf3!important;color:#143b65!important;box-shadow:0 10px 28px #164e7b12}
+.listing-head{align-items:center!important}.listing-head h2{color:#124879!important}
+.tools{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px!important;padding:0 14px 16px!important}
+.tools input,.tools select{width:100%;min-width:0;background:#fff!important;color:#153f67!important;border:1px solid #bfd8ee!important;border-radius:12px!important;padding:12px!important;outline:none}
+.tools input:focus,.tools select:focus{border-color:#159be5!important;box-shadow:0 0 0 3px #159be522}
+#publicCards{padding:0 12px!important;gap:14px!important}
+.card{background:linear-gradient(145deg,#fff,#f1f8ff)!important;border:1px solid #c8def3!important;border-radius:20px!important;color:#143b65!important;box-shadow:0 7px 22px #174f7b12!important;overflow:hidden}
+.card .gallery{height:175px!important;border:0!important;border-radius:15px!important;margin:8px 8px 0!important;background:#e4f2ff!important}
+.card .gallery img{width:100%;height:100%!important;object-fit:cover}
+.card .body{padding:12px 14px 16px!important}.card .body h3{color:#123f6b!important;font-size:18px!important}
+.card .stats{grid-template-columns:1fr 1fr!important;gap:8px!important;margin:12px 0!important}
+.card .stat{background:#e8f4ff!important;border:1px solid #d3e7f8!important;border-radius:11px!important;padding:8px!important;color:#587895!important}
+.card .stat b{display:block;color:#087fc8!important;font-size:16px!important}
+.card .row{display:flex!important;flex-wrap:wrap!important;gap:7px!important;justify-content:space-between!important}
+.card .row .btn{flex:1 1 auto!important;border-radius:12px!important}
+.featured-card{border:2px solid #e5b64d!important;box-shadow:0 8px 24px #d99a2020!important}
+.feature-tag{background:#fff1c9!important;color:#855900!important}.sold-tag{background:#e8eef5!important;color:#596b7c!important}
+.empty{background:#f1f8ff!important;color:#587895!important;border:1px dashed #b8d4ec!important;border-radius:14px!important;padding:20px!important;text-align:center}
+.panel,.item{background:#fff!important;border-color:#c7dcef!important;color:#143b65!important;box-shadow:0 8px 24px #174f7b0d!important}
+input,select,textarea{accent-color:#078bdc}
 .mobile-dock{background:rgba(248,252,255,.98)!important;border:1px solid #bad8f3!important;box-shadow:0 -5px 24px #205b9020!important}
 .dock-link{color:#194c7c!important}.dock-link.active{color:#087ed2!important}
 .dock-add{background:linear-gradient(145deg,#12aafa,#0758bd)!important;border:4px solid #b7e5ff!important;box-shadow:0 0 20px #168eea55!important}
-.btn{background:linear-gradient(120deg,#078de5,#0756b4)!important;color:#fff!important}
-.btn.alt{background:#e4f1ff!important;color:#12436f!important;border:1px solid #b9d5ef!important}
 footer{background:#e5f1fc!important;color:#456887!important}
+@media(max-width:720px){.tools{grid-template-columns:1fr 1fr!important}.card .gallery{height:155px!important}}
+@media(max-width:420px){.tools{grid-template-columns:1fr!important}.listing-head{padding:0 12px!important}.card .row .btn{font-size:12px!important;padding:9px 8px!important}}
 </style>
