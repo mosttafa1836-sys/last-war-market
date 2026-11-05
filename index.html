@@ -492,6 +492,25 @@ if(adminMode){document.body.classList.add("admin-mode");document.title="Last War
 let detailListing=null;
 $("closeDetails").addEventListener("click",()=>$("detailDialog").close());
 $("detailBuy").addEventListener("click",()=>{if(!detailListing)return;$("buyerListing").value=detailListing.id;$("detailDialog").close();document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});});
+// Reliable purchase-button handling: capture the click before other card handlers.
+$("publicCards").addEventListener("click",e=>{
+ const buyButton=e.target.closest("button[data-buy]");
+ if(!buyButton)return;
+ e.preventDefault();
+ e.stopPropagation();
+ const listingId=buyButton.dataset.buy;
+ const listing=listings.find(p=>p.id===listingId);
+ if(!listing){msg("buyerStatus","تعذر تحديد الحساب. حدّث الصفحة وحاول مرة أخرى.");return;}
+ if(listing.is_sold){msg("buyerStatus","هذا الحساب تم بيعه بالفعل.");return;}
+ $("buyerListing").value=listing.id;
+ const buyerPanel=$("buyerForm").closest("section");
+ buyerPanel.hidden=false;
+ buyerPanel.style.display="block";
+ buyerPanel.scrollIntoView({behavior:"smooth",block:"center"});
+ $("buyerName").focus({preventScroll:true});
+ msg("buyerStatus","تم اختيار الحساب: "+listing.name+" — أكمل بياناتك لإرسال الطلب.",true);
+},true);
+
 $("publicCards").addEventListener("click",e=>{
  const d=e.target.closest("[data-details]");
  if(!d)return;
