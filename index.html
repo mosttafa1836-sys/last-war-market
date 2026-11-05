@@ -299,7 +299,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
    <form id="accountSignup"><h3>إنشاء حساب جديد</h3><label>البريد الإلكتروني</label><input id="signupEmail" type="email" required autocomplete="email"><label>كلمة المرور (8 أحرف على الأقل)</label><input id="signupPassword" type="password" minlength="8" required autocomplete="new-password"><button class="btn" style="margin-top:12px">إنشاء الحساب</button><div class="status" id="accountSignupStatus"></div></form>
   </div>
  </div>
- <div id="accountPanel" class="hidden"><div class="row"><b id="accountUserEmail"></b><button class="btn alt tiny" id="accountLogout" type="button">تسجيل الخروج</button></div><div class="head"><h3>إعلاناتي</h3></div><div id="myListings"></div></div>
+ <div id="accountPanel" class="hidden"><div class="row"><b id="accountUserEmail"></b><button class="btn alt tiny" id="accountLogout" type="button">تسجيل الخروج</button></div><div class="head"><h3>إعلاناتي</h3></div><div id="myListings"></div><div class="head"><h3>طلبات الشراء الخاصة بي</h3></div><div id="myOrders"><div class="muted">سجّل دخولك لمتابعة طلباتك.</div></div></div>
 </section>
 
 <section class="panel" id="admin">
@@ -380,13 +380,21 @@ async function refreshAccount(){
  $("accountAuth").classList.toggle("hidden",!!user);$("accountPanel").classList.toggle("hidden",!user);
  if(!user)return;
  $("accountUserEmail").textContent=user.email||"";
- const {data,error}=await db.from("seller_private_details").select("profile_id, seller_name, seller_contact").eq("user_id",user.id);
- if(error){$("myListings").textContent="تعذر تحميل إعلاناتك: "+error.message;return}
- const ids=(data||[]).map(x=>x.profile_id);
- if(!ids.length){$("myListings").textContent="لم تضف أي إعلانات حتى الآن.";return}
- const {data:profiles,error:pe}=await db.from("player_profiles").select("id,name,server,power,base_level,price,is_published,created_at").in("id",ids).order("created_at",{ascending:false});
- if(pe){$("myListings").textContent="تعذر تحميل الإعلانات.";return}
- $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div></div>').join("")||"لا توجد إعلانات.";
+ const {data,error}=await db.from("seller_private_details").select("profile_id").eq("user_id",user.id);
+ if(error){$("myListings").textContent="تعذر تحميل إعلاناتك: "+error.message}
+ else{
+  const ids=(data||[]).map(x=>x.profile_id);
+  if(!ids.length)$("myListings").textContent="لم تضف أي إعلانات حتى الآن.";
+  else{
+   const {data:profiles,error:pe}=await db.from("player_profiles").select("id,name,server,power,base_level,price,is_published,created_at").in("id",ids).order("created_at",{ascending:false});
+   if(pe)$("myListings").textContent="تعذر تحميل الإعلانات.";
+   else $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div></div>').join("")||"لا توجد إعلانات.";
+  }
+ }
+ const {data:orders,error:oe}=await db.from("market_orders").select("id,buyer_name,status,created_at,player_profiles(name,server)").eq("buyer_user_id",user.id).order("created_at",{ascending:false});
+ if(oe){$("myOrders").textContent="تعذر تحميل طلبات الشراء: "+oe.message;return}
+ const labels={new:"وصل للإدارة",reviewing:"قيد المراجعة",accepted:"تم قبول الطلب",completed:"اكتملت العملية",cancelled:"تم إلغاء الطلب"};
+ $("myOrders").innerHTML=(orders||[]).map(o=>'<div class="item"><b>طلب #'+esc(o.id.slice(0,8))+' — '+esc(o.player_profiles?.name||"إعلان")+'</b><div class="muted">السيرفر '+esc(o.player_profiles?.server||"—")+' · '+esc(new Date(o.created_at).toLocaleDateString("ar-EG"))+'</div><div class="muted">الحالة: <b>'+esc(labels[o.status]||"قيد المتابعة")+'</b></div></div>').join("")||"لا توجد طلبات شراء مرتبطة بحسابك حتى الآن.";
 }
 document.querySelectorAll("[data-open-account]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAccountPage();refreshAccount()}));
 document.querySelectorAll("[data-open-add]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAddPage()}));
@@ -411,7 +419,7 @@ $("sellerForm").addEventListener("submit",async e=>{
 });
 $("buyerForm").addEventListener("submit",async e=>{
  e.preventDefault();$("buyerSubmit").disabled=true;msg("buyerStatus","جاري إرسال الطلب...");
- try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
+ try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {data:{user:buyerUser}}=await db.auth.getUser();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),buyer_user_id:buyerUser?.id||null,status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
 });
 
 function activateAddMode(){
