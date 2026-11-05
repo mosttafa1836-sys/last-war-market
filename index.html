@@ -700,3 +700,36 @@ footer{background:#e5f1fc!important;color:#456887!important}
 @media(max-width:720px){.tools{grid-template-columns:1fr 1fr!important}.card .gallery{height:155px!important}}
 @media(max-width:420px){.tools{grid-template-columns:1fr!important}.listing-head{padding:0 12px!important}.card .row .btn{font-size:12px!important;padding:9px 8px!important}}
 </style>
+<style>
+/* Marketplace cards refinement — preserve the add-listing control unchanged */
+#directory{background:linear-gradient(160deg,#ffffff,#eaf5ff)!important;border:1px solid #c8def2!important;border-radius:24px!important;padding:10px 0 22px!important;box-shadow:0 12px 30px #174f7b12!important;color:#123b63!important}
+#directory .listing-head h2{color:#124879!important;font-weight:900!important}
+#directory .listing-head .muted{color:#64819b!important}
+#directory .tools{padding:0 14px!important;gap:9px!important}
+#directory .tools input,#directory .tools select{background:#fff!important;color:#153f67!important;border:1px solid #bfd8ee!important;border-radius:13px!important;min-height:46px!important;box-shadow:0 2px 7px #174f7b08!important}
+#directory .tools input:focus,#directory .tools select:focus{border-color:#159be5!important;box-shadow:0 0 0 3px #159be522!important}
+#publicCards{gap:15px!important;padding:0 13px!important}
+#publicCards .card{background:#fff!important;border:1px solid #c9def1!important;border-radius:20px!important;overflow:hidden!important;box-shadow:0 8px 22px #174f7b12!important;transition:transform .18s ease,box-shadow .18s ease!important}
+#publicCards .card:active{transform:scale(.99)}
+#publicCards .gallery{height:178px!important;margin:0!important;padding:0!important;border:0!important;border-bottom:1px solid #d8e9f7!important;border-radius:0!important;background:linear-gradient(135deg,#eaf6ff,#cfe9fc)!important}
+#publicCards .gallery img{height:178px!important;min-width:100%!important;object-fit:cover!important}
+#publicCards .body{padding:14px!important}
+#publicCards .body h3{color:#123f6b!important;font-size:18px!important;line-height:1.45!important;margin-bottom:5px!important}
+#publicCards .body .muted{color:#69839b!important;font-size:12px!important}
+#publicCards .stats{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin:13px 0!important}
+#publicCards .stat{background:#eff7ff!important;border:1px solid #dfedfa!important;border-radius:12px!important;padding:9px 10px!important;min-width:0!important}
+#publicCards .stat span{color:#69839b!important;font-size:11px!important}
+#publicCards .stat b{color:#087fc8!important;font-size:15px!important;overflow-wrap:anywhere!important}
+#publicCards .body>p{color:#587895!important;line-height:1.6!important}
+#publicCards .row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin-top:12px!important}
+#publicCards .row .btn{min-height:42px!important;border-radius:12px!important;font-weight:800!important;white-space:normal!important}
+#publicCards .row [data-buy]{grid-column:1/-1!important;order:-1!important;background:linear-gradient(110deg,#079be9,#0756b4)!important;color:#fff!important}
+#publicCards .row [data-details]{background:#e9f4ff!important;color:#145384!important;border:1px solid #c5def3!important}
+#publicCards .row [data-fav]{background:#fff!important;color:#145384!important;border:1px solid #c5def3!important}
+#publicCards .featured-card{border:2px solid #e4b64c!important;box-shadow:0 9px 25px #d69c2520!important}
+#publicCards .feature-tag{display:inline-block;background:#fff1c8!important;color:#805700!important;border-radius:20px!important;padding:3px 8px!important;font-size:11px!important}
+#publicCards .sold-tag{display:inline-block;background:#e8eef5!important;color:#5c6d7d!important;border-radius:20px!important;padding:3px 8px!important;font-size:11px!important}
+#publicCards .empty{background:#f3f9ff!important;color:#587895!important;border-color:#bfd8ee!important}
+@media(max-width:720px){#publicCards{grid-template-columns:1fr!important}#publicCards .gallery,#publicCards .gallery img{height:190px!important}.tools{grid-template-columns:1fr 1fr!important}}
+@media(min-width:721px) and (max-width:1050px){#publicCards{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
