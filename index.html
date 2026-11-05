@@ -418,7 +418,9 @@ $("sellerForm").addEventListener("submit",async e=>{
  finally{$("sellerSubmit").disabled=false}
 });
 $("buyerForm").addEventListener("submit",async e=>{
- e.preventDefault();$("buyerSubmit").disabled=true;msg("buyerStatus","جاري حفظ الطلب...");
+ e.preventDefault();
+ const waWindow=window.open("about:blank","_blank");
+ $("buyerSubmit").disabled=true;msg("buyerStatus","جاري حفظ الطلب...");
  try{
   const listingId=$("buyerListing").value.trim();
   const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));
@@ -429,7 +431,6 @@ $("buyerForm").addEventListener("submit",async e=>{
   const {data:{user:buyerUser}}=await db.auth.getUser();
   const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:buyerName,buyer_contact:buyerContact,buyer_notes:buyerNotes,buyer_user_id:buyerUser?.id||null,status:"new"});
   if(error)throw error;
-  msg("buyerStatus","تم حفظ طلبك. جاري فتح واتساب الإدارة...",true);
   const message=[
    "🛒 طلب شراء جديد — Last War Market",
    "رقم الطلب: "+orderId.slice(0,8),
@@ -444,9 +445,18 @@ $("buyerForm").addEventListener("submit",async e=>{
    "ملاحظات: "+(buyerNotes||"لا توجد"),
    "تم تسجيل الطلب في الموقع، ولم يتم الدفع."
   ].join("\n");
-  window.location.href=adminWhatsApp(message);
- }catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}
- finally{$("buyerSubmit").disabled=false}
+  const waUrl=adminWhatsApp(message);
+  msg("buyerStatus","تم حفظ الطلب. افتح واتساب لإرسال الرسالة للإدارة.",true);
+  if(waWindow){waWindow.location.href=waUrl;}
+  else{
+   const link=document.createElement("a");link.href=waUrl;link.target="_blank";link.rel="noopener";link.textContent="اضغط هنا لفتح واتساب الإدارة وإرسال الطلب";
+   link.style.cssText="display:inline-block;margin-top:10px;padding:12px 16px;background:#087fc8;color:white;border-radius:12px;font-weight:700";
+   $("buyerStatus").appendChild(document.createElement("br"));$("buyerStatus").appendChild(link);
+  }
+ }catch(err){
+  if(waWindow)waWindow.close();
+  msg("buyerStatus","تعذر حفظ الطلب: "+(err.message||"خطأ غير معروف"));
+ }finally{$("buyerSubmit").disabled=false}
 });
 
 function activateAddMode(){
