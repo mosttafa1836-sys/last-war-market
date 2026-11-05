@@ -319,8 +319,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-
-\ndocument.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
+document.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
 document.getElementById("searchToggle").addEventListener("click",()=>{document.getElementById("directory").scrollIntoView({behavior:"smooth"});setTimeout(()=>document.getElementById("search").focus(),350)});
 document.getElementById("dockFav").addEventListener("click",e=>{e.preventDefault();document.getElementById("showFav").click();document.getElementById("directory").scrollIntoView({behavior:"smooth"})});
 
