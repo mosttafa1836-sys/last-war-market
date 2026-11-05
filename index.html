@@ -418,8 +418,35 @@ $("sellerForm").addEventListener("submit",async e=>{
  finally{$("sellerSubmit").disabled=false}
 });
 $("buyerForm").addEventListener("submit",async e=>{
- e.preventDefault();$("buyerSubmit").disabled=true;msg("buyerStatus","جاري إرسال الطلب...");
- try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {data:{user:buyerUser}}=await db.auth.getUser();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),buyer_user_id:buyerUser?.id||null,status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
+ e.preventDefault();$("buyerSubmit").disabled=true;msg("buyerStatus","جاري حفظ الطلب...");
+ try{
+  const listingId=$("buyerListing").value.trim();
+  const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));
+  if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");
+  if(match.is_sold)throw Error("هذا الحساب تم بيعه بالفعل");
+  const buyerName=$("buyerName").value.trim(),buyerContact=$("buyerContact").value.trim(),buyerNotes=$("buyerNotes").value.trim();
+  const orderId=crypto.randomUUID();
+  const {data:{user:buyerUser}}=await db.auth.getUser();
+  const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:buyerName,buyer_contact:buyerContact,buyer_notes:buyerNotes,buyer_user_id:buyerUser?.id||null,status:"new"});
+  if(error)throw error;
+  msg("buyerStatus","تم حفظ طلبك. جاري فتح واتساب الإدارة...",true);
+  const message=[
+   "🛒 طلب شراء جديد — Last War Market",
+   "رقم الطلب: "+orderId.slice(0,8),
+   "رقم الإعلان: "+match.id.slice(0,8),
+   "اسم الحساب: "+match.name,
+   "السيرفر: "+match.server,
+   "القوة: "+match.power+"M",
+   "مستوى HQ: "+match.base_level,
+   "السعر: "+(match.price||"غير محدد"),
+   "اسم المشتري: "+buyerName,
+   "واتساب/وسيلة تواصل المشتري: "+buyerContact,
+   "ملاحظات: "+(buyerNotes||"لا توجد"),
+   "تم تسجيل الطلب في الموقع، ولم يتم الدفع."
+  ].join("\n");
+  window.location.href=adminWhatsApp(message);
+ }catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}
+ finally{$("buyerSubmit").disabled=false}
 });
 
 function activateAddMode(){
