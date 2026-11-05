@@ -302,15 +302,11 @@ body.add-mode #sell>.head{display:block!important}
 </section>
 <div class="notice">Last War Market منصة وسيطة مستقلة. لا تشارك كلمات مرور أو رموز استرداد أو بيانات دخول اللعبة. تأكد من مراجعة شروط اللعبة قبل أي معاملة.</div>
 </main>
-<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="/?add=1">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
+<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="#sell">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
 
-if(new URLSearchParams(location.search).get("add")==="1"){
- document.body.classList.add("add-mode");
- window.addEventListener("DOMContentLoaded",()=>document.getElementById("sell")?.scrollIntoView({block:"start"}));
-}
 \ndocument.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
 document.getElementById("searchToggle").addEventListener("click",()=>{document.getElementById("directory").scrollIntoView({behavior:"smooth"});setTimeout(()=>document.getElementById("search").focus(),350)});
 document.getElementById("dockFav").addEventListener("click",e=>{e.preventDefault();document.getElementById("showFav").click();document.getElementById("directory").scrollIntoView({behavior:"smooth"})});
@@ -370,8 +366,33 @@ $("buyerForm").addEventListener("submit",async e=>{
  try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
 });
 
-function activateAddMode(){document.body.classList.add("add-mode");document.documentElement.classList.add("add-page");document.title="إضافة إعلان — Last War Market";const form=document.getElementById("sell");if(form){form.style.setProperty("display","block","important");form.scrollIntoView({block:"start",behavior:"instant"});}}
-document.querySelectorAll('a[href="#sell"]').forEach(a=>a.addEventListener("click",e=>{if(!document.body.classList.contains("add-mode")){e.preventDefault();activateAddMode();}}));
+function activateAddMode(){
+ document.body.classList.add("add-mode");
+ document.documentElement.classList.add("add-page");
+ document.title="إضافة إعلان — Last War Market";
+ const form=document.getElementById("sell");
+ if(form){
+  form.hidden=false;
+  form.style.setProperty("display","block","important");
+  form.style.setProperty("visibility","visible","important");
+  form.scrollIntoView({block:"start",behavior:"auto"});
+ }
+}
+function openAddListing(e){
+ if(e){e.preventDefault();e.stopPropagation();}
+ if(!document.body.classList.contains("add-mode")){
+  try{history.pushState({addListing:true},"",location.pathname+"?add=1");}catch{}
+ }
+ activateAddMode();
+}
+document.addEventListener("click",e=>{
+ const link=e.target.closest('a[href="#sell"],a[href="/?add=1"],.dock-add,.sell-tile,[data-open-add]');
+ if(link)openAddListing(e);
+});
+window.addEventListener("popstate",()=>{
+ if(new URLSearchParams(location.search).get("add")==="1")activateAddMode();
+ else{document.body.classList.remove("add-mode");document.documentElement.classList.remove("add-page");document.title="Last War Market";}
+});
 if(new URLSearchParams(location.search).get("add")==="1")activateAddMode();
 const adminMode=new URLSearchParams(location.search).get("admin")==="1";
 if(adminMode){document.body.classList.add("admin-mode");document.title="Last War Market — Admin";$("backHome").style.display="inline-flex";$("admin").scrollIntoView();}else{$("backHome").style.display="none";}
