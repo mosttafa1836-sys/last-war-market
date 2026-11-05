@@ -34,18 +34,69 @@ input:focus,select:focus,textarea:focus{outline:2px solid #d52b3d66;border-color
 .notice{border-color:#795b2e;background:linear-gradient(110deg,#2b2115,#1b1a1b)}
 footer{background:linear-gradient(180deg,transparent,#090b10);text-align:center}
 @media(max-width:560px){.wrap{padding-left:12px;padding-right:12px}nav{padding:9px 0}.brand{font-size:14px}.mark{width:38px;height:38px}.hero{margin-top:12px;padding:20px 16px;border-radius:16px}.heroart{padding:12px}.crest{height:82px;font-size:48px}.head{align-items:flex-start}.btn{padding:9px 12px}.panel{padding:13px}.cards{gap:10px}.card{border-radius:13px}}
+
+/* Marketplace mobile-first visual layout */
+:root{--red:#ed2939;--gold:#f2bd58}
+body{background:#08090c;color:#fff;padding-bottom:88px}
+header{background:linear-gradient(180deg,#171216,#0b0c10);border-bottom:2px solid #b92738}
+.topnav{min-height:76px;display:grid;grid-template-columns:70px 1fr 120px;align-items:center;position:relative}
+.round-icon{width:48px;height:48px;border:1px solid #4b4548;border-radius:50%;background:#101115;color:white;font-size:30px;line-height:1;display:grid;place-items:center;text-decoration:none;cursor:pointer}
+.top-actions{display:flex;justify-content:flex-end;gap:10px}
+.brand-center{justify-content:center;gap:0;position:relative;flex-direction:column;text-align:center}
+.brand-crown{font-size:24px;color:#f4bd56;line-height:1;text-shadow:0 2px 8px #e76a22}
+.brand-main b{font-size:clamp(23px,5vw,36px);font-style:italic;font-weight:1000;letter-spacing:-1.5px;color:#eee;text-shadow:2px 3px 0 #555,0 0 12px #d22}
+.brand-main em{font-style:italic;color:#f22b37}.brand-main small{display:block;margin:-2px auto 0;padding:0 14px;width:max-content;background:linear-gradient(90deg,#5b1018,#b92330,#5b1018);font-size:13px;letter-spacing:4px;color:white}
+.nav-tools{position:absolute;z-index:8;top:72px;left:8px;right:8px;padding:12px;background:#17191f;border:1px solid #4b3037;border-radius:14px;box-shadow:0 12px 28px #000b;display:flex;gap:8px;flex-wrap:wrap}
+.nav-tools select{width:auto;flex:1;min-width:100px;padding:7px}
+main.wrap{max-width:1200px;padding-top:0}
+.hero-showcase{min-height:280px;display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;margin:0 -18px;border:0;border-radius:0;padding:26px 26px 38px;background:linear-gradient(90deg,#130d10 0%,#251017 48%,#101b2b 100%);overflow:hidden}
+.hero-showcase:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 75% 55%,#1e6bb855,transparent 36%),linear-gradient(0deg,#08090c99,transparent 50%);pointer-events:none}
+.hero-copy{position:relative;z-index:2}.hero-copy h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:10px 0}.hero-copy h1 span{font-size:1.25em;color:#ff343d;font-style:italic;text-shadow:0 3px 0 #65131a,0 0 20px #e22}
+.hero-copy p{font-size:17px;font-weight:bold;color:#fff}.hero-copy .btn{border-radius:30px;padding:10px 20px}
+.battle-art{position:relative;min-height:220px;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.battle-art:before{content:"";position:absolute;width:240px;height:210px;border-radius:50%;background:radial-gradient(circle,#2585d7 0,#10385e 45%,transparent 72%);filter:blur(2px);z-index:-1}
+.battle-sky{position:absolute;top:12px;left:4%;font-size:28px;letter-spacing:8px}
+.battle-soldier{font-size:clamp(100px,19vw,170px);filter:drop-shadow(0 10px 8px #000);transform:rotate(-7deg);line-height:1}
+.battle-tank{position:absolute;bottom:15px;left:3%;font-size:42px;color:#e5e8ed;text-shadow:0 4px 0 #353b46}
+.battle-flame{position:absolute;right:4%;bottom:22px;color:#ff6b23;font-size:48px;text-shadow:0 0 20px #f30}
+.hero-dots{position:absolute;bottom:12px;left:50%;display:flex;gap:7px}.hero-dots i{width:9px;height:9px;border-radius:50%;background:#eee}.hero-dots i:first-child{width:25px;border-radius:8px;background:#f22}
+.trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 20px;padding:13px 10px;background:linear-gradient(110deg,#17171b,#101116);border:1px solid #493238;border-radius:18px;box-shadow:0 8px 24px #0008}
+.trust-strip>div{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:bold;font-size:clamp(11px,2vw,16px);white-space:nowrap}.trust-symbol{font-size:26px;color:#f23b43;text-shadow:0 0 12px #e22}
+.action-tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0 24px}
+.action-tile{min-height:110px;border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px;color:white;text-decoration:none;border:1px solid #fa454b;box-shadow:inset 0 0 25px #fff1,0 8px 20px #0007}
+.sell-tile{background:linear-gradient(120deg,#e51e2c,#7d101c)}.buy-tile{background:linear-gradient(120deg,#087ac8,#102d59);border-color:#268ee9}
+.tile-icon{font-size:42px}.action-tile b{display:block;font-size:clamp(18px,3vw,28px)}.action-tile small{display:block;font-size:14px}.action-tile strong{margin-right:auto;font-size:26px}
+#directory{padding:5px 0 18px;border-radius:22px;background:linear-gradient(140deg,#12151b,#0c0e12);border:1px solid #282b32}
+.listing-head{padding:0 15px;margin:14px 0}.listing-head h2:after{display:none}.listing-head .btn{border-radius:30px}
+#publicCards{padding:0 12px}.card{background:linear-gradient(145deg,#1b1d23,#101216);border:1px solid #34363e;border-radius:20px}
+.gallery{height:145px;border:5px solid #25272e;border-radius:18px;margin:4px;overflow:hidden}.gallery img{height:135px}
+.card .body{padding:10px 13px 14px}.card .body h3{text-align:right;font-weight:900}.card .stats{grid-template-columns:1fr 1fr}.card .stat{background:transparent;padding:2px 0}.card .stat b{font-size:16px;color:#ff4a4d}.card .row{justify-content:space-between}.card .row .btn{border-radius:12px}
+.panel{background:#15171d;border-color:#30333c}
+.mobile-dock{position:fixed;z-index:20;bottom:7px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-around;min-height:76px;padding:7px 4px;background:rgba(23,22,24,.96);border:1px solid #694047;border-radius:22px;box-shadow:0 -5px 28px #ed293944,0 8px 30px #000b;backdrop-filter:blur(15px)}
+.dock-link{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:1px;color:#eee;text-decoration:none;font-size:12px;font-weight:bold}.dock-link span{font-size:27px;line-height:1.1}.dock-link.active{color:#ff5355}
+.dock-add{width:74px;height:74px;display:flex;align-items:center;justify-content:center;flex-direction:column;margin-top:-35px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#ff5a5e,#e10b1c 65%,#7d0712);border:3px solid #ff9a9c;color:white;font-size:43px;font-weight:bold;text-decoration:none;box-shadow:0 0 22px #f22}
+.dock-add small{font-size:10px;white-space:nowrap;line-height:1.1}
+footer{padding-bottom:16px}
+@media(min-width:900px){.hero-showcase{margin:0;border-radius:0 0 24px 24px}.battle-soldier{font-size:180px}.mobile-dock{max-width:900px;margin:auto;left:50%;right:auto;transform:translateX(-50%);width:calc(100% - 24px)}}
+@media(max-width:620px){.topnav{grid-template-columns:52px 1fr 100px;min-height:68px}.round-icon{width:42px;height:42px}.brand-main b{font-size:25px}.brand-main small{font-size:10px}.hero-showcase{margin:0 -12px;min-height:245px;padding:20px 15px 34px;grid-template-columns:1.05fr .95fr}.hero-copy h1{font-size:27px}.hero-copy p{font-size:13px}.battle-art{min-height:190px}.battle-soldier{font-size:105px}.battle-tank{font-size:28px}.trust-strip{margin:0 0 15px;padding:10px 4px;gap:3px;border-radius:14px}.trust-strip>div{gap:4px;font-size:10px;white-space:normal;text-align:center}.trust-symbol{font-size:20px}.action-tiles{gap:8px;margin:14px 0 18px}.action-tile{min-height:94px;padding:10px;gap:7px;border-radius:15px}.tile-icon{font-size:30px}.action-tile b{font-size:17px}.action-tile small{font-size:11px}.action-tile strong{font-size:19px}.cards{grid-template-columns:1fr 1fr;gap:8px}.gallery{height:105px}.gallery img{height:95px}.card .body{padding:8px}.card .body h3{font-size:13px}.card .stat b{font-size:12px}.card .row{gap:5px}.card .row .btn{font-size:11px;padding:7px 8px}.mobile-dock{min-height:70px}.dock-link{font-size:10px}.dock-link span{font-size:23px}.dock-add{width:66px;height:66px;font-size:37px}}
+@media(max-width:380px){.trust-strip>div{font-size:9px}.action-tile b{font-size:15px}.cards{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav>
-<a class="brand" href="#"><span class="mark">⚔</span><span>LAST WAR<small>MARKET</small></span></a>
-<div class="row"><select id="languageSelect" aria-label="Language" style="width:auto;min-width:105px;padding:7px"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency" style="width:auto;min-width:90px;padding:7px"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" href="#sell">أضف إعلانك</a><a class="btn alt tiny" id="backHome" href="/">العودة للسوق</a></div>
+<header><div class="wrap"><nav class="topnav">
+<button class="round-icon" id="menuToggle" aria-label="القائمة">☰</button>
+<a class="brand brand-center" href="#"><span class="brand-crown">♛</span><span class="brand-main"><b>LAST <em>WAR</em></b><small>★ MARKET ★</small></span></a>
+<div class="top-actions"><button class="round-icon" id="searchToggle" aria-label="بحث">⌕</button><a class="round-icon" href="#sell" aria-label="حسابي">♙</a></div>
+<div class="nav-tools hidden" id="navTools"><select id="languageSelect" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" id="backHome" href="/">العودة للسوق</a></div>
 </nav></div></header>
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">PLAYER MARKETPLACE</div><h1>LAST WAR <span>MARKET</span></h1><p class="muted">اعرض ملف اللاعب واطلب الإعلان من خلال المنصة. الإدارة هي الوسيط الوحيد؛ لا توجد رسائل أو أرقام تواصل بين البائع والمشتري.</p><a class="btn" href="#directory">تصفح الإعلانات</a></div><div class="heroart"><div class="crest">🛡️</div><b>LIST • REVIEW • REQUEST</b><div class="muted">إدارة مركزية للطلبات</div></div></section>
+<section class="hero hero-showcase"><div class="hero-copy"><div class="eyebrow">THE OFFICIAL PLAYER MARKETPLACE</div><h1>سوق حسابات<br><span>Last War</span></h1><p>بيع وشراء حسابات لعبة الحرب الأخيرة<br>بأمان تام ووساطة الإدارة</p><a class="btn" href="#directory">تصفح الحسابات <b>←</b></a></div><div class="battle-art" aria-hidden="true"><div class="battle-sky">✦　🚁　✦</div><div class="battle-soldier">🪖</div><div class="battle-tank">▰ ▰ ▰</div><div class="battle-flame">✹</div></div><div class="hero-dots"><i></i><i></i><i></i></div></section>
+<div class="trust-strip"><div><b class="trust-symbol">⬡</b><span>أمان 100%</span></div><div><b class="trust-symbol">☏</b><span>وساطة الإدارة</span></div><div><b class="trust-symbol">ϟ</b><span>تنفيذ سريع</span></div><div><b class="trust-symbol">✪</b><span>حسابات موثوقة</span></div></div>
+<div class="action-tiles"><a class="action-tile sell-tile" href="#sell"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
 
 <section id="directory">
-<div class="head"><div><h2>الإعلانات المتاحة</h2><div class="muted">الإعلانات المنشورة بعد مراجعة الإدارة</div></div><button class="btn alt tiny" id="showFav">المفضلة ♥</button></div>
+<div class="head listing-head"><div><h2>🔥 أحدث الحسابات</h2><div class="muted">أحدث الحسابات المعروضة للبيع</div></div><button class="btn tiny" id="showFav">عرض الكل ‹</button></div>
 <div class="tools">
 <input id="search" placeholder="ابحث بالاسم أو السيرفر">
 <input id="serverFilter" placeholder="السيرفر">
@@ -109,9 +160,14 @@ footer{background:linear-gradient(180deg,transparent,#090b10);text-align:center}
 </section>
 <div class="notice">Last War Market منصة وسيطة مستقلة. لا تشارك كلمات مرور أو رموز استرداد أو بيانات دخول اللعبة. تأكد من مراجعة شروط اللعبة قبل أي معاملة.</div>
 </main>
-<footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
+<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="#sell">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+
+document.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
+document.getElementById("searchToggle").addEventListener("click",()=>{document.getElementById("directory").scrollIntoView({behavior:"smooth"});setTimeout(()=>document.getElementById("search").focus(),350)});
+document.getElementById("dockFav").addEventListener("click",e=>{e.preventDefault();document.getElementById("showFav").click();document.getElementById("directory").scrollIntoView({behavior:"smooth"})});
+
 const SUPABASE_URL="https://xsuzedynojpxorrkklur.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_tUrTyrqgJapxTrbiE61q2w_lZqYUfMU";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
