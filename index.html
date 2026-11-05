@@ -14,7 +14,7 @@ main{padding:25px 0 55px}.hero{padding:25px 0;display:grid;grid-template-columns
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px;margin:15px 0}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 12px}.head h2{margin:0}.tools{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px;margin:12px 0}
 input,select,textarea{width:100%;background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit}label{display:block;color:var(--muted);font-size:12px;margin:9px 0 5px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.gallery{height:150px;background:linear-gradient(135deg,#48212b,#202b3b);display:flex;overflow:auto;scroll-snap-type:x mandatory}.gallery img{min-width:100%;height:150px;object-fit:cover;scroll-snap-align:start}.body{padding:14px}.body h3{margin:0 0 4px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.stat{background:var(--bg);border-radius:8px;padding:8px}.stat span{display:block;color:var(--muted);font-size:10px}.stat b{font-size:12px}.empty{padding:25px;text-align:center;border:1px dashed var(--line);border-radius:13px;color:var(--muted);grid-column:1/-1}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:8px 0}.field.full{grid-column:1/-1}.status{font-size:12px;color:var(--muted);margin:8px 0}.ok{color:var(--green)}.hidden{display:none!important}.adminlayout{display:grid;grid-template-columns:1fr 1fr;gap:14px}.item{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:var(--bg)}.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.tiny{font-size:11px;padding:6px 9px}.notice{border:1px solid #66512d;background:#251e13;color:#ead9b3;border-radius:12px;padding:12px;font-size:12px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:8px 0}.field.full{grid-column:1/-1}.status{font-size:12px;color:var(--muted);margin:8px 0}.ok{color:var(--green)}.hidden{display:none!important}#admin{display:none}.admin-mode #admin{display:block}.admin-mode main>section:not(#admin),.admin-mode main>.notice,.admin-mode footer{display:none!important}.admin-mode header .row{display:none!important}.adminlayout{display:grid;grid-template-columns:1fr 1fr;gap:14px}.item{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:var(--bg)}.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.tiny{font-size:11px;padding:6px 9px}.notice{border:1px solid #66512d;background:#251e13;color:#ead9b3;border-radius:12px;padding:12px;font-size:12px;margin:14px 0}
 footer{border-top:1px solid var(--line);padding:20px 0;color:var(--muted);font-size:12px;margin-top:30px}
 @media(max-width:800px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr 1fr}.adminlayout{grid-template-columns:1fr}}
 @media(max-width:560px){.cards,.tools,.grid2{grid-template-columns:1fr}.heroart{max-width:none}}
@@ -23,7 +23,7 @@ footer{border-top:1px solid var(--line);padding:20px 0;color:var(--muted);font-s
 <body>
 <header><div class="wrap"><nav>
 <a class="brand" href="#"><span class="mark">⚔</span><span>LAST WAR<small>MARKET</small></span></a>
-<div class="row"><select id="languageSelect" aria-label="Language" style="width:auto;min-width:105px;padding:7px"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency" style="width:auto;min-width:90px;padding:7px"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" href="#sell">أضف إعلانك</a></div>
+<div class="row"><select id="languageSelect" aria-label="Language" style="width:auto;min-width:105px;padding:7px"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency" style="width:auto;min-width:90px;padding:7px"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" href="#sell">أضف إعلانك</a><a class="btn alt tiny" id="backHome" href="/">العودة للسوق</a></div>
 </nav></div></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">PLAYER MARKETPLACE</div><h1>LAST WAR <span>MARKET</span></h1><p class="muted">اعرض ملف اللاعب واطلب الإعلان من خلال المنصة. الإدارة هي الوسيط الوحيد؛ لا توجد رسائل أو أرقام تواصل بين البائع والمشتري.</p><a class="btn" href="#directory">تصفح الإعلانات</a></div><div class="heroart"><div class="crest">🛡️</div><b>LIST • REVIEW • REQUEST</b><div class="muted">إدارة مركزية للطلبات</div></div></section>
@@ -72,6 +72,14 @@ footer{border-top:1px solid var(--line);padding:20px 0;color:var(--muted);font-s
 </form>
 </section>
 
+
+<dialog id="detailDialog" class="panel" style="max-width:760px;width:calc(100% - 24px);color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:16px">
+ <div class="row" style="justify-content:space-between"><h2 id="detailTitle">تفاصيل الحساب</h2><button class="btn alt tiny" id="closeDetails" type="button">إغلاق</button></div>
+ <div id="detailImages" class="gallery" style="height:220px"></div>
+ <div id="detailInfo" class="stats"></div><p id="detailHeroes"></p><p id="detailGear" class="muted"></p>
+ <button id="detailBuy" class="btn gold" type="button">طلب شراء الحساب</button>
+</dialog>
+
 <section class="panel" id="admin">
 <div class="head"><div><div class="eyebrow">ADMIN CONTROL CENTER</div><h2>دخول الإدارة</h2></div></div>
 <div id="loginPanel"><form id="loginForm" class="grid2"><div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" required autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" required autocomplete="current-password"></div><div class="field full"><button class="btn gold">تسجيل الدخول</button></div></form><div class="status" id="loginStatus"></div></div>
@@ -118,7 +126,7 @@ function photoList(p){if(Array.isArray(p.images)&&p.images.length)return p.image
 function render(){
  const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase(),pb=$("powerFilter").value,hb=$("hqFilter").value,fs=favs();
  const arr=listings.filter(p=>p.is_published&&(!onlyFav||fs.includes(p.id))&&(`${p.name} ${p.server}`.toLowerCase().includes(q))&&(!s||String(p.server).toLowerCase().includes(s))&&(!pb||powerBand(Number(p.power))===pb)&&(!hb||hqBand(Number(p.base_level))===hb));
- $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
+ $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
 }
 async function loadPublic(){const {data,error}=await db.from("player_profiles").select("id,name,server,power,base_level,heroes,gear,image_url,images,price,is_published,created_at").eq("is_published",true).order("created_at",{ascending:false});if(error){$("publicCards").innerHTML='<div class="empty">تعذر تحميل الإعلانات. تأكد من تطبيق تحديث قاعدة البيانات.</div>';return}listings=data||[];render()}
 async function uploadImages(files){
@@ -141,11 +149,36 @@ $("buyerForm").addEventListener("submit",async e=>{
  e.preventDefault();$("buyerSubmit").disabled=true;msg("buyerStatus","جاري إرسال الطلب...");
  try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
 });
+
+const adminMode=new URLSearchParams(location.search).get("admin")==="1";
+if(adminMode){document.body.classList.add("admin-mode");document.title="Last War Market — Admin";$("backHome").style.display="inline-flex";$("admin").scrollIntoView();}else{$("backHome").style.display="none";}
+let detailListing=null;
+$("closeDetails").addEventListener("click",()=>$("detailDialog").close());
+$("detailBuy").addEventListener("click",()=>{if(!detailListing)return;$("buyerListing").value=detailListing.id;$("detailDialog").close();document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});});
+$("publicCards").addEventListener("click",e=>{
+ const d=e.target.closest("[data-details]");
+ if(!d)return;
+ detailListing=listings.find(p=>p.id===d.dataset.details);if(!detailListing)return;
+ const p=detailListing,imgs=photoList(p);
+ $("detailTitle").textContent=p.name;
+ $("detailImages").innerHTML=imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الحساب" style="min-width:100%;height:220px;object-fit:contain">`).join(""):"<div class='empty'>لا توجد صور</div>";
+ $("detailInfo").innerHTML=`<div class="stat"><span>السيرفر</span><b>${esc(p.server)}</b></div><div class="stat"><span>القوة</span><b>${esc(p.power)}M</b></div><div class="stat"><span>مستوى HQ</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>السعر</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div>`;
+ $("detailHeroes").textContent="الأبطال: "+(p.heroes||"غير محدد");
+ $("detailGear").textContent="المعدات: "+(p.gear||"غير محدد");
+ $("detailDialog").showModal();
+});
+
 $("publicCards").addEventListener("click",e=>{const b=e.target.closest("[data-buy]"),f=e.target.closest("[data-fav]");if(b){$("buyerListing").value=b.dataset.buy;document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});}if(f){let a=favs();a=a.includes(f.dataset.fav)?a.filter(x=>x!==f.dataset.fav):[...a,f.dataset.fav];localStorage.setItem("lwm_favs",JSON.stringify(a));render()}});
 ["search","serverFilter","powerFilter","hqFilter"].forEach(id=>$(id).addEventListener("input",render));
 $("showFav").addEventListener("click",()=>{onlyFav=!onlyFav;$("showFav").textContent=onlyFav?"عرض الكل":"المفضلة ♥";render()});
 $("themeBtn").addEventListener("click",()=>document.body.classList.toggle("light"));
 function setAdmin(user){adminUser=user;$("loginPanel").classList.toggle("hidden",!!user);$("adminPanel").classList.toggle("hidden",!user);$("adminEmail").textContent=user?.email||""}
+async function verifyAdmin(user){
+ if(!user){setAdmin(null);return false}
+ const {data,error}=await db.rpc("is_market_admin");
+ if(error||data!==true){await db.auth.signOut();setAdmin(null);if(adminMode)msg("loginStatus","هذا الحساب غير مصرح له بدخول لوحة الإدارة.");return false}
+ setAdmin(user);return true
+}
 async function loadAdmin(){
  const [{data:ps,error:pe},{data:os,error:oe}]=await Promise.all([
  db.from("player_profiles").select("id,name,server,power,is_published,created_at").order("created_at",{ascending:false}),
@@ -159,12 +192,12 @@ async function loadAdmin(){
  $("adminOrders").innerHTML=(os||[]).map(o=>`<div class="item"><b>طلب #${esc(o.id.slice(0,8))} — ${esc(o.player_profiles?.name||"إعلان")}</b><div class="muted">المشتري: ${esc(o.buyer_name)} · ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")}</div><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب شراء جديد في Last War Market\\nالإعلان: "+(o.player_profiles?.name||"إعلان")+"\\nالمشتري: "+o.buyer_name+"\\nتواصل المشتري: "+o.buyer_contact+"\\nالملاحظات: "+(o.buyer_notes||"لا يوجد")+"\\nرقم الطلب: "+o.id)}">واتساب الإدارة</a><label>حالة الطلب</label><select data-order="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="completed" ${o.status==="completed"?"selected":""}>مكتمل</option><option value="cancelled" ${o.status==="cancelled"?"selected":""}>ملغي</option></select></div>`).join("")||"لا توجد طلبات";
 
 }
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}setAdmin(data.user);await loadAdmin()});
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}if(await verifyAdmin(data.user))await loadAdmin()});
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();setAdmin(null)});
 $("refreshAdmin").addEventListener("click",loadAdmin);
 $("adminListings").addEventListener("click",async e=>{const b=e.target.closest("[data-publish]");if(!b)return;const {error}=await db.from("player_profiles").update({is_published:b.dataset.value==="true"}).eq("id",b.dataset.publish);if(error)alert(error.message);else{await loadAdmin();await loadPublic()}});
 $("adminOrders").addEventListener("change",async e=>{const s=e.target.closest("[data-order]");if(!s)return;const {error}=await db.from("market_orders").update({status:s.value,updated_at:new Date().toISOString()}).eq("id",s.dataset.order);if(error)alert(error.message);else alert("تم تحديث حالة الطلب")});
-db.auth.getSession().then(({data})=>{if(data.session?.user){setAdmin(data.session.user);loadAdmin()}});
+db.auth.getSession().then(async({data})=>{if(data.session?.user&&await verifyAdmin(data.session.user))loadAdmin()});
 loadPublic();
 applyLanguage();
 </script>
