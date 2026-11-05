@@ -95,6 +95,19 @@ body.add-mode .topnav>.round-icon,body.add-mode .top-actions>button,body.add-mod
 body.add-mode .brand-center{justify-content:flex-start;align-items:flex-start}
 body.add-mode .top-actions{display:flex}
 body.add-mode .add-back{display:inline-flex}
+
+/* Listing details photo gallery */
+.detail-photo-viewer{margin:12px 0 16px;padding:10px;background:#0c0e13;border:1px solid #343944;border-radius:16px}
+.detail-photo-main{height:260px;display:grid;grid-template-columns:42px minmax(0,1fr) 42px;align-items:center;gap:8px}
+.detail-photo-main img{width:100%;height:260px;object-fit:contain;background:#080a0e;border-radius:10px}
+.detail-photo-main button{height:42px;width:42px;border:1px solid #555;border-radius:50%;background:#242832;color:#fff;font-size:30px}
+.detail-photo-main button:disabled{opacity:.35}
+.detail-photo-meta{display:flex;align-items:center;justify-content:space-between;padding:9px 2px;color:#f3c66b;font-weight:bold}
+.detail-thumbs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px}
+.detail-thumb{flex:0 0 72px;height:62px;padding:2px;border:2px solid #3a3f4b;border-radius:9px;background:#111;overflow:hidden}
+.detail-thumb.selected{border-color:#ed2939;box-shadow:0 0 10px #ed293966}
+.detail-thumb img{width:100%;height:100%;object-fit:cover}
+@media(max-width:520px){.detail-photo-main,.detail-photo-main img{height:220px}.detail-photo-main{grid-template-columns:34px minmax(0,1fr) 34px;gap:5px}.detail-photo-main button{width:34px;height:38px;font-size:25px}.detail-thumb{flex-basis:64px;height:56px}}
 </style>
 </head>
 <body>
@@ -156,7 +169,11 @@ body.add-mode .add-back{display:inline-flex}
 
 <dialog id="detailDialog" class="panel" style="max-width:760px;width:calc(100% - 24px);color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:16px">
  <div class="row" style="justify-content:space-between"><h2 id="detailTitle">تفاصيل الحساب</h2><button class="btn alt tiny" id="closeDetails" type="button">إغلاق</button></div>
- <div id="detailImages" class="gallery" style="height:220px"></div>
+ <div class="detail-photo-viewer">
+  <div class="detail-photo-main"><button type="button" id="photoPrev" aria-label="الصورة السابقة">‹</button><img id="detailMainPhoto" alt="صورة الحساب" /><button type="button" id="photoNext" aria-label="الصورة التالية">›</button></div>
+  <div class="detail-photo-meta"><span id="photoCounter">0 / 0</span><button type="button" class="btn alt tiny" id="photoZoom">تكبير الصورة ⛶</button></div>
+  <div id="detailThumbs" class="detail-thumbs"></div>
+ </div>
  <div id="detailInfo" class="stats"></div><p id="detailHeroes"></p><p id="detailGear" class="muted"></p>
  <button id="detailBuy" class="btn gold" type="button">طلب شراء الحساب</button>
 </dialog>
@@ -253,7 +270,13 @@ $("publicCards").addEventListener("click",e=>{
  detailListing=listings.find(p=>p.id===d.dataset.details);if(!detailListing)return;
  const p=detailListing,imgs=photoList(p);
  $("detailTitle").textContent=p.name;
- $("detailImages").innerHTML=imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الحساب" style="min-width:100%;height:220px;object-fit:contain">`).join(""):"<div class='empty'>لا توجد صور</div>";
+ let activePhoto=0;
+ const showPhoto=(n)=>{if(!imgs.length)return;activePhoto=(n+imgs.length)%imgs.length;$("detailMainPhoto").src=imgs[activePhoto];$("photoCounter").textContent=`${activePhoto+1} / ${imgs.length}`;$("detailThumbs").innerHTML=imgs.map((u,k)=>`<button type="button" class="detail-thumb ${k===activePhoto?"selected":""}" data-photo-index="${k}" aria-label="عرض الصورة ${k+1}"><img src="${esc(u)}" alt="مصغّر الصورة ${k+1}"></button>`).join("")};
+ if(imgs.length){showPhoto(0)}else{$("detailMainPhoto").removeAttribute("src");$("detailThumbs").innerHTML="<div class='empty'>لا توجد صور</div>";$("photoCounter").textContent="0 / 0"}
+ $("photoPrev").onclick=()=>{if(imgs.length)showPhoto(activePhoto-1)};
+ $("photoNext").onclick=()=>{if(imgs.length)showPhoto(activePhoto+1)};
+ $("detailThumbs").onclick=e=>{const b=e.target.closest("[data-photo-index]");if(b)showPhoto(Number(b.dataset.photoIndex))};
+ $("photoZoom").onclick=()=>{if(imgs.length)window.open(imgs[activePhoto],"_blank","noopener")};
  $("detailInfo").innerHTML=`<div class="stat"><span>السيرفر</span><b>${esc(p.server)}</b></div><div class="stat"><span>القوة</span><b>${esc(p.power)}M</b></div><div class="stat"><span>مستوى HQ</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>السعر</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div>`;
  $("detailHeroes").textContent="الأبطال: "+(p.heroes||"غير محدد");
  $("detailGear").textContent="المعدات: "+(p.gear||"غير محدد");
