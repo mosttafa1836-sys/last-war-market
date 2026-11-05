@@ -81,19 +81,33 @@ footer{padding-bottom:16px}
 @media(max-width:620px){.topnav{grid-template-columns:52px 1fr 100px;min-height:68px}.round-icon{width:42px;height:42px}.brand-main b{font-size:25px}.brand-main small{font-size:10px}.hero-showcase{margin:0 -12px;min-height:245px;padding:20px 15px 34px;grid-template-columns:1.05fr .95fr}.hero-copy h1{font-size:27px}.hero-copy p{font-size:13px}.battle-art{min-height:190px}.battle-soldier{font-size:105px}.battle-tank{font-size:28px}.trust-strip{margin:0 0 15px;padding:10px 4px;gap:3px;border-radius:14px}.trust-strip>div{gap:4px;font-size:10px;white-space:normal;text-align:center}.trust-symbol{font-size:20px}.action-tiles{gap:8px;margin:14px 0 18px}.action-tile{min-height:94px;padding:10px;gap:7px;border-radius:15px}.tile-icon{font-size:30px}.action-tile b{font-size:17px}.action-tile small{font-size:11px}.action-tile strong{font-size:19px}.cards{grid-template-columns:1fr 1fr;gap:8px}.gallery{height:105px}.gallery img{height:95px}.card .body{padding:8px}.card .body h3{font-size:13px}.card .stat b{font-size:12px}.card .row{gap:5px}.card .row .btn{font-size:11px;padding:7px 8px}.mobile-dock{min-height:70px}.dock-link{font-size:10px}.dock-link span{font-size:23px}.dock-add{width:66px;height:66px;font-size:37px}}
 @media(max-width:380px){.trust-strip>div{font-size:9px}.action-tile b{font-size:15px}.cards{grid-template-columns:1fr}}
 
+
+/* Dedicated add-listing page opened in a separate tab */
+.add-back{display:none}
+body.add-mode{padding-bottom:20px}
+body.add-mode main.wrap{padding-top:24px}
+body.add-mode main.wrap>*:not(#sell){display:none!important}
+body.add-mode #sell{display:block!important;max-width:820px;margin:0 auto 30px}
+body.add-mode .mobile-dock,body.add-mode footer{display:none!important}
+body.add-mode header{position:relative}
+body.add-mode .topnav{grid-template-columns:1fr auto;min-height:76px}
+body.add-mode .topnav>.round-icon,body.add-mode .top-actions>button,body.add-mode .top-actions>a.round-icon{display:none!important}
+body.add-mode .brand-center{justify-content:flex-start;align-items:flex-start}
+body.add-mode .top-actions{display:flex}
+body.add-mode .add-back{display:inline-flex}
 </style>
 </head>
 <body>
 <header><div class="wrap"><nav class="topnav">
 <button class="round-icon" id="menuToggle" aria-label="القائمة">☰</button>
 <a class="brand brand-center" href="#"><span class="brand-crown">♛</span><span class="brand-main"><b>LAST <em>WAR</em></b><small>★ MARKET ★</small></span></a>
-<div class="top-actions"><button class="round-icon" id="searchToggle" aria-label="بحث">⌕</button><a class="round-icon" href="#sell" aria-label="حسابي">♙</a></div>
+<div class="top-actions"><button class="round-icon" id="searchToggle" aria-label="بحث">⌕</button><a class="round-icon" href="#sell" aria-label="حسابي">♙</a><a class="btn alt tiny add-back" href="/">رجوع للسوق</a></div>
 <div class="nav-tools hidden" id="navTools"><select id="languageSelect" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" id="backHome" href="/">العودة للسوق</a></div>
 </nav></div></header>
 <main class="wrap">
 <section class="hero hero-showcase"><div class="hero-copy"><div class="eyebrow">THE OFFICIAL PLAYER MARKETPLACE</div><h1>سوق حسابات<br><span>Last War</span></h1><p>بيع وشراء حسابات لعبة الحرب الأخيرة<br>بأمان تام ووساطة الإدارة</p><a class="btn" href="#directory">تصفح الحسابات <b>←</b></a></div><div class="battle-art" aria-hidden="true"><div class="battle-sky">✦　🚁　✦</div><div class="battle-soldier">🪖</div><div class="battle-tank">▰ ▰ ▰</div><div class="battle-flame">✹</div></div><div class="hero-dots"><i></i><i></i><i></i></div></section>
 <div class="trust-strip"><div><b class="trust-symbol">⬡</b><span>أمان 100%</span></div><div><b class="trust-symbol">☏</b><span>وساطة الإدارة</span></div><div><b class="trust-symbol">ϟ</b><span>تنفيذ سريع</span></div><div><b class="trust-symbol">✪</b><span>حسابات موثوقة</span></div></div>
-<div class="action-tiles"><a class="action-tile sell-tile" href="#sell"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
+<div class="action-tiles"><a class="action-tile sell-tile" href="/?add=1" target="_blank" rel="noopener"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
 
 <section id="directory">
 <div class="head listing-head"><div><h2>🔥 أحدث الحسابات</h2><div class="muted">أحدث الحسابات المعروضة للبيع</div></div><button class="btn tiny" id="showFav">عرض الكل ‹</button></div>
@@ -160,11 +174,16 @@ footer{padding-bottom:16px}
 </section>
 <div class="notice">Last War Market منصة وسيطة مستقلة. لا تشارك كلمات مرور أو رموز استرداد أو بيانات دخول اللعبة. تأكد من مراجعة شروط اللعبة قبل أي معاملة.</div>
 </main>
-<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="#sell">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
+<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="/?add=1" target="_blank" rel="noopener">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-document.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
+
+if(new URLSearchParams(location.search).get("add")==="1"){
+ document.body.classList.add("add-mode");
+ window.addEventListener("DOMContentLoaded",()=>document.getElementById("sell")?.scrollIntoView({block:"start"}));
+}
+\ndocument.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
 document.getElementById("searchToggle").addEventListener("click",()=>{document.getElementById("directory").scrollIntoView({behavior:"smooth"});setTimeout(()=>document.getElementById("search").focus(),350)});
 document.getElementById("dockFav").addEventListener("click",e=>{e.preventDefault();document.getElementById("showFav").click();document.getElementById("directory").scrollIntoView({behavior:"smooth"})});
 
