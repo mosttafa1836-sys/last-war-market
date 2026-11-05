@@ -219,6 +219,7 @@ body.add-mode #sellerSubmit{display:block!important;width:100%!important;min-hei
 body.add-mode #sellerStatus{display:block!important;min-height:24px}
 body.add-mode #sell>.head{display:block!important}
 @media(min-width:650px){body.add-mode #sellerForm .grid2{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important}}
+body.account-mode main.wrap>section.panel#accountPage{display:block!important;visibility:visible!important}body.account-mode main.wrap>*:not(#accountPage){display:none!important}body.account-mode header,body.account-mode .mobile-dock{display:none!important}
 </style>
 </head>
 <body>
@@ -324,40 +325,6 @@ document.getElementById("searchToggle").addEventListener("click",()=>{document.g
 document.getElementById("dockFav").addEventListener("click",e=>{e.preventDefault();document.getElementById("showFav").click();document.getElementById("directory").scrollIntoView({behavior:"smooth"})});
 
 
-let currentAccount=null;
-function showAccountPage(){
- document.body.classList.remove("add-mode","admin-mode");document.documentElement.classList.remove("add-page");
- document.getElementById("accountPage").style.display="block";
- document.querySelectorAll("main.wrap>section,main.wrap>.hero-showcase,main.wrap>.trust-strip,main.wrap>.action-tiles").forEach(x=>{if(x.id!=="accountPage")x.style.display="none"});
- document.getElementById("accountPage").scrollIntoView({behavior:"auto"});
- history.pushState({account:true},"",location.pathname+"?account=1");
-}
-function showAddPage(){
- document.body.classList.remove("admin-mode");document.body.classList.add("add-mode");document.documentElement.classList.add("add-page");
- document.getElementById("accountPage").style.display="none";
- history.pushState({addListing:true},"",location.pathname+"?add=1");
- activateAddMode();
-}
-async function refreshAccount(){
- const {data:{user}}=await db.auth.getUser();currentAccount=user||null;
- $("accountAuth").classList.toggle("hidden",!!user);$("accountPanel").classList.toggle("hidden",!user);
- if(!user)return;
- $("accountUserEmail").textContent=user.email||"";
- const {data,error}=await db.from("seller_private_details").select("profile_id, seller_name, seller_contact").eq("user_id",user.id);
- if(error){$("myListings").textContent="تعذر تحميل إعلاناتك: "+error.message;return}
- const ids=(data||[]).map(x=>x.profile_id);
- if(!ids.length){$("myListings").textContent="لم تضف أي إعلانات حتى الآن.";return}
- const {data:profiles,error:pe}=await db.from("player_profiles").select("id,name,server,power,base_level,price,is_published,created_at").in("id",ids).order("created_at",{ascending:false});
- if(pe){$("myListings").textContent="تعذر تحميل الإعلانات.";return}
- $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div></div>').join("")||"لا توجد إعلانات.";
-}
-document.querySelectorAll("[data-open-account]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAccountPage();refreshAccount()}));
-document.querySelectorAll("[data-open-add]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAddPage()}));
-$("accountLogin").addEventListener("submit",async e=>{e.preventDefault();const {error}=await db.auth.signInWithPassword({email:$("accountEmail").value.trim(),password:$("accountPassword").value});if(error){msg("accountLoginStatus",error.message);return}msg("accountLoginStatus","تم تسجيل الدخول",true);await refreshAccount()});
-$("accountSignup").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signUp({email:$("signupEmail").value.trim(),password:$("signupPassword").value,options:{emailRedirectTo:location.origin+location.pathname}});if(error){msg("accountSignupStatus",error.message);return}if(data.session){msg("accountSignupStatus","تم إنشاء الحساب بنجاح",true);await refreshAccount()}else msg("accountSignupStatus","تم إنشاء الحساب. افتح رسالة التأكيد في بريدك ثم سجّل الدخول.",true)});
-$("accountLogout").addEventListener("click",async()=>{await db.auth.signOut();await refreshAccount()});
-db.auth.onAuthStateChange(()=>{if(document.getElementById("accountPage").style.display!=="none")refreshAccount()});
-
 const SUPABASE_URL="https://xsuzedynojpxorrkklur.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_tUrTyrqgJapxTrbiE61q2w_lZqYUfMU";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
@@ -395,6 +362,41 @@ async function loadPublic(){const {data,error}=await db.from("player_profiles").
 async function uploadImages(files){
  const urls=[];for(const f of files){if(!["image/jpeg","image/png","image/webp"].includes(f.type))throw Error("نوع صورة غير مدعوم");if(f.size>5*1024*1024)throw Error("حجم الصورة أكبر من 5MB");const ext=f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg";const path=`pending/${crypto.randomUUID()}.${ext}`;const {error}=await db.storage.from("player-photos").upload(path,f,{contentType:f.type,upsert:false});if(error)throw error;const {data}=db.storage.from("player-photos").getPublicUrl(path);urls.push(data.publicUrl)}return urls;
 }
+let currentAccount=null;
+function showAccountPage(){
+ document.body.classList.remove("add-mode","admin-mode");document.body.classList.add("account-mode");document.documentElement.classList.remove("add-page");
+ document.getElementById("accountPage").style.display="block";
+ document.querySelectorAll("main.wrap>section,main.wrap>.hero-showcase,main.wrap>.trust-strip,main.wrap>.action-tiles").forEach(x=>{if(x.id!=="accountPage")x.style.display="none"});
+ document.getElementById("accountPage").scrollIntoView({behavior:"auto"});
+ history.pushState({account:true},"",location.pathname+"?account=1");
+}
+function showAddPage(){
+ document.body.classList.remove("admin-mode","account-mode");document.body.classList.add("add-mode");document.documentElement.classList.add("add-page");
+ document.getElementById("accountPage").style.display="none";
+ history.pushState({addListing:true},"",location.pathname+"?add=1");
+ activateAddMode();
+}
+async function refreshAccount(){
+ const {data:{user}}=await db.auth.getUser();currentAccount=user||null;
+ $("accountAuth").classList.toggle("hidden",!!user);$("accountPanel").classList.toggle("hidden",!user);
+ if(!user)return;
+ $("accountUserEmail").textContent=user.email||"";
+ const {data,error}=await db.from("seller_private_details").select("profile_id, seller_name, seller_contact").eq("user_id",user.id);
+ if(error){$("myListings").textContent="تعذر تحميل إعلاناتك: "+error.message;return}
+ const ids=(data||[]).map(x=>x.profile_id);
+ if(!ids.length){$("myListings").textContent="لم تضف أي إعلانات حتى الآن.";return}
+ const {data:profiles,error:pe}=await db.from("player_profiles").select("id,name,server,power,base_level,price,is_published,created_at").in("id",ids).order("created_at",{ascending:false});
+ if(pe){$("myListings").textContent="تعذر تحميل الإعلانات.";return}
+ $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div></div>').join("")||"لا توجد إعلانات.";
+}
+document.querySelectorAll("[data-open-account]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAccountPage();refreshAccount()}));
+document.querySelectorAll("[data-open-add]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAddPage()}));
+$("accountLogin").addEventListener("submit",async e=>{e.preventDefault();const {error}=await db.auth.signInWithPassword({email:$("accountEmail").value.trim(),password:$("accountPassword").value});if(error){msg("accountLoginStatus",error.message);return}msg("accountLoginStatus","تم تسجيل الدخول",true);await refreshAccount()});
+$("accountSignup").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signUp({email:$("signupEmail").value.trim(),password:$("signupPassword").value,options:{emailRedirectTo:location.origin+location.pathname}});if(error){msg("accountSignupStatus",error.message);return}if(data.session){msg("accountSignupStatus","تم إنشاء الحساب بنجاح",true);await refreshAccount()}else msg("accountSignupStatus","تم إنشاء الحساب. افتح رسالة التأكيد في بريدك ثم سجّل الدخول.",true)});
+$("accountLogout").addEventListener("click",async()=>{await db.auth.signOut();await refreshAccount()});
+db.auth.onAuthStateChange(()=>{if(document.getElementById("accountPage").style.display!=="none")refreshAccount()});
+
+
 $("sellerImages").addEventListener("change",()=>{if($("sellerImages").files.length>5){$("sellerImages").value="";msg("sellerStatus","الحد الأقصى 5 صور.");}});
 $("sellerForm").addEventListener("submit",async e=>{
  e.preventDefault();const files=[...$("sellerImages").files];if(files.length>5){msg("sellerStatus","الحد الأقصى 5 صور.");return}
