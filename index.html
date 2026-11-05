@@ -220,7 +220,8 @@ body.add-mode #sellerStatus{display:block!important;min-height:24px}
 body.add-mode #sell>.head{display:block!important}
 @media(min-width:650px){body.add-mode #sellerForm .grid2{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important}}
 body.account-mode main.wrap>section.panel#accountPage{display:block!important;visibility:visible!important}body.account-mode main.wrap>*:not(#accountPage){display:none!important}body.account-mode header,body.account-mode .mobile-dock{display:none!important}
-.featured-card{border:2px solid #d9aa43!important;box-shadow:0 0 18px #d9aa4333!important}.feature-tag,.sold-tag{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;margin-inline-start:5px}.feature-tag{background:#604718;color:#ffdc82}.sold-tag{background:#55232b;color:#ff9aa2}</style>
+.featured-card{border:2px solid #d9aa43!important;box-shadow:0 0 18px #d9aa4333!important}.feature-tag,.sold-tag{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;margin-inline-start:5px}.feature-tag{background:#604718;color:#ffdc82}.sold-tag{background:#55232b;color:#ff9aa2}body.purchase-open main.wrap>section.panel:has(#buyerForm){display:block!important}
+</style>
 </head>
 <body>
 <header><div class="wrap"><nav class="topnav">
@@ -504,8 +505,9 @@ $("publicCards").addEventListener("click",e=>{
  if(listing.is_sold){msg("buyerStatus","هذا الحساب تم بيعه بالفعل.");return;}
  $("buyerListing").value=listing.id;
  const buyerPanel=$("buyerForm").closest("section");
+ document.body.classList.add("purchase-open");
  buyerPanel.hidden=false;
- buyerPanel.style.display="block";
+ buyerPanel.style.setProperty("display","block","important");
  buyerPanel.scrollIntoView({behavior:"smooth",block:"center"});
  $("buyerName").focus({preventScroll:true});
  msg("buyerStatus","تم اختيار الحساب: "+listing.name+" — أكمل بياناتك لإرسال الطلب.",true);
