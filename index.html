@@ -6,126 +6,148 @@
 <style>
 :root{--bg:#0b0e13;--panel:#171c25;--panel2:#202735;--line:#303a49;--red:#b92738;--gold:#dfb65f;--txt:#f5f6f8;--muted:#aeb6c3;--green:#53bd89}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0,#35151d 0,transparent 36%),var(--bg);color:var(--txt);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
-.wrap{max-width:1160px;margin:auto;padding:0 18px}header{border-bottom:1px solid var(--line);background:#0d1015ed;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
-nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.mark{width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#e34c58,#711722);display:grid;place-items:center;font-size:23px}.brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:2px;margin-top:-4px}
-.btn{border:0;border-radius:10px;padding:11px 16px;background:var(--red);color:white;font-weight:bold;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn.alt{background:var(--panel2);border:1px solid var(--line)}.btn.gold{background:var(--gold);color:#17130a}.btn.danger{background:#61202a;border:1px solid #9b3441}.btn:disabled{opacity:.5;cursor:not-allowed}
-main{padding:28px 0 55px}.hero{padding:28px 0 22px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}.eyebrow{color:var(--gold);font-size:12px;font-weight:bold;letter-spacing:1px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.2;margin:8px 0}.hero h1 span{color:var(--gold)}.muted{color:var(--muted);font-size:13px}.heroart{border:1px solid #45313a;border-radius:20px;padding:18px;background:linear-gradient(145deg,#252a36,#141720);text-align:center}.crest{height:120px;border-radius:15px;display:grid;place-items:center;font-size:65px;background:radial-gradient(circle,#a52a39,#431a24 52%,#171923 78%)}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:20px 0 14px}.sectionhead h2{margin:0;font-size:22px}.tools{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:15px}.tools input{width:100%;background:#0d121a;color:white;border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.cover{height:130px;display:grid;place-items:center;background:linear-gradient(135deg,#48212b,#202b3b);font-size:45px}.cover img{width:100%;height:100%;object-fit:cover}.body{padding:14px}.body h3{margin:0 0 4px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.stat{background:#10141c;border-radius:8px;padding:8px}.stat span{display:block;color:var(--muted);font-size:10px}.stat b{font-size:12px}.empty{padding:28px;text-align:center;border:1px dashed var(--line);border-radius:13px;color:var(--muted)}
-.gallery{display:flex;gap:7px;overflow:auto;margin:10px 0}.gallery img{width:90px;height:70px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}.login{max-width:430px;margin:18px auto}.field{margin:12px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;background:#0d121a;color:white;border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit}.field textarea{min-height:65px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.adminlayout{display:grid;grid-template-columns:350px 1fr;gap:14px;align-items:start}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.span{grid-column:1/-1}.items{display:grid;gap:9px}.item{display:flex;gap:10px;align-items:center;background:#11161f;border:1px solid var(--line);border-radius:12px;padding:10px}.iteminfo{flex:1;min-width:0}.iteminfo small{display:block;color:var(--muted)}.itemactions{display:flex;gap:6px}.small{font-size:12px;padding:7px 10px}.notice{border:1px solid #66512d;background:#251e13;color:#ead9b3;border-radius:12px;padding:12px;font-size:12px;margin:14px 0}.status{font-size:12px;color:var(--muted);margin:8px 0}.status.ok{color:var(--green)}.hidden{display:none!important}
+body.light{--bg:#f2f4f8;--panel:#fff;--panel2:#e9edf3;--line:#d5dbe5;--txt:#171b24;--muted:#596273;background:var(--bg)}
+.wrap{max-width:1160px;margin:auto;padding:0 18px}header{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--txt);text-decoration:none}.mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#e34c58,#711722);display:grid;place-items:center;font-size:23px}.brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:2px}
+.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--red);color:white;font-weight:bold;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}.btn.alt{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}.btn.gold{background:var(--gold);color:#17130a}.btn.danger{background:#61202a}.btn:disabled{opacity:.5}
+main{padding:25px 0 55px}.hero{padding:25px 0;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}.eyebrow{color:var(--gold);font-size:12px;font-weight:bold;letter-spacing:1px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.2;margin:8px 0}.hero h1 span{color:var(--gold)}.muted{color:var(--muted);font-size:13px}.heroart{border:1px solid #45313a;border-radius:20px;padding:18px;background:linear-gradient(145deg,#252a36,#141720);text-align:center}.crest{height:110px;border-radius:15px;display:grid;place-items:center;font-size:65px;background:radial-gradient(circle,#a52a39,#431a24 52%,#171923 78%)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px;margin:15px 0}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 12px}.head h2{margin:0}.tools{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px;margin:12px 0}
+input,select,textarea{width:100%;background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit}label{display:block;color:var(--muted);font-size:12px;margin:9px 0 5px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.gallery{height:150px;background:linear-gradient(135deg,#48212b,#202b3b);display:flex;overflow:auto;scroll-snap-type:x mandatory}.gallery img{min-width:100%;height:150px;object-fit:cover;scroll-snap-align:start}.body{padding:14px}.body h3{margin:0 0 4px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.stat{background:var(--bg);border-radius:8px;padding:8px}.stat span{display:block;color:var(--muted);font-size:10px}.stat b{font-size:12px}.empty{padding:25px;text-align:center;border:1px dashed var(--line);border-radius:13px;color:var(--muted);grid-column:1/-1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:8px 0}.field.full{grid-column:1/-1}.status{font-size:12px;color:var(--muted);margin:8px 0}.ok{color:var(--green)}.hidden{display:none!important}.adminlayout{display:grid;grid-template-columns:1fr 1fr;gap:14px}.item{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:var(--bg)}.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.tiny{font-size:11px;padding:6px 9px}.notice{border:1px solid #66512d;background:#251e13;color:#ead9b3;border-radius:12px;padding:12px;font-size:12px;margin:14px 0}
 footer{border-top:1px solid var(--line);padding:20px 0;color:var(--muted);font-size:12px;margin-top:30px}
-@media(max-width:800px){.hero{grid-template-columns:1fr}.adminlayout{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}@media(max-width:560px){.cards{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.span{grid-column:auto}.item{align-items:flex-start;flex-wrap:wrap}.itemactions{width:100%}.itemactions .btn{flex:1}}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr 1fr}.adminlayout{grid-template-columns:1fr}}
+@media(max-width:560px){.cards,.tools,.grid2{grid-template-columns:1fr}.heroart{max-width:none}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav><a class="brand" href="#"><span class="mark">⚔</span><span>LAST WAR<small>MARKET</small></span></a><span class="muted">دليل اللاعبين</span><a class="btn" href="https://wa.me/201044364156" target="_blank" rel="noopener">تواصل مع الإدارة</a></nav></div></header>
+<header><div class="wrap"><nav>
+<a class="brand" href="#"><span class="mark">⚔</span><span>LAST WAR<small>MARKET</small></span></a>
+<div class="row"><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" href="#sell">أضف إعلانك</a></div>
+</nav></div></header>
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">PLAYER COMMUNITY DIRECTORY</div><h1>LAST WAR <span>MARKET</span></h1><p class="muted">دليل ملفات اللاعبين ومواصفاتهم العامة. ابحث عن الملفات المنشورة حسب الاسم أو السيرفر.</p></div><div class="heroart"><div class="crest">🛡️</div><b>COMMUNITY • PROFILES • SERVERS</b></div></section>
-<section id="directory"><div class="sectionhead"><div><h2>ملفات اللاعبين</h2><div class="muted">الملفات المنشورة للعامة</div></div></div>
-<div class="tools"><input id="search" placeholder="ابحث بالاسم أو السيرفر"><input id="serverFilter" placeholder="فلترة برقم السيرفر"></div>
-<div id="publicCards" class="cards"><div class="empty">جاري تحميل الملفات...</div></div></section>
+<section class="hero"><div><div class="eyebrow">PLAYER MARKETPLACE</div><h1>LAST WAR <span>MARKET</span></h1><p class="muted">اعرض ملف اللاعب واطلب الإعلان من خلال المنصة. الإدارة هي الوسيط الوحيد؛ لا توجد رسائل أو أرقام تواصل بين البائع والمشتري.</p><a class="btn" href="#directory">تصفح الإعلانات</a></div><div class="heroart"><div class="crest">🛡️</div><b>LIST • REVIEW • REQUEST</b><div class="muted">إدارة مركزية للطلبات</div></div></section>
 
-<section class="panel" id="submitPanel" style="margin:22px 0">
-  <div class="eyebrow">PLAYER SUBMISSION</div><h2 style="margin:4px 0">اعرض ملفك في الدليل</h2>
-  <p class="muted">أرسل بياناتك وصورًا من حسابك. لن يظهر الملف للعامة إلا بعد مراجعة الإدارة.</p>
-  <form id="publicSubmitForm">
-    <div class="formgrid">
-      <div class="field"><label>اسم الملف</label><input id="pubName" required maxlength="60"></div>
-      <div class="field"><label>السيرفر</label><input id="pubServer" required maxlength="20"></div>
-      <div class="field"><label>القوة بالمليون</label><input id="pubPower" type="number" min="1" required></div>
-      <div class="field"><label>مستوى القاعدة</label><input id="pubBase" type="number" min="1" max="35" required></div>
-      <div class="field span"><label>وصف الأبطال</label><input id="pubHeroes" maxlength="500"></div>
-      <div class="field span"><label>وصف المعدات</label><input id="pubGear" maxlength="500"></div>
-      <div class="field span"><label>صور الحساب (حتى 5 صور، 5MB للصورة)</label><input id="pubPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple></div>
-    </div>
-    <div id="photoPreview" class="row"></div>
-    <button class="btn gold" id="submitProfileBtn">إرسال للمراجعة</button>
-  </form>
-  <div id="submitStatus" class="status"></div>
+<section id="directory">
+<div class="head"><div><h2>الإعلانات المتاحة</h2><div class="muted">الإعلانات المنشورة بعد مراجعة الإدارة</div></div><button class="btn alt tiny" id="showFav">المفضلة ♥</button></div>
+<div class="tools">
+<input id="search" placeholder="ابحث بالاسم أو السيرفر">
+<input id="serverFilter" placeholder="السيرفر">
+<select id="powerFilter"><option value="">كل مستويات القوة</option><option value="low">أقل من 100M</option><option value="mid">100M–200M</option><option value="high">أكثر من 200M</option></select>
+<select id="hqFilter"><option value="">كل مستويات HQ</option><option value="1">HQ 1–20</option><option value="2">HQ 21–25</option><option value="3">HQ 26–30</option><option value="4">HQ 31–35</option></select>
+</div>
+<div class="cards" id="publicCards"><div class="empty">جاري تحميل الإعلانات...</div></div>
 </section>
 
-<section class="panel login" id="loginPanel"><div class="eyebrow">ADMIN ACCESS</div><h2 style="margin:4px 0">دخول الإدارة</h2><p class="muted">للمدير المصرّح له فقط.</p>
-<form id="loginForm"><div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" required></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password" required></div><button class="btn gold" style="width:100%">تسجيل الدخول</button></form><div id="loginStatus" class="status"></div>
+<section class="panel" id="sell">
+<div class="head"><div><h2>أضف إعلانك</h2><div class="muted">بياناتك الخاصة لا تظهر للمشترين، وتصل للإدارة فقط</div></div></div>
+<form id="sellerForm">
+<div class="grid2">
+<div class="field"><label>اسم العرض</label><input id="sellerDisplay" required maxlength="70"></div>
+<div class="field"><label>السيرفر</label><input id="sellerServer" required maxlength="20"></div>
+<div class="field"><label>القوة بالمليون</label><input id="sellerPower" type="number" min="1" required></div>
+<div class="field"><label>مستوى HQ</label><input id="sellerHQ" type="number" min="1" max="35" required></div>
+<div class="field"><label>الأبطال (اختياري)</label><input id="sellerHeroes" maxlength="250"></div>
+<div class="field"><label>المعدات (اختياري)</label><input id="sellerGear" maxlength="250"></div>
+<div class="field"><label>السعر المطلوب (اختياري)</label><input id="sellerPrice" maxlength="40" placeholder="مثال: قابل للتفاوض"></div>
+<div class="field"><label>اسمك للإدارة فقط</label><input id="sellerName" required maxlength="80"></div>
+<div class="field"><label>وسيلة تواصل الإدارة معك</label><input id="sellerContact" required maxlength="100" placeholder="رقم أو بريد - لا يظهر للمشترين"></div>
+<div class="field"><label>صور الإعلان (حتى 5 صور)</label><input id="sellerImages" type="file" accept="image/jpeg,image/png,image/webp" multiple></div>
+</div>
+<div class="notice">لا ترفع كلمات مرور أو رموز استرداد أو بيانات دخول. ارفع صورًا عامة فقط. الحد الأقصى 5 صور، و5MB للصورة.</div>
+<button class="btn gold" id="sellerSubmit">إرسال الإعلان للمراجعة</button><div class="status" id="sellerStatus"></div>
+</form>
 </section>
-<section id="adminPanel" class="hidden">
-<div class="sectionhead"><div><div class="eyebrow">CONTROL CENTER</div><h2>لوحة التحكم</h2><div class="muted" id="adminEmail"></div></div><button id="logout" class="btn alt">تسجيل الخروج</button></div>
+
+<section class="panel">
+<div class="head"><div><h2>طلب شراء</h2><div class="muted">اختر الإعلان من زر «طلب شراء». لا يتم عرض بياناتك للبائع.</div></div></div>
+<form id="buyerForm">
+<div class="grid2">
+<div class="field"><label>رقم الإعلان</label><input id="buyerListing" required placeholder="اختر طلب شراء من بطاقة الإعلان"></div>
+<div class="field"><label>اسمك</label><input id="buyerName" required maxlength="80"></div>
+<div class="field"><label>وسيلة تواصل الإدارة معك</label><input id="buyerContact" required maxlength="100" placeholder="رقم أو بريد - لا يظهر للبائع"></div>
+<div class="field"><label>ملاحظات (اختياري)</label><input id="buyerNotes" maxlength="300"></div>
+</div>
+<button class="btn gold" id="buyerSubmit">إرسال طلب الشراء للإدارة</button><div class="status" id="buyerStatus"></div>
+</form>
+</section>
+
+<section class="panel" id="admin">
+<div class="head"><div><div class="eyebrow">ADMIN CONTROL CENTER</div><h2>دخول الإدارة</h2></div></div>
+<div id="loginPanel"><form id="loginForm" class="grid2"><div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" required autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" required autocomplete="current-password"></div><div class="field full"><button class="btn gold">تسجيل الدخول</button></div></form><div class="status" id="loginStatus"></div></div>
+<div id="adminPanel" class="hidden">
+<div class="row"><b id="adminEmail"></b><button class="btn alt tiny" id="refreshAdmin">تحديث البيانات</button><button class="btn danger tiny" id="logout">خروج</button></div>
 <div class="adminlayout">
-<div class="panel"><h3 id="formHeading" style="margin-top:0">إضافة ملف لاعب</h3>
-<form id="profileForm"><input id="profileId" type="hidden">
-<div class="formgrid">
-<div class="field"><label>اسم الملف</label><input id="name" required></div>
-<div class="field"><label>السيرفر</label><input id="server" required></div>
-<div class="field"><label>القوة بالمليون</label><input id="power" type="number" min="1" required></div>
-<div class="field"><label>مستوى القاعدة</label><input id="base" type="number" min="1" max="35" required></div>
-<div class="field span"><label>وصف الأبطال</label><input id="heroes"></div>
-<div class="field span"><label>وصف المعدات</label><input id="gear"></div>
-<div class="field span"><label>رابط صورة عامة (اختياري)</label><input id="image" type="url" placeholder="https://..."></div>
-<div class="field span"><label><input id="published" type="checkbox" checked style="width:auto"> نشر الملف للعامة</label></div>
+<div><h3>الإعلانات</h3><div id="adminListings"></div></div>
+<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div>
 </div>
-<div class="row"><button class="btn gold" id="saveBtn">حفظ الملف</button><button type="button" id="cancelEdit" class="btn alt hidden">إلغاء</button></div>
-</form><div id="formStatus" class="status"></div>
-<div class="notice">أدخل معلومات عامة فقط وبموافقة صاحبها. لا تجمع كلمات مرور أو رموز استرداد أو بيانات دخول.</div>
 </div>
-<div class="panel"><div class="sectionhead" style="margin-top:0"><div><h3 style="margin:0">إدارة الملفات</h3><div class="muted">إضافة وتعديل وحذف ونشر</div></div><button id="refresh" class="btn alt small">تحديث</button></div><div id="adminItems" class="items"><div class="empty">سجّل الدخول لعرض الملفات.</div></div></div>
-</div></section>
-<div class="notice">هذه المنصة دليل مجتمعي لملفات اللاعبين والخدمات المسموح بها، ولا تنفذ بيع أو نقل ملكية الحسابات. راجع شروط اللعبة قبل أي معاملة.</div>
+</section>
+<div class="notice">Last War Market منصة وسيطة مستقلة. لا تشارك كلمات مرور أو رموز استرداد أو بيانات دخول اللعبة. تأكد من مراجعة شروط اللعبة قبل أي معاملة.</div>
 </main>
 <footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* إعداد الاتصال: ضع Project URL و anon public key من إعدادات مشروع Supabase */
-const SUPABASE_URL = "https://xsuzedynojpxorrkklur.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_tUrTyrqgJapxTrbiE61q2w_lZqYUfMU";
-const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("PASTE_") && SUPABASE_ANON_KEY.length > 30 && !SUPABASE_ANON_KEY.includes("PASTE_");
-const client = configured ? window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY) : null;
-const $=id=>document.getElementById(id);let profiles=[];
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function safeImage(s){try{const u=new URL(s);return ["https:","http:"].includes(u.protocol)?u.href:""}catch(e){return ""}}
-function status(id,msg,ok=false){$(id).textContent=msg;$(id).className="status"+(ok?" ok":"")}
-function setSession(user){$("loginPanel").classList.toggle("hidden",!!user);$("adminPanel").classList.toggle("hidden",!user);$("adminEmail").textContent=user?.email||""}
-function card(p){const imgs=Array.isArray(p.images)?p.images:[];const cover=imgs[0]||p.image_url;return `<article class="card"><div class="cover">${cover?`<img src="${esc(safeImage(cover))}" alt="">`:"🛡️"}</div><div class="body"><h3>${esc(p.name)}</h3>${imgs.length>1?`<div class="gallery">${imgs.slice(1).map(u=>`<img src="${esc(safeImage(u))}" alt="صورة من ملف اللاعب">`).join("")}</div>`:""}<div class="muted">السيرفر #${esc(p.server)}</div><div class="stats"><div class="stat"><span>القوة</span><b>${esc(p.power)}M</b></div><div class="stat"><span>القاعدة</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>الأبطال</span><b>${esc(p.heroes||"غير محدد")}</b></div><div class="stat"><span>المعدات</span><b>${esc(p.gear||"غير محدد")}</b></div></div></div></article>`}
-function renderPublic(){const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase();const list=profiles.filter(p=>(p.name+" "+p.server).toLowerCase().includes(q)&&(!s||String(p.server).toLowerCase().includes(s)));$("publicCards").innerHTML=list.length?list.map(card).join(""):'<div class="empty">لا توجد ملفات منشورة مطابقة.</div>'}
-async function loadPublic(){if(!client){$("publicCards").innerHTML='<div class="empty">أكمل إعداد Supabase في ملف الموقع أولاً. راجع ملف SETUP.txt.</div>';return}const {data,error}=await client.from("player_profiles").select("*").eq("is_published",true).order("created_at",{ascending:false});if(error){$("publicCards").innerHTML='<div class="empty">تعذر تحميل الملفات. راجع إعداد قاعدة البيانات.</div>';return}profiles=data||[];renderPublic()}
-async function loadAdmin(){if(!client)return;const {data,error}=await client.from("player_profiles").select("*").order("created_at",{ascending:false});if(error){$("adminItems").innerHTML='<div class="empty">تعذر تحميل الملفات. تأكد من صلاحية المدير وسياسات قاعدة البيانات.</div>';return}profiles=data||[];renderPublic();$("adminItems").innerHTML=profiles.length?profiles.map(p=>`<div class="item"><div style="flex:1"><b>${esc(p.name)}</b><small class="muted">سيرفر ${esc(p.server)} · ${esc(p.power)}M · ${p.is_published?"منشور":"بانتظار المراجعة"}</small></div><div class="row">${!p.is_published?`<button class="btn gold small" data-approve="${p.id}">موافقة ونشر</button>`:""}<button class="btn alt small" data-edit="${p.id}">تعديل</button><button class="btn danger small" data-delete="${p.id}">حذف</button></div></div>`).join(""):'<div class="empty">لا توجد ملفات بعد.</div>'}
-async function refreshSession(){if(!client)return;const {data}=await client.auth.getSession();setSession(data.session?.user||null);if(data.session?.user)await loadAdmin()}
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();if(!client){status("loginStatus","لم يتم ربط Supabase بعد. اتبع خطوات SETUP.txt.");return}const {data,error}=await client.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){status("loginStatus","تعذر تسجيل الدخول: "+error.message);return}setSession(data.user);status("loginStatus","تم تسجيل الدخول",true);await loadAdmin()});
-$("logout").addEventListener("click",async()=>{await client.auth.signOut();setSession(null)});
-$("profileForm").addEventListener("submit",async e=>{e.preventDefault();if(!client)return;const id=$("profileId").value;const row={name:$("name").value.trim(),server:$("server").value.trim(),power:Number($("power").value),base_level:Number($("base").value),heroes:$("heroes").value.trim(),gear:$("gear").value.trim(),image_url:safeImage($("image").value.trim())||null,is_published:$("published").checked};const result=id?await client.from("player_profiles").update(row).eq("id",id):await client.from("player_profiles").insert(row);if(result.error){status("formStatus","لم يتم الحفظ: "+result.error.message);return}$("profileForm").reset();$("profileId").value="";$("formHeading").textContent="إضافة ملف لاعب";$("cancelEdit").classList.add("hidden");status("formStatus","تم الحفظ بنجاح",true);await loadAdmin()});
-$("adminItems").addEventListener("click",async e=>{const id=e.target.dataset.edit,del=e.target.dataset.delete,approve=e.target.dataset.approve;if(approve){const {error}=await client.from("player_profiles").update({is_published:true}).eq("id",approve);if(error)alert(error.message);else await loadAdmin();return}if(id){const p=profiles.find(x=>x.id===id);if(!p)return;$("profileId").value=p.id;$("name").value=p.name;$("server").value=p.server;$("power").value=p.power;$("base").value=p.base_level;$("heroes").value=p.heroes||"";$("gear").value=p.gear||"";$("image").value=p.image_url||"";$("published").checked=p.is_published;$("formHeading").textContent="تعديل ملف لاعب";$("cancelEdit").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})}if(del&&confirm("هل تريد حذف الملف نهائياً؟")){const {error}=await client.from("player_profiles").delete().eq("id",del);if(error)alert(error.message);else await loadAdmin()}});
-$("cancelEdit").addEventListener("click",()=>{$("profileForm").reset();$("profileId").value="";$("formHeading").textContent="إضافة ملف لاعب";$("cancelEdit").classList.add("hidden")});
-$("refresh").addEventListener("click",loadAdmin);$("search").addEventListener("input",renderPublic);$("serverFilter").addEventListener("input",renderPublic);
-
-const photoInput=$("pubPhotos");
-if(photoInput){photoInput.addEventListener("change",()=>{
- const files=[...photoInput.files];$("photoPreview").innerHTML="";
- if(files.length>5){photoInput.value="";status("submitStatus","الحد الأقصى 5 صور.");return}
- for(const f of files){if(!["image/jpeg","image/png","image/webp"].includes(f.type)||f.size>5*1024*1024){photoInput.value="";$("photoPreview").innerHTML="";status("submitStatus","استخدم JPG أو PNG أو WEBP، بحد أقصى 5MB للصورة.");return}
- const img=document.createElement("img");img.src=URL.createObjectURL(f);img.style.cssText="width:76px;height:64px;object-fit:cover;border-radius:8px";$("photoPreview").appendChild(img)}
-})}
-$("publicSubmitForm").addEventListener("submit",async e=>{
- e.preventDefault();
- if(!client){status("submitStatus","الاتصال بقاعدة البيانات غير متاح.");return}
- const btn=$("submitProfileBtn");btn.disabled=true;status("submitStatus","جاري رفع الصور وإرسال الملف...");
+const SUPABASE_URL="https://xsuzedynojpxorrkklur.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_tUrTyrqgJapxTrbiE61q2w_lZqYUfMU";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const $=id=>document.getElementById(id);let listings=[],adminUser=null,onlyFav=false;
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function msg(id,t,ok=false){$(id).textContent=t;$(id).className="status"+(ok?" ok":"")}
+function favs(){try{return JSON.parse(localStorage.getItem("lwm_favs")||"[]")}catch{return []}}
+function powerBand(p){return p<100?"low":p<=200?"mid":"high"}
+function hqBand(n){return n<=20?"1":n<=25?"2":n<=30?"3":"4"}
+function photoList(p){if(Array.isArray(p.images)&&p.images.length)return p.images;return p.image_url?[p.image_url]:[]}
+function render(){
+ const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase(),pb=$("powerFilter").value,hb=$("hqFilter").value,fs=favs();
+ const arr=listings.filter(p=>p.is_published&&(!onlyFav||fs.includes(p.id))&&(`${p.name} ${p.server}`.toLowerCase().includes(q))&&(!s||String(p.server).toLowerCase().includes(s))&&(!pb||powerBand(Number(p.power))===pb)&&(!hb||hqBand(Number(p.base_level))===hb));
+ $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>لا توجد صور</div>"}</div><div class="body"><h3>${esc(p.name)}</h3><div class="muted">الإعلان #${esc(p.id.slice(0,8))} · السيرفر ${esc(p.server)}</div><div class="stats"><div class="stat"><span>القوة</span><b>${esc(p.power)}M</b></div><div class="stat"><span>HQ</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>السعر</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div><div class="stat"><span>الأبطال</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn gold tiny" data-buy="${esc(p.id)}">طلب شراء</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?"إزالة ♥":"حفظ ♥"}</button></div></div></article>`}).join(""):'<div class="empty">لا توجد إعلانات مطابقة.</div>';
+}
+async function loadPublic(){const {data,error}=await db.from("player_profiles").select("id,name,server,power,base_level,heroes,gear,image_url,images,price,is_published,created_at").eq("is_published",true).order("created_at",{ascending:false});if(error){$("publicCards").innerHTML='<div class="empty">تعذر تحميل الإعلانات. تأكد من تطبيق تحديث قاعدة البيانات.</div>';return}listings=data||[];render()}
+async function uploadImages(files){
+ const urls=[];for(const f of files){if(!["image/jpeg","image/png","image/webp"].includes(f.type))throw Error("نوع صورة غير مدعوم");if(f.size>5*1024*1024)throw Error("حجم الصورة أكبر من 5MB");const ext=f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg";const path=`pending/${crypto.randomUUID()}.${ext}`;const {error}=await db.storage.from("player-photos").upload(path,f,{contentType:f.type,upsert:false});if(error)throw error;const {data}=db.storage.from("player-photos").getPublicUrl(path);urls.push(data.publicUrl)}return urls;
+}
+$("sellerImages").addEventListener("change",()=>{if($("sellerImages").files.length>5){$("sellerImages").value="";msg("sellerStatus","الحد الأقصى 5 صور.");}});
+$("sellerForm").addEventListener("submit",async e=>{
+ e.preventDefault();const files=[...$("sellerImages").files];if(files.length>5){msg("sellerStatus","الحد الأقصى 5 صور.");return}
+ $("sellerSubmit").disabled=true;msg("sellerStatus","جاري إرسال الإعلان والصور...");
  try{
-  const files=[...(photoInput?.files||[])];if(files.length>5)throw Error("الحد الأقصى 5 صور.");
-  const urls=[];
-  for(const f of files){
-   if(!["image/jpeg","image/png","image/webp"].includes(f.type)||f.size>5*1024*1024)throw Error("نوع أو حجم صورة غير مسموح.");
-   const ext=f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg";
-   const path=`pending/${crypto.randomUUID()}.${ext}`;
-   const up=await client.storage.from("player-photos").upload(path,f,{contentType:f.type,upsert:false});
-   if(up.error)throw up.error;
-   const pub=client.storage.from("player-photos").getPublicUrl(path).data.publicUrl;urls.push(pub);
-  }
-  const row={name:$("pubName").value.trim(),server:$("pubServer").value.trim(),power:Number($("pubPower").value),base_level:Number($("pubBase").value),heroes:$("pubHeroes").value.trim(),gear:$("pubGear").value.trim(),images:urls,is_published:false};
-  const result=await client.from("player_profiles").insert(row);
-  if(result.error)throw result.error;
-  $("publicSubmitForm").reset();$("photoPreview").innerHTML="";
-  status("submitStatus","تم استلام ملفك بنجاح. سيظهر بعد موافقة الإدارة.",true);
- }catch(err){status("submitStatus","لم يتم الإرسال: "+(err.message||"تحقق من إعدادات التخزين والصلاحيات."))}
- finally{btn.disabled=false}
+ const urls=await uploadImages(files);
+ const row={name:$("sellerDisplay").value.trim(),server:$("sellerServer").value.trim(),power:Number($("sellerPower").value),base_level:Number($("sellerHQ").value),heroes:$("sellerHeroes").value.trim(),gear:$("sellerGear").value.trim(),price:$("sellerPrice").value.trim(),images:urls,is_published:false};
+ const profileId=crypto.randomUUID();const {error}=await db.from("player_profiles").insert({...row,id:profileId});if(error)throw error;
+ const {error:privateErr}=await db.from("seller_private_details").insert({profile_id:profileId,seller_name:$("sellerName").value.trim(),seller_contact:$("sellerContact").value.trim()});if(privateErr)throw privateErr;
+ $("sellerForm").reset();msg("sellerStatus","تم استلام الإعلان للمراجعة. رقم المتابعة: "+profileId.slice(0,8),true);
+ }catch(err){msg("sellerStatus","تعذر إرسال الإعلان: "+(err.message||"خطأ غير معروف"))}
+ finally{$("sellerSubmit").disabled=false}
 });
+$("buyerForm").addEventListener("submit",async e=>{
+ e.preventDefault();$("buyerSubmit").disabled=true;msg("buyerStatus","جاري إرسال الطلب...");
+ try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
+});
+$("publicCards").addEventListener("click",e=>{const b=e.target.closest("[data-buy]"),f=e.target.closest("[data-fav]");if(b){$("buyerListing").value=b.dataset.buy;document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});}if(f){let a=favs();a=a.includes(f.dataset.fav)?a.filter(x=>x!==f.dataset.fav):[...a,f.dataset.fav];localStorage.setItem("lwm_favs",JSON.stringify(a));render()}});
+["search","serverFilter","powerFilter","hqFilter"].forEach(id=>$(id).addEventListener("input",render));
+$("showFav").addEventListener("click",()=>{onlyFav=!onlyFav;$("showFav").textContent=onlyFav?"عرض الكل":"المفضلة ♥";render()});
+$("themeBtn").addEventListener("click",()=>document.body.classList.toggle("light"));
+function setAdmin(user){adminUser=user;$("loginPanel").classList.toggle("hidden",!!user);$("adminPanel").classList.toggle("hidden",!user);$("adminEmail").textContent=user?.email||""}
+async function loadAdmin(){
+ const [{data:ps,error:pe},{data:os,error:oe}]=await Promise.all([
+ db.from("player_profiles").select("id,name,server,power,is_published,created_at").order("created_at",{ascending:false}),
+ db.from("market_orders").select("id,profile_id,buyer_name,buyer_contact,buyer_notes,status,created_at,player_profiles(name,server)").order("created_at",{ascending:false})
+ ]);
+ if(pe){$("adminListings").textContent="تعذر تحميل الإعلانات: "+pe.message;return}
+ if(oe){$("adminOrders").textContent="تعذر تحميل الطلبات: "+oe.message;return}
+ const {data:sellers}=await db.from("seller_private_details").select("profile_id,seller_name,seller_contact");
+ const sellerMap=new Map((sellers||[]).map(x=>[x.profile_id,x]));
+ $("adminListings").innerHTML=(ps||[]).map(p=>{const v=sellerMap.get(p.id);return `<div class="item"><b>${esc(p.name)}</b><div class="muted">#${esc(p.server)} · ${p.is_published?"منشور":"بانتظار المراجعة"}</div><div class="muted">البائع: ${esc(v?.seller_name||"غير متاح")} · ${esc(v?.seller_contact||"")}</div><div class="row"><button class="btn gold tiny" data-publish="${p.id}" data-value="${!p.is_published}">${p.is_published?"إخفاء الإعلان":"موافقة ونشر"}</button></div></div>`}).join("")||"لا توجد إعلانات";
+ $("adminOrders").innerHTML=(os||[]).map(o=>`<div class="item"><b>طلب #${esc(o.id.slice(0,8))} — ${esc(o.player_profiles?.name||"إعلان")}</b><div class="muted">المشتري: ${esc(o.buyer_name)} · ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")}</div><label>حالة الطلب</label><select data-order="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="completed" ${o.status==="completed"?"selected":""}>مكتمل</option><option value="cancelled" ${o.status==="cancelled"?"selected":""}>ملغي</option></select></div>`).join("")||"لا توجد طلبات";
 
-if(!configured){status("loginStatus","الموقع غير مربوط بقاعدة البيانات بعد. اتبع ملف SETUP.txt.");loadPublic()}else{loadPublic();refreshSession();client.auth.onAuthStateChange((_event,session)=>{setSession(session?.user||null);if(session?.user)loadAdmin()})}
+}
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}setAdmin(data.user);await loadAdmin()});
+$("logout").addEventListener("click",async()=>{await db.auth.signOut();setAdmin(null)});
+$("refreshAdmin").addEventListener("click",loadAdmin);
+$("adminListings").addEventListener("click",async e=>{const b=e.target.closest("[data-publish]");if(!b)return;const {error}=await db.from("player_profiles").update({is_published:b.dataset.value==="true"}).eq("id",b.dataset.publish);if(error)alert(error.message);else{await loadAdmin();await loadPublic()}});
+$("adminOrders").addEventListener("change",async e=>{const s=e.target.closest("[data-order]");if(!s)return;const {error}=await db.from("market_orders").update({status:s.value,updated_at:new Date().toISOString()}).eq("id",s.dataset.order);if(error)alert(error.message);else alert("تم تحديث حالة الطلب")});
+db.auth.getSession().then(({data})=>{if(data.session?.user){setAdmin(data.session.user);loadAdmin()}});
+loadPublic();
 </script>
 </body></html>
