@@ -205,6 +205,20 @@ body:not(.add-mode):not(.admin-mode) .dock-add{box-shadow:0 0 22px #ed2638aa;bor
  body:not(.add-mode):not(.admin-mode) .action-tile{min-height:96px;padding:10px;border-radius:15px}
 }
 
+/* Reliable standalone add-listing screen */
+html.add-page,body.add-mode{min-height:100%;background:#090a0f!important}
+body.add-mode{padding:0 0 24px!important}
+body.add-mode>header,body.add-mode>.mobile-dock,body.add-mode>footer{display:none!important}
+body.add-mode main.wrap{display:block!important;max-width:760px!important;margin:0 auto!important;padding:22px 14px!important}
+body.add-mode main.wrap>*{display:none!important}
+body.add-mode main.wrap>#sell{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important}
+body.add-mode #sell,body.add-mode #sell form,body.add-mode #sellerForm .grid2,body.add-mode #sellerForm .field{display:block!important;visibility:visible!important}
+body.add-mode #sellerForm .field{margin:0 0 16px!important}
+body.add-mode #sellerForm input{display:block!important;width:100%!important;min-height:54px!important}
+body.add-mode #sellerSubmit{display:block!important;width:100%!important;min-height:56px!important}
+body.add-mode #sellerStatus{display:block!important;min-height:24px}
+body.add-mode #sell>.head{display:block!important}
+@media(min-width:650px){body.add-mode #sellerForm .grid2{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important}}
 </style>
 </head>
 <body>
@@ -217,7 +231,7 @@ body:not(.add-mode):not(.admin-mode) .dock-add{box-shadow:0 0 22px #ed2638aa;bor
 <main class="wrap">
 <section class="hero hero-showcase"><div class="hero-copy"><div class="eyebrow">THE OFFICIAL PLAYER MARKETPLACE</div><h1>سوق حسابات<br><span>Last War</span></h1><p>بيع وشراء حسابات لعبة الحرب الأخيرة<br>بأمان تام ووساطة الإدارة</p><a class="btn" href="#directory">تصفح الحسابات <b>←</b></a></div><div class="battle-art" aria-hidden="true"><div class="battle-sky">✦　🚁　✦</div><div class="battle-soldier">🪖</div><div class="battle-tank">▰ ▰ ▰</div><div class="battle-flame">✹</div></div><div class="hero-dots"><i></i><i></i><i></i></div></section>
 <div class="trust-strip"><div><b class="trust-symbol">⬡</b><span>أمان 100%</span></div><div><b class="trust-symbol">☏</b><span>وساطة الإدارة</span></div><div><b class="trust-symbol">ϟ</b><span>تنفيذ سريع</span></div><div><b class="trust-symbol">✪</b><span>حسابات موثوقة</span></div></div>
-<div class="action-tiles"><a class="action-tile sell-tile" href="/?add=1" target="_blank" rel="noopener"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
+<div class="action-tiles"><a class="action-tile sell-tile" href="/?add=1"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
 
 <section id="directory">
 <div class="head listing-head"><div><h2>🔥 أحدث الحسابات</h2><div class="muted">أحدث الحسابات المعروضة للبيع</div></div><button class="btn tiny" id="showFav">عرض الكل ‹</button></div>
@@ -288,7 +302,7 @@ body:not(.add-mode):not(.admin-mode) .dock-add{box-shadow:0 0 22px #ed2638aa;bor
 </section>
 <div class="notice">Last War Market منصة وسيطة مستقلة. لا تشارك كلمات مرور أو رموز استرداد أو بيانات دخول اللعبة. تأكد من مراجعة شروط اللعبة قبل أي معاملة.</div>
 </main>
-<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="/?add=1" target="_blank" rel="noopener">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
+<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="/?add=1">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
@@ -356,7 +370,14 @@ $("buyerForm").addEventListener("submit",async e=>{
  try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
 });
 
-const addMode=new URLSearchParams(location.search).get("add")==="1";if(addMode){document.body.classList.add("add-mode");document.title="إضافة إعلان — Last War Market";}
+const addMode=new URLSearchParams(location.search).get("add")==="1";
+if(addMode){
+ document.body.classList.add("add-mode");
+ document.documentElement.classList.add("add-page");
+ document.title="إضافة إعلان — Last War Market";
+ const showListingForm=()=>{const form=document.getElementById("sell");if(form){form.style.setProperty("display","block","important");form.scrollIntoView({block:"start"});}};
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",showListingForm,{once:true});else showListingForm();
+}
 const adminMode=new URLSearchParams(location.search).get("admin")==="1";
 if(adminMode){document.body.classList.add("admin-mode");document.title="Last War Market — Admin";$("backHome").style.display="inline-flex";$("admin").scrollIntoView();}else{$("backHome").style.display="none";}
 let detailListing=null;
