@@ -225,7 +225,7 @@ body.add-mode #sell>.head{display:block!important}
 <header><div class="wrap"><nav class="topnav">
 <button class="round-icon" id="menuToggle" aria-label="القائمة">☰</button>
 <a class="brand brand-center" href="#"><span class="brand-crown">♛</span><span class="brand-main"><b>LAST <em>WAR</em></b><small>★ MARKET ★</small></span></a>
-<div class="top-actions"><button class="round-icon" id="searchToggle" aria-label="بحث">⌕</button><a class="round-icon" href="#sell" aria-label="حسابي">♙</a><a class="btn alt tiny add-back" href="/">رجوع للسوق</a></div>
+<div class="top-actions"><button class="round-icon" id="searchToggle" aria-label="بحث">⌕</button><button class="round-icon" type="button" data-open-account aria-label="حسابي">♙</button><button class="btn alt tiny" type="button" data-open-add>＋ أضف إعلان</button><a class="btn alt tiny add-back" href="/">رجوع للسوق</a></div>
 <div class="nav-tools hidden" id="navTools"><select id="languageSelect" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" id="backHome" href="/">العودة للسوق</a></div>
 </nav></div></header>
 <main class="wrap">
@@ -289,6 +289,18 @@ body.add-mode #sell>.head{display:block!important}
  <button id="detailBuy" class="btn gold" type="button">طلب شراء الحساب</button>
 </dialog>
 
+
+<section class="panel" id="accountPage" style="display:none">
+ <div class="head"><div><h2>حسابي</h2><div class="muted">سجّل دخولك لمتابعة إعلاناتك وطلباتك</div></div></div>
+ <div id="accountAuth">
+  <div class="grid2">
+   <form id="accountLogin"><h3>تسجيل الدخول</h3><label>البريد الإلكتروني</label><input id="accountEmail" type="email" required autocomplete="email"><label>كلمة المرور</label><input id="accountPassword" type="password" required autocomplete="current-password"><button class="btn gold" style="margin-top:12px">دخول</button><div class="status" id="accountLoginStatus"></div></form>
+   <form id="accountSignup"><h3>إنشاء حساب جديد</h3><label>البريد الإلكتروني</label><input id="signupEmail" type="email" required autocomplete="email"><label>كلمة المرور (8 أحرف على الأقل)</label><input id="signupPassword" type="password" minlength="8" required autocomplete="new-password"><button class="btn" style="margin-top:12px">إنشاء الحساب</button><div class="status" id="accountSignupStatus"></div></form>
+  </div>
+ </div>
+ <div id="accountPanel" class="hidden"><div class="row"><b id="accountUserEmail"></b><button class="btn alt tiny" id="accountLogout" type="button">تسجيل الخروج</button></div><div class="head"><h3>إعلاناتي</h3></div><div id="myListings"></div></div>
+</section>
+
 <section class="panel" id="admin">
 <div class="head"><div><div class="eyebrow">ADMIN CONTROL CENTER</div><h2>دخول الإدارة</h2></div></div>
 <div id="loginPanel"><form id="loginForm" class="grid2"><div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" required autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" required autocomplete="current-password"></div><div class="field full"><button class="btn gold">تسجيل الدخول</button></div></form><div class="status" id="loginStatus"></div></div>
@@ -302,7 +314,7 @@ body.add-mode #sell>.head{display:block!important}
 </section>
 <div class="notice">Last War Market منصة وسيطة مستقلة. لا تشارك كلمات مرور أو رموز استرداد أو بيانات دخول اللعبة. تأكد من مراجعة شروط اللعبة قبل أي معاملة.</div>
 </main>
-<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#admin"><span>▤</span>إعلاناتي</a><a class="dock-add" href="#sell">＋<small>إضافة إعلان</small></a><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><a class="dock-link" href="#sell"><span>♙</span>حسابي</a></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
+<nav class="mobile-dock" aria-label="التنقل"><a class="dock-link active" href="#"><span>⌂</span>الرئيسية</a><a class="dock-link" href="#myListings" data-open-account><span>▤</span>إعلاناتي</a><button class="dock-add" type="button" data-open-add>＋<small>إضافة إعلان</small></button><a class="dock-link" href="#directory" id="dockFav"><span>♡</span>المفضلة</a><button class="dock-link" type="button" data-open-account style="background:none;border:0"><span>♙</span>حسابي</button></nav><footer><div class="wrap">© 2026 Last War Market · إدارة المنصة: 01044364156</div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
@@ -310,6 +322,41 @@ body.add-mode #sell>.head{display:block!important}
 \ndocument.getElementById("menuToggle").addEventListener("click",()=>document.getElementById("navTools").classList.toggle("hidden"));
 document.getElementById("searchToggle").addEventListener("click",()=>{document.getElementById("directory").scrollIntoView({behavior:"smooth"});setTimeout(()=>document.getElementById("search").focus(),350)});
 document.getElementById("dockFav").addEventListener("click",e=>{e.preventDefault();document.getElementById("showFav").click();document.getElementById("directory").scrollIntoView({behavior:"smooth"})});
+
+
+let currentAccount=null;
+function showAccountPage(){
+ document.body.classList.remove("add-mode","admin-mode");document.documentElement.classList.remove("add-page");
+ document.getElementById("accountPage").style.display="block";
+ document.querySelectorAll("main.wrap>section,main.wrap>.hero-showcase,main.wrap>.trust-strip,main.wrap>.action-tiles").forEach(x=>{if(x.id!=="accountPage")x.style.display="none"});
+ document.getElementById("accountPage").scrollIntoView({behavior:"auto"});
+ history.pushState({account:true},"",location.pathname+"?account=1");
+}
+function showAddPage(){
+ document.body.classList.remove("admin-mode");document.body.classList.add("add-mode");document.documentElement.classList.add("add-page");
+ document.getElementById("accountPage").style.display="none";
+ history.pushState({addListing:true},"",location.pathname+"?add=1");
+ activateAddMode();
+}
+async function refreshAccount(){
+ const {data:{user}}=await db.auth.getUser();currentAccount=user||null;
+ $("accountAuth").classList.toggle("hidden",!!user);$("accountPanel").classList.toggle("hidden",!user);
+ if(!user)return;
+ $("accountUserEmail").textContent=user.email||"";
+ const {data,error}=await db.from("seller_private_details").select("profile_id, seller_name, seller_contact").eq("user_id",user.id);
+ if(error){$("myListings").textContent="تعذر تحميل إعلاناتك: "+error.message;return}
+ const ids=(data||[]).map(x=>x.profile_id);
+ if(!ids.length){$("myListings").textContent="لم تضف أي إعلانات حتى الآن.";return}
+ const {data:profiles,error:pe}=await db.from("player_profiles").select("id,name,server,power,base_level,price,is_published,created_at").in("id",ids).order("created_at",{ascending:false});
+ if(pe){$("myListings").textContent="تعذر تحميل الإعلانات.";return}
+ $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div></div>').join("")||"لا توجد إعلانات.";
+}
+document.querySelectorAll("[data-open-account]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAccountPage();refreshAccount()}));
+document.querySelectorAll("[data-open-add]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showAddPage()}));
+$("accountLogin").addEventListener("submit",async e=>{e.preventDefault();const {error}=await db.auth.signInWithPassword({email:$("accountEmail").value.trim(),password:$("accountPassword").value});if(error){msg("accountLoginStatus",error.message);return}msg("accountLoginStatus","تم تسجيل الدخول",true);await refreshAccount()});
+$("accountSignup").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signUp({email:$("signupEmail").value.trim(),password:$("signupPassword").value,options:{emailRedirectTo:location.origin+location.pathname}});if(error){msg("accountSignupStatus",error.message);return}if(data.session){msg("accountSignupStatus","تم إنشاء الحساب بنجاح",true);await refreshAccount()}else msg("accountSignupStatus","تم إنشاء الحساب. افتح رسالة التأكيد في بريدك ثم سجّل الدخول.",true)});
+$("accountLogout").addEventListener("click",async()=>{await db.auth.signOut();await refreshAccount()});
+db.auth.onAuthStateChange(()=>{if(document.getElementById("accountPage").style.display!=="none")refreshAccount()});
 
 const SUPABASE_URL="https://xsuzedynojpxorrkklur.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_tUrTyrqgJapxTrbiE61q2w_lZqYUfMU";
@@ -353,10 +400,10 @@ $("sellerForm").addEventListener("submit",async e=>{
  e.preventDefault();const files=[...$("sellerImages").files];if(files.length>5){msg("sellerStatus","الحد الأقصى 5 صور.");return}
  $("sellerSubmit").disabled=true;msg("sellerStatus","جاري إرسال الإعلان والصور...");
  try{
- const urls=await uploadImages(files);
+ const {data:{user}}=await db.auth.getUser();if(!user)throw Error("سجّل الدخول من زر حسابي أولاً قبل إضافة إعلان");const urls=await uploadImages(files);
  const row={name:$("sellerDisplay").value.trim(),server:$("sellerServer").value.trim(),power:Number($("sellerPower").value),base_level:Number($("sellerHQ").value),heroes:$("sellerHeroes").value.trim(),gear:$("sellerGear").value.trim(),price:$("sellerPrice").value.trim(),images:urls,is_published:false};
  const profileId=crypto.randomUUID();const {error}=await db.from("player_profiles").insert({...row,id:profileId});if(error)throw error;
- const {error:privateErr}=await db.from("seller_private_details").insert({profile_id:profileId,seller_name:$("sellerName").value.trim(),seller_contact:$("sellerContact").value.trim()});if(privateErr)throw privateErr;
+ const {error:privateErr}=await db.from("seller_private_details").insert({profile_id:profileId,user_id:user.id,seller_name:$("sellerName").value.trim(),seller_contact:$("sellerContact").value.trim()});if(privateErr)throw privateErr;
  $("sellerForm").reset();msg("sellerStatus","تم استلام الإعلان للمراجعة. رقم المتابعة: "+profileId.slice(0,8),true);
  }catch(err){msg("sellerStatus","تعذر إرسال الإعلان: "+(err.message||"خطأ غير معروف"))}
  finally{$("sellerSubmit").disabled=false}
