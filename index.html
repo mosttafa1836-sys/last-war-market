@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101116"><title>Last War Market</title>
+<meta name="theme-color" content="#101116"><meta name="description" content="Last War Market — سوق بيع وشراء حسابات Last War بإدارة ووساطة آمنة."><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg"><title>Last War Market</title>
 <style>
 :root{--bg:#0b0e13;--panel:#171c25;--panel2:#202735;--line:#303a49;--red:#b92738;--gold:#dfb65f;--txt:#f5f6f8;--muted:#aeb6c3;--green:#53bd89}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0,#35151d 0,transparent 36%),var(--bg);color:var(--txt);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
@@ -18,6 +18,22 @@ input,select,textarea{width:100%;background:var(--bg);color:var(--txt);border:1p
 footer{border-top:1px solid var(--line);padding:20px 0;color:var(--muted);font-size:12px;margin-top:30px}
 @media(max-width:800px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr 1fr}.adminlayout{grid-template-columns:1fr}}
 @media(max-width:560px){.cards,.tools,.grid2{grid-template-columns:1fr}.heroart{max-width:none}}
+
+/* Last War Market visual refresh */
+:root{--red:#d52b3d;--gold:#efc66e;--panel:#151821;--panel2:#202633;--line:#343b49}
+body{background:radial-gradient(ellipse at 50% -12%,rgba(181,28,48,.28),transparent 44%),radial-gradient(ellipse at 100% 55%,rgba(35,61,92,.12),transparent 36%),var(--bg)}
+header{background:rgba(12,14,20,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(213,43,61,.38);box-shadow:0 8px 28px #0005}
+.brand{letter-spacing:.5px}.mark{box-shadow:0 0 18px #d52b3d55;border:1px solid #f06b72}
+.hero{position:relative;overflow:hidden;border:1px solid #5b2832;border-radius:22px;margin-top:22px;padding:clamp(22px,4vw,42px);background:linear-gradient(105deg,#171923 0%,#25131b 55%,#111722 100%);box-shadow:0 18px 45px #0005}
+.hero:after{content:"";position:absolute;inset:auto -5% -80px 25%;height:150px;background:radial-gradient(ellipse,#c52a3d44,transparent 70%);pointer-events:none}
+.hero h1{letter-spacing:1px;text-shadow:0 4px 20px #000}.heroart{position:relative;z-index:1;box-shadow:inset 0 0 35px #b72a3c22,0 12px 30px #0005}.crest{border:1px solid #8e3947;box-shadow:inset 0 0 25px #e14a5540}
+.btn{transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;box-shadow:0 5px 14px #0003}.btn:hover{transform:translateY(-2px);filter:brightness(1.12);box-shadow:0 8px 20px #0005}
+.panel,.card{box-shadow:0 10px 28px #0003;transition:border-color .2s,transform .2s}.card:hover{transform:translateY(-4px);border-color:#a83b4b}.card .body h3{font-size:16px}.gallery{border-bottom:1px solid var(--line)}
+.head h2{position:relative}.head h2:after{content:"";display:block;width:42px;height:3px;margin-top:5px;border-radius:3px;background:linear-gradient(90deg,var(--red),var(--gold))}
+input:focus,select:focus,textarea:focus{outline:2px solid #d52b3d66;border-color:var(--red)}
+.notice{border-color:#795b2e;background:linear-gradient(110deg,#2b2115,#1b1a1b)}
+footer{background:linear-gradient(180deg,transparent,#090b10);text-align:center}
+@media(max-width:560px){.wrap{padding-left:12px;padding-right:12px}nav{padding:9px 0}.brand{font-size:14px}.mark{width:38px;height:38px}.hero{margin-top:12px;padding:20px 16px;border-radius:16px}.heroart{padding:12px}.crest{height:82px;font-size:48px}.head{align-items:flex-start}.btn{padding:9px 12px}.panel{padding:13px}.cards{gap:10px}.card{border-radius:13px}}
 </style>
 </head>
 <body>
