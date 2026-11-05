@@ -119,6 +119,7 @@ $("currencySelect").addEventListener("change",e=>{currentCurrency=e.target.value
 $("sellerPrice").placeholder="e.g. 100 "+currentCurrency;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function msg(id,t,ok=false){$(id).textContent=t;$(id).className="status"+(ok?" ok":"")}
+function adminWhatsApp(message){return "https://wa.me/201044364156?text="+encodeURIComponent(message)}
 function favs(){try{return JSON.parse(localStorage.getItem("lwm_favs")||"[]")}catch{return []}}
 function powerBand(p){return p<100?"low":p<=200?"mid":"high"}
 function hqBand(n){return n<=20?"1":n<=25?"2":n<=30?"3":"4"}
