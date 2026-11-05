@@ -56,7 +56,7 @@ main.wrap{max-width:1200px;padding-top:0}
 .battle-art{position:relative;min-height:220px;display:flex;align-items:center;justify-content:center;isolation:isolate}
 .battle-art:before{content:"";position:absolute;width:240px;height:210px;border-radius:50%;background:radial-gradient(circle,#2585d7 0,#10385e 45%,transparent 72%);filter:blur(2px);z-index:-1}
 .battle-sky{position:absolute;top:12px;left:4%;font-size:28px;letter-spacing:8px}
-.battle-soldier{font-size:clamp(100px,19vw,170px);filter:drop-shadow(0 10px 8px #000);transform:rotate(-7deg);line-height:1}
+.battle-soldier{font-size:clamp(100px,19vw,170px);filter:drop-shadow(0 10px 8px #000);transform:rotate(-7deg);line-height:1}.battle-logo{width:min(82%,230px);aspect-ratio:1;object-fit:contain;border-radius:24px;filter:drop-shadow(0 12px 18px #000b);border:2px solid #ed2939;background:#101116}
 .battle-tank{position:absolute;bottom:15px;left:3%;font-size:42px;color:#e5e8ed;text-shadow:0 4px 0 #353b46}
 .battle-flame{position:absolute;right:4%;bottom:22px;color:#ff6b23;font-size:48px;text-shadow:0 0 20px #f30}
 .hero-dots{position:absolute;bottom:12px;left:50%;display:flex;gap:7px}.hero-dots i{width:9px;height:9px;border-radius:50%;background:#eee}.hero-dots i:first-child{width:25px;border-radius:8px;background:#f22}
@@ -183,7 +183,7 @@ body:not(.add-mode):not(.admin-mode) .hero-copy h1{font-size:clamp(34px,5.5vw,58
 body:not(.add-mode):not(.admin-mode) .hero-copy h1 span{color:#ff3444}
 body:not(.add-mode):not(.admin-mode) .hero-copy p{font-size:clamp(15px,2vw,21px);line-height:1.9}
 body:not(.add-mode):not(.admin-mode) .battle-art{min-height:260px;border:1px solid #6b3941;border-radius:24px;background:radial-gradient(circle at 50% 30%,#1769a4,#14253a 43%,#11131a 75%);box-shadow:inset 0 0 45px #0009,0 18px 30px #0008}
-body:not(.add-mode):not(.admin-mode) .battle-soldier{font-size:clamp(120px,20vw,205px);filter:drop-shadow(0 15px 12px #000)}
+body:not(.add-mode):not(.admin-mode) .battle-soldier{font-size:clamp(120px,20vw,205px);filter:drop-shadow(0 15px 12px #000)}body:not(.add-mode):not(.admin-mode) .battle-logo{width:min(92%,300px)}
 body:not(.add-mode):not(.admin-mode) .trust-strip{margin:0 0 22px;border-top:0;border-radius:0 0 20px 20px;background:linear-gradient(100deg,#17171b,#242027,#17171b)}
 body:not(.add-mode):not(.admin-mode) .action-tiles{gap:16px;margin:22px 0 28px}
 body:not(.add-mode):not(.admin-mode) .action-tile{min-height:118px;border-radius:20px;padding:18px 22px;box-shadow:0 12px 24px #0007}
@@ -200,7 +200,7 @@ body:not(.add-mode):not(.admin-mode) .dock-add{box-shadow:0 0 22px #ed2638aa;bor
  body:not(.add-mode):not(.admin-mode) .hero-showcase{margin-left:-12px;margin-right:-12px;min-height:245px;padding:18px 14px 34px}
  body:not(.add-mode):not(.admin-mode) .hero-copy h1{font-size:28px}
  body:not(.add-mode):not(.admin-mode) .battle-art{min-height:185px}
- body:not(.add-mode):not(.admin-mode) .battle-soldier{font-size:112px}
+ body:not(.add-mode):not(.admin-mode) .battle-soldier{font-size:112px}body:not(.add-mode):not(.admin-mode) .battle-logo{width:min(95%,190px)}
  body:not(.add-mode):not(.admin-mode) .action-tiles{gap:9px}
  body:not(.add-mode):not(.admin-mode) .action-tile{min-height:96px;padding:10px;border-radius:15px}
 }
@@ -229,9 +229,9 @@ body.add-mode #sell>.head{display:block!important}
 <div class="nav-tools hidden" id="navTools"><select id="languageSelect" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="tr">Türkçe</option><option value="fr">Français</option><option value="es">Español</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="zh">中文</option></select><select id="currencySelect" aria-label="Currency"><option value="USD">USD $</option><option value="EGP">EGP ج.م</option><option value="EUR">EUR €</option><option value="TRY">TRY ₺</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option></select><button class="btn alt tiny" id="themeBtn">الوضع الليلي/الفاتح</button><a class="btn alt tiny" id="backHome" href="/">العودة للسوق</a></div>
 </nav></div></header>
 <main class="wrap">
-<section class="hero hero-showcase"><div class="hero-copy"><div class="eyebrow">THE OFFICIAL PLAYER MARKETPLACE</div><h1>سوق حسابات<br><span>Last War</span></h1><p>بيع وشراء حسابات لعبة الحرب الأخيرة<br>بأمان تام ووساطة الإدارة</p><a class="btn" href="#directory">تصفح الحسابات <b>←</b></a></div><div class="battle-art" aria-hidden="true"><div class="battle-sky">✦　🚁　✦</div><div class="battle-soldier">🪖</div><div class="battle-tank">▰ ▰ ▰</div><div class="battle-flame">✹</div></div><div class="hero-dots"><i></i><i></i><i></i></div></section>
+<section class="hero hero-showcase"><div class="hero-copy"><div class="eyebrow">THE OFFICIAL PLAYER MARKETPLACE</div><h1>سوق حسابات<br><span>Last War</span></h1><p>بيع وشراء حسابات لعبة الحرب الأخيرة<br>بأمان تام ووساطة الإدارة</p><a class="btn" href="#directory">تصفح الحسابات <b>←</b></a></div><div class="battle-art" aria-hidden="true"><div class="battle-sky">✦　🚁　✦</div><img class="battle-logo" src="/favicon.svg" alt="Last War"><div class="battle-tank">▰ ▰ ▰</div><div class="battle-flame">✹</div></div><div class="hero-dots"><i></i><i></i><i></i></div></section>
 <div class="trust-strip"><div><b class="trust-symbol">⬡</b><span>أمان 100%</span></div><div><b class="trust-symbol">☏</b><span>وساطة الإدارة</span></div><div><b class="trust-symbol">ϟ</b><span>تنفيذ سريع</span></div><div><b class="trust-symbol">✪</b><span>حسابات موثوقة</span></div></div>
-<div class="action-tiles"><a class="action-tile sell-tile" href="/?add=1"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
+<div class="action-tiles"><a class="action-tile sell-tile" href="#sell"><span class="tile-icon">◇</span><span><b>بيع حساب</b><small>اعرض حسابك للبيع</small></span><strong>←</strong></a><a class="action-tile buy-tile" href="#directory"><span class="tile-icon">🛒</span><span><b>شراء حساب</b><small>تصفح الحسابات المتاحة</small></span><strong>←</strong></a></div>
 
 <section id="directory">
 <div class="head listing-head"><div><h2>🔥 أحدث الحسابات</h2><div class="muted">أحدث الحسابات المعروضة للبيع</div></div><button class="btn tiny" id="showFav">عرض الكل ‹</button></div>
@@ -370,14 +370,9 @@ $("buyerForm").addEventListener("submit",async e=>{
  try{const listingId=$("buyerListing").value.trim();const match=listings.find(p=>p.id===listingId||p.id.startsWith(listingId));if(!match)throw Error("رقم الإعلان غير موجود أو غير منشور");const orderId=crypto.randomUUID();const {error}=await db.from("market_orders").insert({id:orderId,profile_id:match.id,buyer_name:$("buyerName").value.trim(),buyer_contact:$("buyerContact").value.trim(),buyer_notes:$("buyerNotes").value.trim(),status:"new"});if(error)throw error;$("buyerForm").reset();msg("buyerStatus","وصل طلبك للإدارة. رقم الطلب: "+orderId.slice(0,8),true)}catch(err){msg("buyerStatus","تعذر إرسال الطلب: "+(err.message||"خطأ غير معروف"))}finally{$("buyerSubmit").disabled=false}
 });
 
-const addMode=new URLSearchParams(location.search).get("add")==="1";
-if(addMode){
- document.body.classList.add("add-mode");
- document.documentElement.classList.add("add-page");
- document.title="إضافة إعلان — Last War Market";
- const showListingForm=()=>{const form=document.getElementById("sell");if(form){form.style.setProperty("display","block","important");form.scrollIntoView({block:"start"});}};
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",showListingForm,{once:true});else showListingForm();
-}
+function activateAddMode(){document.body.classList.add("add-mode");document.documentElement.classList.add("add-page");document.title="إضافة إعلان — Last War Market";const form=document.getElementById("sell");if(form){form.style.setProperty("display","block","important");form.scrollIntoView({block:"start",behavior:"instant"});}}
+document.querySelectorAll('a[href="#sell"]').forEach(a=>a.addEventListener("click",e=>{if(!document.body.classList.contains("add-mode")){e.preventDefault();activateAddMode();}}));
+if(new URLSearchParams(location.search).get("add")==="1")activateAddMode();
 const adminMode=new URLSearchParams(location.search).get("admin")==="1";
 if(adminMode){document.body.classList.add("admin-mode");document.title="Last War Market — Admin";$("backHome").style.display="inline-flex";$("admin").scrollIntoView();}else{$("backHome").style.display="none";}
 let detailListing=null;
