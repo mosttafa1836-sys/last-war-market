@@ -311,7 +311,14 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 <div id="loginPanel"><form id="loginForm" class="grid2"><div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" required autocomplete="username"></div><div class="field"><label>كلمة المرور</label><input id="password" type="password" required autocomplete="current-password"></div><div class="field full"><button class="btn gold">تسجيل الدخول</button></div></form><div class="status" id="loginStatus"></div></div>
 <div id="adminPanel" class="hidden">
 <div class="row"><b id="adminEmail"></b><button class="btn alt tiny" id="refreshAdmin">تحديث البيانات</button><button class="btn danger tiny" id="logout">خروج</button></div>
-<div class="row"><div class="item">لوحة الإدارة: راجع الطلبات الجديدة واضغط زر واتساب لفتح رسالة جاهزة.</div></div><div class="adminlayout">
+<div class="row"><div class="item">لوحة الإدارة: راجع الطلبات الجديدة واضغط زر واتساب لفتح رسالة جاهزة.</div></div>
+<section class="panel" id="analyticsPanel">
+<div class="head"><div><div class="eyebrow">SITE PERFORMANCE</div><h2>إحصائيات الموقع</h2><div class="muted">الأرقام تبدأ من وقت تفعيل الإحصائيات</div></div><button class="btn alt tiny" id="refreshAnalytics" type="button">تحديث الإحصائيات</button></div>
+<div class="stats" id="analyticsStats"><div class="item">جاري تحميل الإحصائيات...</div></div>
+<h3>الزيارات آخر 14 يوم</h3><div id="analyticsDaily" class="item">جاري التحميل...</div>
+<h3>أكثر الإعلانات مشاهدة وضغطًا — آخر 30 يوم</h3><div id="analyticsTopAds"></div>
+</section>
+<div class="adminlayout">
 <div><h3>الإعلانات</h3><div id="adminListings"></div></div>
 <div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div>
 </div>
@@ -361,6 +368,34 @@ function render(){
  const arr=listings.filter(p=>p.is_published&&(!onlyFav||fs.includes(p.id))&&(`${p.name} ${p.server}`.toLowerCase().includes(q))&&(!s||String(p.server).toLowerCase().includes(s))&&(!pb||powerBand(Number(p.power))===pb)&&(!hb||hqBand(Number(p.base_level))===hb));
  $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card ${p.is_featured? "featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
 }
+
+const analyticsVisitorKey="lwm_analytics_visitor";
+let analyticsVisitorId=localStorage.getItem(analyticsVisitorKey);
+if(!analyticsVisitorId){analyticsVisitorId=crypto.randomUUID();localStorage.setItem(analyticsVisitorKey,analyticsVisitorId)}
+function trackEvent(eventType,listingId=null){
+ if(!["visit","listing_view","ad_click","favorite"].includes(eventType))return;
+ db.from("site_events").insert({event_type:eventType,visitor_id:analyticsVisitorId,listing_id:listingId,referrer:document.referrer?document.referrer.slice(0,500):null}).then(({error})=>{if(error)console.warn("analytics event failed",error.message)});
+}
+trackEvent("visit");
+async function loadAnalytics(){
+ const box=$("analyticsStats"),daily=$("analyticsDaily"),top=$("analyticsTopAds");
+ if(!box)return;
+ box.textContent="جاري تحميل الإحصائيات...";
+ const {data,error}=await db.rpc("get_site_analytics");
+ if(error){box.textContent="تعذر تحميل الإحصائيات: "+error.message;return}
+ const t=data?.totals||{};
+ const cards=[
+  ["زيارات الموقع",t.visits||0],["زوار مميزون",t.unique_visitors||0],["زيارات اليوم",t.visits_today||0],
+  ["آخر 7 أيام",t.visits_7d||0],["آخر 30 يوم",t.visits_30d||0],["مشاهدات الإعلانات",t.views||0],
+  ["ضغطات طلب الشراء",t.clicks||0],["إضافات للمفضلة",t.favorites||0]
+ ];
+ box.innerHTML=cards.map(([label,value])=>'<div class="item"><div class="muted">'+esc(label)+'</div><b style="font-size:24px;color:#087fc8">'+Number(value).toLocaleString("ar-EG")+'</b></div>').join("");
+ const rows=data?.daily||[];
+ daily.innerHTML=rows.length?'<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;text-align:center"><thead><tr><th>اليوم</th><th>زيارات</th><th>مشاهدات</th><th>ضغطات</th></tr></thead><tbody>'+rows.map(x=>'<tr><td>'+esc(x.day)+'</td><td>'+Number(x.visits).toLocaleString("ar-EG")+'</td><td>'+Number(x.views).toLocaleString("ar-EG")+'</td><td>'+Number(x.clicks).toLocaleString("ar-EG")+'</td></tr>').join("")+'</tbody></table></div>':'لا توجد بيانات كافية حتى الآن.';
+ const ads=data?.top_ads||[];
+ top.innerHTML=ads.length?ads.map((x,i)=>'<div class="item"><b>'+(i+1)+'. '+esc(x.name)+'</b><div class="muted">السيرفر '+esc(x.server)+' · المشاهدات: '+Number(x.views).toLocaleString("ar-EG")+' · ضغطات الشراء: '+Number(x.clicks).toLocaleString("ar-EG")+'</div></div>').join(""):'لا توجد مشاهدات للإعلانات حتى الآن.';
+}
+
 async function loadPublic(){const {data,error}=await db.from("player_profiles").select("id,name,server,power,base_level,heroes,gear,image_url,images,price,is_published,is_featured,is_sold,created_at").eq("is_published",true).order("is_featured",{ascending:false}).order("created_at",{ascending:false});if(error){$("publicCards").innerHTML='<div class="empty">تعذر تحميل الإعلانات. تأكد من تطبيق تحديث قاعدة البيانات.</div>';return}listings=data||[];render()}
 async function uploadImages(files){
  const urls=[];for(const f of files){if(!["image/jpeg","image/png","image/webp"].includes(f.type))throw Error("نوع صورة غير مدعوم");if(f.size>5*1024*1024)throw Error("حجم الصورة أكبر من 5MB");const ext=f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg";const path=`pending/${crypto.randomUUID()}.${ext}`;const {error}=await db.storage.from("player-photos").upload(path,f,{contentType:f.type,upsert:false});if(error)throw error;const {data}=db.storage.from("player-photos").getPublicUrl(path);urls.push(data.publicUrl)}return urls;
@@ -509,6 +544,7 @@ $("publicCards").addEventListener("click",e=>{
  e.preventDefault();
  e.stopPropagation();
  const listingId=buyButton.dataset.buy;
+ trackEvent("ad_click",listingId);
  const listing=listings.find(p=>p.id===listingId);
  if(!listing){msg("buyerStatus","تعذر تحديد الحساب. حدّث الصفحة وحاول مرة أخرى.");return;}
  if(listing.is_sold){msg("buyerStatus","هذا الحساب تم بيعه بالفعل.");return;}
@@ -538,10 +574,11 @@ $("publicCards").addEventListener("click",e=>{
  $("detailInfo").innerHTML=`<div class="stat"><span>السيرفر</span><b>${esc(p.server)}</b></div><div class="stat"><span>القوة</span><b>${esc(p.power)}M</b></div><div class="stat"><span>مستوى HQ</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>السعر</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div>`;
  $("detailHeroes").textContent="الأبطال: "+(p.heroes||"غير محدد");
  $("detailGear").textContent="المعدات: "+(p.gear||"غير محدد");
+ trackEvent("listing_view",p.id);
  $("detailDialog").showModal();
 });
 
-$("publicCards").addEventListener("click",e=>{const b=e.target.closest("[data-buy]"),f=e.target.closest("[data-fav]");if(b){$("buyerListing").value=b.dataset.buy;document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});}if(f){let a=favs();a=a.includes(f.dataset.fav)?a.filter(x=>x!==f.dataset.fav):[...a,f.dataset.fav];localStorage.setItem("lwm_favs",JSON.stringify(a));render()}});
+$("publicCards").addEventListener("click",e=>{const b=e.target.closest("[data-buy]"),f=e.target.closest("[data-fav]");if(b){$("buyerListing").value=b.dataset.buy;document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});}if(f){trackEvent("favorite",f.dataset.fav);let a=favs();a=a.includes(f.dataset.fav)?a.filter(x=>x!==f.dataset.fav):[...a,f.dataset.fav];localStorage.setItem("lwm_favs",JSON.stringify(a));render()}});
 ["search","serverFilter","powerFilter","hqFilter"].forEach(id=>$(id).addEventListener("input",render));
 $("showFav").addEventListener("click",()=>{onlyFav=!onlyFav;$("showFav").textContent=onlyFav?"عرض الكل":"المفضلة ♥";render()});
 $("themeBtn").addEventListener("click",()=>document.body.classList.toggle("light"));
@@ -563,11 +600,12 @@ async function loadAdmin(){
  const sellerMap=new Map((sellers||[]).map(x=>[x.profile_id,x]));
  $("adminListings").innerHTML=(ps||[]).map(p=>{const v=sellerMap.get(p.id);return `<div class="item"><b>${esc(p.name)}</b><div class="muted">#${esc(p.server)} · ${p.is_published?"منشور":"بانتظار المراجعة"}</div><div class="muted">البائع: ${esc(v?.seller_name||"غير متاح")} · ${esc(v?.seller_contact||"")}</div><div class="row"><button class="btn alt tiny" data-review="${p.id}">عرض تفاصيل الحساب</button><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب بائع جديد في Last War Market\nالإعلان: "+p.name+"\nالسيرفر: "+p.server+"\nالبائع: "+(v?.seller_name||"غير متاح")+"\nتواصل البائع: "+(v?.seller_contact||"غير متاح")+"\nرقم الإعلان: "+p.id)}">واتساب الإدارة</a><button class="btn gold tiny" data-publish="${p.id}" data-value="${!p.is_published}">${p.is_published?"إخفاء الإعلان":"موافقة ونشر"}</button><button class="btn alt tiny" data-feature="${p.id}" data-value="${!p.is_featured}">${p.is_featured?"إلغاء التمييز":"تمييز الإعلان"}</button><button class="btn alt tiny" data-sold="${p.id}" data-value="${!p.is_sold}">${p.is_sold?"إلغاء تم البيع":"تأكيد تم البيع"}</button>${!p.is_published?`<button class="btn danger tiny" data-delete="${p.id}">حذف الإعلان المرفوض</button>`:""}</div></div>`}).join("")||"لا توجد إعلانات";
  $("adminOrders").innerHTML=(os||[]).map(o=>`<div class="item"><b>طلب #${esc(o.id.slice(0,8))} — ${esc(o.player_profiles?.name||"إعلان")}</b><div class="muted">المشتري: ${esc(o.buyer_name)} · ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")}</div><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب شراء جديد في Last War Market\nالإعلان: "+(o.player_profiles?.name||"إعلان")+"\nالمشتري: "+o.buyer_name+"\nتواصل المشتري: "+o.buyer_contact+"\nالملاحظات: "+(o.buyer_notes||"لا يوجد")+"\nرقم الطلب: "+o.id)}">واتساب الإدارة</a><label>حالة الطلب</label><select data-order="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="completed" ${o.status==="completed"?"selected":""}>مكتمل</option><option value="cancelled" ${o.status==="cancelled"?"selected":""}>ملغي</option></select></div>`).join("")||"لا توجد طلبات";
-
+ await loadAnalytics();
 }
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}if(await verifyAdmin(data.user))await loadAdmin()});
 $("logout").addEventListener("click",async()=>{await db.auth.signOut();setAdmin(null)});
 $("refreshAdmin").addEventListener("click",loadAdmin);
+$("refreshAnalytics").addEventListener("click",loadAnalytics);
 $("adminListings").addEventListener("click",async e=>{
  const review=e.target.closest("[data-review]");
  if(review){
