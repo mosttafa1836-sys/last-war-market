@@ -613,6 +613,7 @@ $("publicCards").addEventListener("click",e=>{
 
 $("publicCards").addEventListener("click",e=>{const b=e.target.closest("[data-buy]"),f=e.target.closest("[data-fav]");if(b){$("buyerListing").value=b.dataset.buy;document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});}if(f){trackEvent("favorite",f.dataset.fav);let a=favs();a=a.includes(f.dataset.fav)?a.filter(x=>x!==f.dataset.fav):[...a,f.dataset.fav];localStorage.setItem("lwm_favs",JSON.stringify(a));render()}});
 ["search","serverFilter","powerFilter","hqFilter"].forEach(id=>$(id).addEventListener("input",render));
+$("sortFilter").addEventListener("change",render);
 $("showFav").addEventListener("click",()=>{onlyFav=!onlyFav;$("showFav").textContent=onlyFav?"عرض الكل":"المفضلة ♥";render()});
 $("themeBtn").addEventListener("click",()=>document.body.classList.toggle("light"));
 function setAdmin(user){adminUser=user;$("loginPanel").classList.toggle("hidden",!!user);$("adminPanel").classList.toggle("hidden",!user);$("adminEmail").textContent=user?.email||""}
