@@ -669,7 +669,15 @@ $("adminOrders").addEventListener("click",async e=>{
  if(error||data!==true){alert("تعذر حذف الطلب: "+(error?.message||"لم يتم تأكيد الحذف"));b.disabled=false;b.textContent="حذف الطلب"}
  else await loadAdmin();
 });
-$("adminOffers").addEventListener("click",async e=>{\n const b=e.target.closest("[data-delete-offer]");if(!b)return;\n if(!confirm("هل أنت متأكد من حذف عرض السعر نهائيًا؟"))return;\n b.disabled=true;b.textContent="جاري الحذف...";\n const {data,error}=await db.rpc("admin_delete_market_offer",{p_offer_id:b.dataset.deleteOffer});\n if(error||data!==true){alert("تعذر حذف العرض: "+(error?.message||"لم يتم تأكيد الحذف"));b.disabled=false;b.textContent="حذف العرض"}\n else await loadAdmin();\n});\n$("adminOffers").addEventListener("change",async e=>{const sel=e.target.closest("[data-offer-status]");if(!sel)return;const {error}=await db.from("market_offers").update({status:sel.value}).eq("id",sel.dataset.offerStatus);if(error)alert("تعذر تحديث الحالة: "+error.message);else alert("تم تحديث حالة العرض");});
+$("adminOffers").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-delete-offer]");if(!b)return;
+ if(!confirm("هل أنت متأكد من حذف عرض السعر نهائيًا؟"))return;
+ b.disabled=true;b.textContent="جاري الحذف...";
+ const {data,error}=await db.rpc("admin_delete_market_offer",{p_offer_id:b.dataset.deleteOffer});
+ if(error||data!==true){alert("تعذر حذف العرض: "+(error?.message||"لم يتم تأكيد الحذف"));b.disabled=false;b.textContent="حذف العرض"}
+ else await loadAdmin();
+});
+$("adminOffers").addEventListener("change",async e=>{const sel=e.target.closest("[data-offer-status]");if(!sel)return;const {error}=await db.from("market_offers").update({status:sel.value}).eq("id",sel.dataset.offerStatus);if(error)alert("تعذر تحديث الحالة: "+error.message);else alert("تم تحديث حالة العرض");});
 $("adminOrders").addEventListener("change",async e=>{const s=e.target.closest("[data-order]");if(!s)return;const {error}=await db.from("market_orders").update({status:s.value,updated_at:new Date().toISOString()}).eq("id",s.dataset.order);if(error)alert(error.message);else alert("تم تحديث حالة الطلب")});
 db.auth.getSession().then(async({data})=>{if(data.session?.user&&await verifyAdmin(data.session.user))loadAdmin()});
 loadPublic();
