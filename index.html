@@ -244,6 +244,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 <input id="serverFilter" placeholder="السيرفر">
 <select id="powerFilter"><option value="">كل مستويات القوة</option><option value="low">أقل من 100M</option><option value="mid">100M–200M</option><option value="high">أكثر من 200M</option></select>
 <select id="hqFilter"><option value="">كل مستويات HQ</option><option value="1">HQ 1–20</option><option value="2">HQ 21–25</option><option value="3">HQ 26–30</option><option value="4">HQ 31–35</option></select>
+<select id="sortFilter"><option value="newest">الأحدث أولاً</option><option value="price_asc">الأقل سعرًا</option><option value="price_desc">الأعلى سعرًا</option><option value="power_desc">الأعلى قوة</option><option value="hq_desc">أعلى HQ</option></select>
 </div>
 <div class="cards" id="publicCards"><div class="empty">جاري تحميل الإعلانات...</div></div>
 </section>
@@ -367,7 +368,8 @@ function photoList(p){if(Array.isArray(p.images)&&p.images.length)return p.image
 function render(){
  const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase(),pb=$("powerFilter").value,hb=$("hqFilter").value,fs=favs();
  const arr=listings.filter(p=>p.is_published&&(!onlyFav||fs.includes(p.id))&&(`${p.name} ${p.server}`.toLowerCase().includes(q))&&(!s||String(p.server).toLowerCase().includes(s))&&(!pb||powerBand(Number(p.power))===pb)&&(!hb||hqBand(Number(p.base_level))===hb));
- $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card ${p.is_featured? "featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
+ const sort=$("sortFilter")?.value||"newest";arr.sort((a,b)=>sort==="price_asc"?Number(a.price||Infinity)-Number(b.price||Infinity):sort==="price_desc"?Number(b.price||0)-Number(a.price||0):sort==="power_desc"?Number(b.power||0)-Number(a.power||0):sort==="hq_desc"?Number(b.base_level||0)-Number(a.base_level||0):new Date(b.created_at)-new Date(a.created_at));
+ $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card ${p.is_featured? "featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button><button class="btn alt tiny" data-share="${esc(p.id)}">مشاركة الإعلان</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
 }
 
 const analyticsVisitorKey="lwm_analytics_visitor";
@@ -561,6 +563,13 @@ $("offerForm").addEventListener("submit",async e=>{
  finally{b.disabled=false}
 });
 $("detailBuy").addEventListener("click",()=>{if(!detailListing)return;$("buyerListing").value=detailListing.id;$("detailDialog").close();document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});});
+$("publicCards").addEventListener("click",async e=>{
+ const b=e.target.closest("button[data-share]");if(!b)return;
+ e.preventDefault();e.stopPropagation();
+ const p=listings.find(x=>x.id===b.dataset.share);if(!p)return;
+ const url=location.origin+location.pathname+"?listing="+encodeURIComponent(p.id);
+ try{if(navigator.share)await navigator.share({title:"Last War Market - "+p.name,text:"شاهد الحساب المعروض للبيع",url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);alert("تم نسخ رابط الإعلان")}else prompt("انسخ رابط الإعلان",url)}catch(err){if(err.name!=="AbortError")alert("تعذر مشاركة الرابط")}
+},true);
 // Reliable purchase-button handling: capture the click before other card handlers.
 $("publicCards").addEventListener("click",e=>{
  const buyButton=e.target.closest("button[data-buy]");
