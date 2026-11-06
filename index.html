@@ -224,7 +224,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 
 .battle-wordmark-art{display:flex;align-items:center;justify-content:center;min-height:220px;background:radial-gradient(ellipse at center,#eaf7ff 0%,#b9e4fb 48%,#5aa9dc 100%);border:2px solid #2d8dcc;border-radius:28px;box-shadow:0 12px 28px #07558b33,inset 0 0 28px #fff9}.battle-wordmark{font-size:clamp(38px,9vw,76px);font-weight:1000;font-style:italic;letter-spacing:-2px;line-height:1.05;text-align:center;color:#0879c7;text-shadow:0 3px 0 #fff,0 7px 0 #14548a,0 12px 18px #16466b55}.battle-wordmark span{display:block;margin-top:10px;font-size:.42em;letter-spacing:7px;color:#fff;text-shadow:0 2px 0 #14548a,0 4px 10px #16466b88}
 </style>
-</head>
+<style>.photo-lightbox{width:min(96vw,1100px);max-width:96vw;max-height:94vh;padding:12px;border:1px solid #9ccff2;border-radius:18px;background:rgba(8,30,52,.97);color:#fff}.photo-lightbox::backdrop{background:rgba(0,12,28,.82);backdrop-filter:blur(5px)}.photo-lightbox img{display:block;max-width:100%;max-height:82vh;width:auto;height:auto;object-fit:contain;margin:10px auto 0;border-radius:10px}.photo-lightbox button{display:block;margin-left:auto}.gallery img,.review-gallery img,#detailMainPhoto{cursor:zoom-in}.owner-edit-form{margin-top:12px;padding:12px;border:1px solid #c5def5;border-radius:12px;background:#f3f9ff}</style></head>
 <body>
 <header><div class="wrap"><nav class="topnav">
 <button class="round-icon" id="menuToggle" aria-label="القائمة">☰</button>
@@ -282,6 +282,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 </section>
 
 
+<dialog id="photoLightbox" class="photo-lightbox"><button type="button" id="closeLightbox" class="btn alt tiny">إغلاق ✕</button><img id="lightboxImage" alt="الصورة مكبرة"></dialog>
 <dialog id="detailDialog" class="panel" style="max-width:760px;width:calc(100% - 24px);color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:16px">
  <div class="row" style="justify-content:space-between"><h2 id="detailTitle">تفاصيل الحساب</h2><button class="btn alt tiny" id="closeDetails" type="button">إغلاق</button></div>
  <div class="detail-photo-viewer">
@@ -389,9 +390,9 @@ async function refreshAccount(){
   const ids=(data||[]).map(x=>x.profile_id);
   if(!ids.length)$("myListings").textContent="لم تضف أي إعلانات حتى الآن.";
   else{
-   const {data:profiles,error:pe}=await db.from("player_profiles").select("id,name,server,power,base_level,price,is_published,created_at").in("id",ids).order("created_at",{ascending:false});
+   const {data:profiles,error:pe}=await db.from("player_profiles").select("*").in("id",ids).order("created_at",{ascending:false});
    if(pe)$("myListings").textContent="تعذر تحميل الإعلانات.";
-   else $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div></div>').join("")||"لا توجد إعلانات.";
+   else $("myListings").innerHTML=(profiles||[]).map(p=>'<div class="item"><b>'+esc(p.name)+'</b><div class="muted">السيرفر '+esc(p.server)+' · '+(p.is_published?"منشور":"قيد المراجعة")+'</div><button class="btn alt tiny" type="button" data-edit-listing="'+esc(p.id)+'">تعديل الإعلان</button><form class="owner-edit-form hidden" data-edit-form="'+esc(p.id)+'"><div class="grid2"><div class="field"><label>اسم العرض</label><input name="name" required maxlength="70" value="'+esc(p.name)+'"></div><div class="field"><label>السيرفر</label><input name="server" required maxlength="20" value="'+esc(p.server)+'"></div><div class="field"><label>القوة بالمليون</label><input name="power" type="number" min="1" required value="'+esc(p.power)+'"></div><div class="field"><label>مستوى HQ</label><input name="base_level" type="number" min="1" max="35" required value="'+esc(p.base_level)+'"></div><div class="field"><label>الأبطال</label><input name="heroes" maxlength="250" value="'+esc(p.heroes||"")+'"></div><div class="field"><label>المعدات</label><input name="gear" maxlength="250" value="'+esc(p.gear||"")+'"></div><div class="field"><label>السعر</label><input name="price" maxlength="40" value="'+esc(p.price||"")+'"></div><div class="field"><label>إضافة صور جديدة</label><input name="new_images" type="file" accept="image/jpeg,image/png,image/webp" multiple></div></div><div class="muted">الصور الحالية: '+photoList(p).length+' · الحد الأقصى 5 صور إجمالًا.</div><button class="btn gold tiny" type="submit">حفظ التعديلات</button><button class="btn alt tiny" type="button" data-cancel-edit>إلغاء</button><div class="status" data-edit-status></div></form></div>').join("")||"لا توجد إعلانات.";
   }
  }
  const {data:orders,error:oe}=await db.from("market_orders").select("id,buyer_name,status,created_at,player_profiles(name,server)").eq("buyer_user_id",user.id).order("created_at",{ascending:false});
@@ -404,6 +405,12 @@ document.querySelectorAll("[data-open-add]").forEach(b=>b.addEventListener("clic
 $("accountLogin").addEventListener("submit",async e=>{e.preventDefault();const {error}=await db.auth.signInWithPassword({email:$("accountEmail").value.trim(),password:$("accountPassword").value});if(error){msg("accountLoginStatus",error.message);return}msg("accountLoginStatus","تم تسجيل الدخول",true);await refreshAccount()});
 $("accountSignup").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signUp({email:$("signupEmail").value.trim(),password:$("signupPassword").value,options:{emailRedirectTo:location.origin+location.pathname}});if(error){msg("accountSignupStatus",error.message);return}if(data.session){msg("accountSignupStatus","تم إنشاء الحساب بنجاح",true);await refreshAccount()}else msg("accountSignupStatus","تم إنشاء الحساب. افتح رسالة التأكيد في بريدك ثم سجّل الدخول.",true)});
 $("accountLogout").addEventListener("click",async()=>{await db.auth.signOut();await refreshAccount()});
+$("myListings").addEventListener("click",e=>{const b=e.target.closest("[data-edit-listing]");if(b){const f=$("myListings").querySelector('[data-edit-form="'+b.dataset.editListing+'"]');f.classList.toggle("hidden");b.textContent=f.classList.contains("hidden")?"تعديل الإعلان":"إغلاق التعديل";return}if(e.target.closest("[data-cancel-edit]"))e.target.closest("form").classList.add("hidden")});
+$("myListings").addEventListener("submit",async e=>{const f=e.target.closest("[data-edit-form]");if(!f)return;e.preventDefault();const id=f.dataset.editForm,status=f.querySelector("[data-edit-status]"),submit=f.querySelector('[type="submit"]');submit.disabled=true;status.textContent="جاري حفظ التعديلات...";try{const v=Object.fromEntries(new FormData(f).entries()),files=[...f.querySelector('[name="new_images"]').files];const {data:old,error:readErr}=await db.from("player_profiles").select("images,image_url").eq("id",id).single();if(readErr)throw readErr;const oldPics=Array.isArray(old.images)&&old.images.length?old.images:(old.image_url?[old.image_url]:[]);if(oldPics.length+files.length>5)throw Error("الحد الأقصى 5 صور إجمالًا.");const added=files.length?await uploadImages(files):[];const pics=[...oldPics,...added];const {error}=await db.from("player_profiles").update({name:v.name.trim(),server:v.server.trim(),power:Number(v.power),base_level:Number(v.base_level),heroes:v.heroes.trim(),gear:v.gear.trim(),price:v.price.trim(),images:pics,image_url:pics[0]||null,is_published:false}).eq("id",id);if(error)throw error;status.textContent="تم حفظ التعديلات وإرسال الإعلان للمراجعة.";status.className="status ok";await loadPublic();await refreshAccount()}catch(err){status.textContent="تعذر الحفظ: "+(err.message||"خطأ غير معروف")}finally{submit.disabled=false}});
+function openPhoto(src){if(!src)return;$("lightboxImage").src=src;$("photoLightbox").showModal()}
+$("closeLightbox").addEventListener("click",()=>$("photoLightbox").close());
+document.addEventListener("click",e=>{const img=e.target.closest(".gallery img,.review-gallery img,#detailMainPhoto");if(img){e.preventDefault();openPhoto(img.currentSrc||img.src)}});
+
 db.auth.onAuthStateChange(()=>{if(document.getElementById("accountPage").style.display!=="none")refreshAccount()});
 
 
@@ -527,7 +534,7 @@ $("publicCards").addEventListener("click",e=>{
  $("photoPrev").onclick=()=>{if(imgs.length)showPhoto(activePhoto-1)};
  $("photoNext").onclick=()=>{if(imgs.length)showPhoto(activePhoto+1)};
  $("detailThumbs").onclick=e=>{const b=e.target.closest("[data-photo-index]");if(b)showPhoto(Number(b.dataset.photoIndex))};
- $("photoZoom").onclick=()=>{if(imgs.length)window.open(imgs[activePhoto],"_blank","noopener")};
+ $("photoZoom").onclick=()=>{if(imgs.length)openPhoto(imgs[activePhoto])};
  $("detailInfo").innerHTML=`<div class="stat"><span>السيرفر</span><b>${esc(p.server)}</b></div><div class="stat"><span>القوة</span><b>${esc(p.power)}M</b></div><div class="stat"><span>مستوى HQ</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>السعر</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div>`;
  $("detailHeroes").textContent="الأبطال: "+(p.heroes||"غير محدد");
  $("detailGear").textContent="المعدات: "+(p.gear||"غير محدد");
