@@ -638,8 +638,8 @@ $("adminOrders").addEventListener("click",async e=>{
  if(!b)return;
  if(!confirm("متأكد إنك عايز تحذف طلب الشراء ده نهائيًا؟"))return;
  b.disabled=true;b.textContent="جاري الحذف...";
- const {error}=await db.from("market_orders").delete().eq("id",b.dataset.deleteOrder);
- if(error){alert("تعذر حذف الطلب: "+error.message);b.disabled=false;b.textContent="حذف الطلب"}
+ const {data,error}=await db.rpc("admin_delete_market_order",{p_order_id:b.dataset.deleteOrder});
+ if(error||data!==true){alert("تعذر حذف الطلب: "+(error?.message||"لم يتم تأكيد الحذف"));b.disabled=false;b.textContent="حذف الطلب"}
  else await loadAdmin();
 });
 $("adminOrders").addEventListener("change",async e=>{const s=e.target.closest("[data-order]");if(!s)return;const {error}=await db.from("market_orders").update({status:s.value,updated_at:new Date().toISOString()}).eq("id",s.dataset.order);if(error)alert(error.message);else alert("تم تحديث حالة الطلب")});
