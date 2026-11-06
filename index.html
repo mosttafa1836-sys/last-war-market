@@ -283,6 +283,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 
 
 <dialog id="photoLightbox" class="photo-lightbox"><button type="button" id="closeLightbox" class="btn alt tiny">إغلاق ✕</button><img id="lightboxImage" alt="الصورة مكبرة"></dialog>
+<dialog id="offerDialog" class="panel" style="max-width:520px;width:calc(100% - 24px);color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:16px"><div class="row" style="justify-content:space-between"><h2>اعرض سعرك</h2><button class="btn alt tiny" id="closeOffer" type="button">إغلاق</button></div><p class="muted" id="offerListingLabel">سيصل عرضك للإدارة فقط.</p><form id="offerForm"><input id="offerListingId" type="hidden"><label>اسمك</label><input id="offerBuyerName" maxlength="80" required><label>رقم واتساب أو وسيلة تواصل</label><input id="offerBuyerContact" maxlength="100" required><label>السعر الذي تعرضه</label><input id="offerPrice" type="number" min="1" step="0.01" required placeholder="مثال: 15000"><label>ملاحظات (اختياري)</label><textarea id="offerNotes" maxlength="300" rows="2"></textarea><button class="btn gold" id="offerSubmit" type="submit">إرسال العرض للإدارة</button><div class="status" id="offerStatus"></div></form></dialog>
 <dialog id="detailDialog" class="panel" style="max-width:760px;width:calc(100% - 24px);color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:16px">
  <div class="row" style="justify-content:space-between"><h2 id="detailTitle">تفاصيل الحساب</h2><button class="btn alt tiny" id="closeDetails" type="button">إغلاق</button></div>
  <div class="detail-photo-viewer">
@@ -320,7 +321,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 </section>
 <div class="adminlayout">
 <div><h3>الإعلانات</h3><div id="adminListings"></div></div>
-<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div>
+<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div><div style="grid-column:1/-1"><h3>عروض الأسعار من المشترين</h3><div id="adminOffers">جاري التحميل...</div></div>
 </div>
 </div>
 </section>
@@ -366,7 +367,7 @@ function photoList(p){if(Array.isArray(p.images)&&p.images.length)return p.image
 function render(){
  const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase(),pb=$("powerFilter").value,hb=$("hqFilter").value,fs=favs();
  const arr=listings.filter(p=>p.is_published&&(!onlyFav||fs.includes(p.id))&&(`${p.name} ${p.server}`.toLowerCase().includes(q))&&(!s||String(p.server).toLowerCase().includes(s))&&(!pb||powerBand(Number(p.power))===pb)&&(!hb||hqBand(Number(p.base_level))===hb));
- $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card ${p.is_featured? "featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
+ $("publicCards").innerHTML=arr.length?arr.map(p=>{const imgs=photoList(p);return `<article class="card ${p.is_featured? "featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||(p.price||"تواصل مع الإدارة"))}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${fs.includes(p.id)?tr("remove"):tr("save")}</button></div></div></article>`}).join(""):`<div class="empty">${tr("none")}</div>`;
 }
 
 const analyticsVisitorKey="lwm_analytics_visitor";
@@ -536,6 +537,29 @@ const adminMode=new URLSearchParams(location.search).get("admin")==="1";
 if(adminMode){document.body.classList.add("admin-mode");document.title="Last War Market — Admin";$("backHome").style.display="inline-flex";$("admin").scrollIntoView();}else{$("backHome").style.display="none";}
 let detailListing=null;
 $("closeDetails").addEventListener("click",()=>$("detailDialog").close());
+$("closeOffer").addEventListener("click",()=>$("offerDialog").close());
+$("publicCards").addEventListener("click",e=>{
+ const b=e.target.closest("button[data-offer]");if(!b)return;
+ e.preventDefault();e.stopPropagation();
+ const p=listings.find(x=>x.id===b.dataset.offer);
+ if(!p||p.is_sold){alert("هذا الحساب غير متاح لتقديم عرض عليه.");return;}
+ $("offerListingId").value=p.id;
+ $("offerListingLabel").textContent="عرض سعر على: "+p.name+" · السيرفر "+p.server+" · السعر المطلوب: "+(p.price||"غير محدد");
+ $("offerStatus").textContent="";$("offerDialog").showModal();
+},true);
+$("offerForm").addEventListener("submit",async e=>{
+ e.preventDefault();const b=$("offerSubmit");b.disabled=true;msg("offerStatus","جاري إرسال العرض...");
+ try{
+  const id=$("offerListingId").value,p=listings.find(x=>x.id===id);
+  if(!p||p.is_sold)throw Error("الإعلان لم يعد متاحًا");
+  const offer={profile_id:id,buyer_name:$("offerBuyerName").value.trim(),buyer_contact:$("offerBuyerContact").value.trim(),offer_price:Number($("offerPrice").value),buyer_notes:$("offerNotes").value.trim()};
+  if(!Number.isFinite(offer.offer_price)||offer.offer_price<=0)throw Error("اكتب سعرًا صحيحًا");
+  const {error}=await db.from("market_offers").insert(offer);if(error)throw error;
+  msg("offerStatus","تم إرسال عرضك بنجاح، وسيظهر للإدارة فقط.",true);
+  $("offerForm").reset();setTimeout(()=>$("offerDialog").close(),1300);
+ }catch(err){msg("offerStatus","تعذر إرسال العرض: "+(err.message||"خطأ غير معروف"))}
+ finally{b.disabled=false}
+});
 $("detailBuy").addEventListener("click",()=>{if(!detailListing)return;$("buyerListing").value=detailListing.id;$("detailDialog").close();document.querySelector("#buyerForm").scrollIntoView({behavior:"smooth"});});
 // Reliable purchase-button handling: capture the click before other card handlers.
 $("publicCards").addEventListener("click",e=>{
@@ -600,6 +624,9 @@ async function loadAdmin(){
  const sellerMap=new Map((sellers||[]).map(x=>[x.profile_id,x]));
  $("adminListings").innerHTML=(ps||[]).map(p=>{const v=sellerMap.get(p.id);return `<div class="item"><b>${esc(p.name)}</b><div class="muted">#${esc(p.server)} · ${p.is_published?"منشور":"بانتظار المراجعة"}</div><div class="muted">البائع: ${esc(v?.seller_name||"غير متاح")} · ${esc(v?.seller_contact||"")}</div><div class="row"><button class="btn alt tiny" data-review="${p.id}">عرض تفاصيل الحساب</button><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب بائع جديد في Last War Market\nالإعلان: "+p.name+"\nالسيرفر: "+p.server+"\nالبائع: "+(v?.seller_name||"غير متاح")+"\nتواصل البائع: "+(v?.seller_contact||"غير متاح")+"\nرقم الإعلان: "+p.id)}">واتساب الإدارة</a><button class="btn gold tiny" data-publish="${p.id}" data-value="${!p.is_published}">${p.is_published?"إخفاء الإعلان":"موافقة ونشر"}</button><button class="btn alt tiny" data-feature="${p.id}" data-value="${!p.is_featured}">${p.is_featured?"إلغاء التمييز":"تمييز الإعلان"}</button><button class="btn alt tiny" data-sold="${p.id}" data-value="${!p.is_sold}">${p.is_sold?"إلغاء تم البيع":"تأكيد تم البيع"}</button>${!p.is_published?`<button class="btn danger tiny" data-delete="${p.id}">حذف الإعلان المرفوض</button>`:""}</div></div>`}).join("")||"لا توجد إعلانات";
  $("adminOrders").innerHTML=(os||[]).map(o=>`<div class="item"><b>طلب #${esc(o.id.slice(0,8))} — ${esc(o.player_profiles?.name||"إعلان")}</b><div class="muted">المشتري: ${esc(o.buyer_name)} · ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")}</div><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب شراء جديد في Last War Market\nالإعلان: "+(o.player_profiles?.name||"إعلان")+"\nالمشتري: "+o.buyer_name+"\nتواصل المشتري: "+o.buyer_contact+"\nالملاحظات: "+(o.buyer_notes||"لا يوجد")+"\nرقم الطلب: "+o.id)}">واتساب الإدارة</a><label>حالة الطلب</label><select data-order="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="completed" ${o.status==="completed"?"selected":""}>مكتمل</option><option value="cancelled" ${o.status==="cancelled"?"selected":""}>ملغي</option></select><button class="btn danger tiny" type="button" data-delete-order="${o.id}">حذف الطلب</button></div>`).join("")||"لا توجد طلبات";
+ const {data:offers,error:offerError}=await db.from("market_offers").select("id,profile_id,buyer_name,buyer_contact,offer_price,buyer_notes,status,created_at,player_profiles(name,server,price)").order("created_at",{ascending:false});
+ if(offerError)$("adminOffers").textContent="تعذر تحميل عروض الأسعار: "+offerError.message;
+ else $("adminOffers").innerHTML=(offers||[]).map(o=>`<div class="item"><b>${esc(o.player_profiles?.name||"إعلان")} — عرض ${Number(o.offer_price).toLocaleString("ar-EG")}</b><div class="muted">السعر المطلوب: ${esc(o.player_profiles?.price||"غير محدد")} · السيرفر: ${esc(o.player_profiles?.server||"—")}</div><div class="muted">المشتري: ${esc(o.buyer_name)} · التواصل: ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")} · ${esc(new Date(o.created_at).toLocaleString("ar-EG"))}</div><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("عرض سعر جديد في Last War Market\\nالإعلان: "+(o.player_profiles?.name||"إعلان")+"\\nالسعر المعروض: "+o.offer_price+"\\nالمشتري: "+o.buyer_name+"\\nالتواصل: "+o.buyer_contact)}">واتساب الإدارة</a><label>حالة العرض</label><select data-offer-status="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="rejected" ${o.status==="rejected"?"selected":""}>مرفوض</option></select></div>`).join("")||"لا توجد عروض أسعار حتى الآن.";
  await loadAnalytics();
 }
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}if(await verifyAdmin(data.user))await loadAdmin()});
@@ -642,6 +669,7 @@ $("adminOrders").addEventListener("click",async e=>{
  if(error||data!==true){alert("تعذر حذف الطلب: "+(error?.message||"لم يتم تأكيد الحذف"));b.disabled=false;b.textContent="حذف الطلب"}
  else await loadAdmin();
 });
+$("adminOffers").addEventListener("change",async e=>{const sel=e.target.closest("[data-offer-status]");if(!sel)return;const {error}=await db.from("market_offers").update({status:sel.value}).eq("id",sel.dataset.offerStatus);if(error)alert("تعذر تحديث الحالة: "+error.message);else alert("تم تحديث حالة العرض");});
 $("adminOrders").addEventListener("change",async e=>{const s=e.target.closest("[data-order]");if(!s)return;const {error}=await db.from("market_orders").update({status:s.value,updated_at:new Date().toISOString()}).eq("id",s.dataset.order);if(error)alert(error.message);else alert("تم تحديث حالة الطلب")});
 db.auth.getSession().then(async({data})=>{if(data.session?.user&&await verifyAdmin(data.session.user))loadAdmin()});
 loadPublic();
