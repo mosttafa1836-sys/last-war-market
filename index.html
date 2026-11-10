@@ -723,7 +723,7 @@ function subscribeAdminOrderAlerts(){
   }).subscribe();
 }
 function findSimilarListings(items){
- const norm=v=>String(v??"").trim().toLocaleLowerCase().replace(/[^\\p{L}\\p{N}]/gu,"");
+ const norm=v=>String(v??"").trim().toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu,"");
  const matches=new Map();
  for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
   const a=items[i],b=items[j],sameServer=norm(a.server)===norm(b.server);
