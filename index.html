@@ -338,7 +338,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 </section>
 <div class="adminlayout">
 <div><h3>الإعلانات</h3><div id="adminListings"></div></div>
-<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div><div style="grid-column:1/-1"><h3>عروض الأسعار من المشترين</h3><div id="adminOffers">جاري التحميل...</div></div><div style="grid-column:1/-1"><h3>بلاغات الإعلانات</h3><div id="adminReports">جاري التحميل...</div></div>
+<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div><div style="grid-column:1/-1"><h3>عروض الأسعار من المشترين</h3><div id="adminOffers">جاري التحميل...</div></div><div style="grid-column:1/-1"><h3>بلاغات الإعلانات</h3><div id="adminReports">جاري التحميل...</div></div><div style="grid-column:1/-1"><h3 id="auditHeading">سجل عمليات الإدارة</h3><div id="adminAudit" class="item">جاري تحميل سجل العمليات...</div></div>
 </div>
 </div>
 </section>
@@ -709,6 +709,19 @@ function subscribeAdminOrderAlerts(){
    loadAdmin();
   }).subscribe();
 }
+function findSimilarListings(items){
+ const norm=v=>String(v??"").trim().toLocaleLowerCase().replace(/[^\\p{L}\\p{N}]/gu,"");
+ const matches=new Map();
+ for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
+  const a=items[i],b=items[j],sameServer=norm(a.server)===norm(b.server);
+  const pa=Number(a.power),pb=Number(b.power),powerClose=pa>0&&pb>0&&Math.abs(pa-pb)/Math.max(pa,pb)<=0.05;
+  const sameHQ=Number(a.base_level)===Number(b.base_level),sameName=norm(a.name)===norm(b.name);
+  if(sameServer&&(sameName||(sameHQ&&powerClose))){
+   for(const pair of [[a,b],[b,a]]){const x=pair[0],y=pair[1];if(!matches.has(x.id))matches.set(x.id,[]);matches.get(x.id).push(y)}
+  }
+ }
+ return matches;
+}
 async function loadAdmin(){
  subscribeAdminOrderAlerts();
  const [{data:ps,error:pe},{data:os,error:oe}]=await Promise.all([
@@ -719,7 +732,8 @@ async function loadAdmin(){
  if(oe){$("adminOrders").textContent="تعذر تحميل الطلبات: "+oe.message;return}
  const {data:sellers}=await db.from("seller_private_details").select("profile_id,seller_name,seller_contact");
  const sellerMap=new Map((sellers||[]).map(x=>[x.profile_id,x]));
- $("adminListings").innerHTML=(ps||[]).map(p=>{const v=sellerMap.get(p.id);return `<div class="item"><b>${esc(p.name)}</b><div class="muted">#${esc(p.server)} · ${p.is_published?"منشور":"بانتظار المراجعة"} · ${p.is_verified?"✓ موثّق":"غير موثّق"}</div><div class="muted">البائع: ${esc(v?.seller_name||"غير متاح")} · ${esc(v?.seller_contact||"")}</div><div class="row"><button class="btn alt tiny" data-review="${p.id}">عرض تفاصيل الحساب</button><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب بائع جديد في Last War Market\nالإعلان: "+p.name+"\nالسيرفر: "+p.server+"\nالبائع: "+(v?.seller_name||"غير متاح")+"\nتواصل البائع: "+(v?.seller_contact||"غير متاح")+"\nرقم الإعلان: "+p.id)}">واتساب الإدارة</a><button class="btn gold tiny" data-publish="${p.id}" data-value="${!p.is_published}">${p.is_published?"إخفاء الإعلان":"موافقة ونشر"}</button><button class="btn alt tiny" data-feature="${p.id}" data-value="${!p.is_featured}">${p.is_featured?"إلغاء التمييز":"تمييز الإعلان"}</button><button class="btn alt tiny" data-verify="${p.id}" data-value="${!p.is_verified}">${p.is_verified?"إلغاء التوثيق":"✓ توثيق الحساب"}</button><button class="btn alt tiny" data-sold="${p.id}" data-value="${!p.is_sold}">${p.is_sold?"إلغاء تم البيع":"تأكيد تم البيع"}</button>${!p.is_published?`<button class="btn danger tiny" data-delete="${p.id}">حذف الإعلان المرفوض</button>`:""}</div></div>`}).join("")||"لا توجد إعلانات";
+ const similarMap=findSimilarListings(ps||[]);
+ $("adminListings").innerHTML=(ps||[]).map(p=>{const v=sellerMap.get(p.id),similar=similarMap.get(p.id)||[];return `<div class="item"><b>${esc(p.name)}</b><div class="muted">#${esc(p.server)} · ${p.is_published?"منشور":"بانتظار المراجعة"} · ${p.is_verified?"✓ موثّق":"غير موثّق"}</div>${similar.length?`<div class="notice" style="margin:8px 0">⚠ إعلان مشابه محتمل: ${similar.map(x=>esc(x.name)+" (#"+esc(x.server)+")").join("، ")} — راجع التفاصيل قبل الموافقة.</div>`:""}<div class="muted">البائع: ${esc(v?.seller_name||"غير متاح")} · ${esc(v?.seller_contact||"")}</div><div class="row"><button class="btn alt tiny" data-review="${p.id}">عرض تفاصيل الحساب</button><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب بائع جديد في Last War Market\nالإعلان: "+p.name+"\nالسيرفر: "+p.server+"\nالبائع: "+(v?.seller_name||"غير متاح")+"\nتواصل البائع: "+(v?.seller_contact||"غير متاح")+"\nرقم الإعلان: "+p.id)}">واتساب الإدارة</a><button class="btn gold tiny" data-publish="${p.id}" data-value="${!p.is_published}">${p.is_published?"إخفاء الإعلان":"موافقة ونشر"}</button><button class="btn alt tiny" data-feature="${p.id}" data-value="${!p.is_featured}">${p.is_featured?"إلغاء التمييز":"تمييز الإعلان"}</button><button class="btn alt tiny" data-verify="${p.id}" data-value="${!p.is_verified}">${p.is_verified?"إلغاء التوثيق":"✓ توثيق الحساب"}</button><button class="btn alt tiny" data-sold="${p.id}" data-value="${!p.is_sold}">${p.is_sold?"إلغاء تم البيع":"تأكيد تم البيع"}</button>${!p.is_published?`<button class="btn danger tiny" data-delete="${p.id}">حذف الإعلان المرفوض</button>`:""}</div></div>`}).join("")||"لا توجد إعلانات";
  $("adminOrders").innerHTML=(os||[]).map(o=>`<div class="item"><b>طلب #${esc(o.id.slice(0,8))} — ${esc(o.player_profiles?.name||"إعلان")}</b><div class="muted">المشتري: ${esc(o.buyer_name)} · ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")}</div><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("طلب شراء جديد في Last War Market\nالإعلان: "+(o.player_profiles?.name||"إعلان")+"\nالمشتري: "+o.buyer_name+"\nتواصل المشتري: "+o.buyer_contact+"\nالملاحظات: "+(o.buyer_notes||"لا يوجد")+"\nرقم الطلب: "+o.id)}">واتساب الإدارة</a><label>حالة الطلب</label><select data-order="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="completed" ${o.status==="completed"?"selected":""}>مكتمل</option><option value="cancelled" ${o.status==="cancelled"?"selected":""}>ملغي</option></select><button class="btn danger tiny" type="button" data-delete-order="${o.id}">حذف الطلب</button></div>`).join("")||"لا توجد طلبات";
  const {data:offers,error:offerError}=await db.from("market_offers").select("id,profile_id,buyer_name,buyer_contact,offer_price,buyer_notes,status,created_at,player_profiles(name,server,price)").order("created_at",{ascending:false});
  if(offerError)$("adminOffers").textContent="تعذر تحميل عروض الأسعار: "+offerError.message;
@@ -727,6 +741,16 @@ async function loadAdmin(){
  const {data:reports,error:reportsError}=await db.from("listing_reports").select("id,profile_id,reason,details,status,created_at,player_profiles(name,server)").order("created_at",{ascending:false});
  if(reportsError) $("adminReports").textContent="تعذر تحميل البلاغات: "+reportsError.message;
  else $("adminReports").innerHTML=(reports||[]).map(r=>`<div class="item" data-report-item="${r.id}"><b>${esc(r.player_profiles?.name||"إعلان محذوف")} — ${esc(r.reason)}</b><div class="muted">السيرفر: ${esc(r.player_profiles?.server||"—")} · ${esc(new Date(r.created_at).toLocaleString("ar-EG"))}</div><div class="row"><button class="btn alt tiny" type="button" data-report-details="${r.id}">عرض التفاصيل</button><button class="btn danger tiny" type="button" data-report-delete="${r.id}">حذف البلاغ</button></div><div class="report-full-details hidden"><div><b>سبب البلاغ:</b> ${esc(r.reason)}</div><div><b>التفاصيل:</b> ${esc(r.details||"لم يضف المبلّغ تفاصيل إضافية")}</div><div><b>رقم الإعلان:</b> ${esc(r.profile_id)}</div><div><b>تاريخ البلاغ:</b> ${esc(new Date(r.created_at).toLocaleString("ar-EG"))}</div></div><label>حالة البلاغ</label><select data-report-status="${r.id}"><option value="new" ${r.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${r.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="resolved" ${r.status==="resolved"?"selected":""}>تمت المعالجة</option><option value="dismissed" ${r.status==="dismissed"?"selected":""}>غير صحيح</option></select></div>`).join("")||"لا توجد بلاغات حتى الآن.";
+ const {data:audit,error:auditError}=await db.from("admin_audit_log").select("id,actor_user_id,action,table_name,record_id,before_data,after_data,created_at").order("created_at",{ascending:false}).limit(100);
+ if(auditError) $("adminAudit").textContent="تعذر تحميل سجل العمليات: "+auditError.message;
+ else $("adminAudit").innerHTML=(audit||[]).map(x=>{
+  const names={player_profiles:"الإعلانات",market_orders:"طلبات الشراء",market_offers:"عروض الأسعار",listing_reports:"البلاغات"};
+  const verbs={INSERT:"إضافة",UPDATE:"تعديل",DELETE:"حذف"};
+  const row=x.after_data||x.before_data||{};
+  const title=row.name||row.buyer_name||row.reason||x.record_id||"سجل";
+  const changed=x.action==="UPDATE"?Object.keys(x.after_data||{}).filter(k=>JSON.stringify((x.before_data||{})[k])!==JSON.stringify((x.after_data||{})[k])&&k!=="updated_at").slice(0,5).join("، "):"";
+  return '<div class="item"><b>'+esc(verbs[x.action]||x.action)+" — "+esc(names[x.table_name]||x.table_name)+'</b><div>'+esc(title)+'</div><div class="muted">'+esc(changed?"الحقول: "+changed:"رقم السجل: "+(x.record_id||"—"))+" · "+esc(new Date(x.created_at).toLocaleString())+" · المشرف: "+esc(x.actor_user_id||"غير معروف")+'</div></div>';
+ }).join("")||"لا توجد عمليات مسجلة بعد.";
  await loadAnalytics();
 }
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}if(await verifyAdmin(data.user))await loadAdmin()});
