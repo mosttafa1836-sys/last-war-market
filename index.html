@@ -224,6 +224,15 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 
 .battle-wordmark-art{display:flex;align-items:center;justify-content:center;min-height:220px;background:radial-gradient(ellipse at center,#eaf7ff 0%,#b9e4fb 48%,#5aa9dc 100%);border:2px solid #2d8dcc;border-radius:28px;box-shadow:0 12px 28px #07558b33,inset 0 0 28px #fff9}.battle-wordmark{font-size:clamp(38px,9vw,76px);font-weight:1000;font-style:italic;letter-spacing:-2px;line-height:1.05;text-align:center;color:#0879c7;text-shadow:0 3px 0 #fff,0 7px 0 #14548a,0 12px 18px #16466b55}.battle-wordmark span{display:block;margin-top:10px;font-size:.42em;letter-spacing:7px;color:#fff;text-shadow:0 2px 0 #14548a,0 4px 10px #16466b88}
 .verified-tag{display:inline-flex;align-items:center;gap:4px;margin-inline-start:5px;padding:3px 9px;border-radius:20px;background:#123d5d;color:#b9e2ff;border:1px solid #267eb5;font-size:11px;font-weight:900;white-space:nowrap}.verified-tag:before{content:"✓";display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:#087fd2;color:#fff;font-size:10px}
+
+.compare-dialog{max-height:88vh;overflow:auto}
+.compare-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0;padding:12px;background:#10131a;border:1px solid var(--line);border-radius:12px}
+.compare-chip{display:inline-block;margin:3px;padding:5px 9px;border-radius:8px;background:#202b3b;color:#f4c76a;font-size:12px}
+.compare-table{display:grid;gap:7px}
+.compare-row{display:grid;grid-template-columns:minmax(78px,.7fr) minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:stretch}
+.compare-row>*{padding:11px 9px;border-radius:9px;background:#10131a;border:1px solid #303744;overflow-wrap:anywhere}
+.compare-row>b{color:#f4c76a}.compare-row>span{text-align:center}
+@media(max-width:520px){.compare-dialog{padding:12px!important}.compare-row{grid-template-columns:68px minmax(0,1fr) minmax(0,1fr);gap:5px;font-size:12px}.compare-row>*{padding:9px 5px}.compare-toolbar{gap:6px}.compare-toolbar .muted{flex:1 1 100%}}
 </style>
 <style>.photo-lightbox{width:min(96vw,1100px);max-width:96vw;max-height:94vh;padding:12px;border:1px solid #9ccff2;border-radius:18px;background:rgba(8,30,52,.97);color:#fff}.photo-lightbox::backdrop{background:rgba(0,12,28,.82);backdrop-filter:blur(5px)}.photo-lightbox img{display:block;max-width:100%;max-height:82vh;width:auto;height:auto;object-fit:contain;margin:10px auto 0;border-radius:10px}.photo-lightbox button{display:block;margin-left:auto}.gallery img,.review-gallery img,#detailMainPhoto,#detailThumbs img{cursor:zoom-in}.owner-edit-form{margin-top:12px;padding:12px;border:1px solid #c5def5;border-radius:12px;background:#f3f9ff}</style></head>
 <body>
@@ -297,6 +306,11 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
  <div id="detailInfo" class="stats"></div><p id="detailHeroes"></p><p id="detailGear" class="muted"></p>
  <button id="detailBuy" class="btn gold" type="button">طلب شراء الحساب</button>
 </dialog>
+<dialog id="compareDialog" class="panel compare-dialog" style="max-width:850px;width:calc(100% - 20px);color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:18px">
+ <div class="row" style="justify-content:space-between"><div><h2 style="margin:0">مقارنة الحسابات</h2><div class="muted">قارن أهم بيانات الحسابين قبل اتخاذ القرار</div></div><button class="btn alt tiny" id="closeCompare" type="button">إغلاق ✕</button></div>
+ <div class="compare-toolbar"><b id="compareCount">0 / 2</b><span id="compareSelected" class="muted">اختر حسابين من الإعلانات</span><button class="btn alt tiny" id="clearCompare" type="button">مسح الاختيار</button></div>
+ <div id="compareTable" class="compare-table"></div><p id="compareHint" class="muted">يمكنك اختيار حسابين من الإعلانات.</p>
+</dialog>
 
 
 <section class="panel" id="accountPage" style="display:none">
@@ -367,9 +381,34 @@ function favs(){try{return JSON.parse(localStorage.getItem("lwm_favs")||"[]")}ca
 function powerBand(p){return p<100?"low":p<=200?"mid":"high"}
 function hqBand(n){return n<=20?"1":n<=25?"2":n<=30?"3":"4"}
 function photoList(p){if(Array.isArray(p.images)&&p.images.length)return p.images;return p.image_url?[p.image_url]:[]}
+let compareIds=[];
+function compareValue(v,suffix=""){return v!==null&&v!==undefined&&String(v).trim()!==""?esc(v)+suffix:"غير محدد"}
+function renderCompare(){
+ const selected=compareIds.map(id=>listings.find(p=>p.id===id)).filter(Boolean);
+ $("compareCount").textContent=compareIds.length+" / 2";
+ $("compareSelected").innerHTML=selected.map(p=>'<span class="compare-chip">'+esc(p.name)+' · '+esc(p.server)+'</span>').join("")||"اختر حسابين من الإعلانات";
+ $("compareTable").innerHTML=selected.length===2?[
+  ["القوة",compareValue(selected[0].power,"M"),compareValue(selected[1].power,"M")],
+  ["مستوى HQ",compareValue(selected[0].base_level),compareValue(selected[1].base_level)],
+  ["السيرفر",compareValue(selected[0].server),compareValue(selected[1].server)],
+  ["السعر",compareValue(selected[0].price||"تواصل مع الإدارة"),compareValue(selected[1].price||"تواصل مع الإدارة")],
+  ["الأبطال",compareValue(selected[0].heroes),compareValue(selected[1].heroes)],
+  ["المعدات",compareValue(selected[0].gear),compareValue(selected[1].gear)],
+  ["الحالة",selected[0].is_sold?"تم البيع":"متاح",selected[1].is_sold?"تم البيع":"متاح"]
+ ].map(row=>'<div class="compare-row"><b>'+row[0]+'</b><span>'+row[1]+'</span><span>'+row[2]+'</span></div>').join(""):'<div class="empty">اختر حسابين لعرض المقارنة جنبًا إلى جنب.</div>';
+ $("compareHint").textContent=compareIds.length===0?"يمكنك اختيار حسابين من الإعلانات.":compareIds.length===1?"تم اختيار حساب واحد، اختر حسابًا ثانيًا.":"اكتملت المقارنة.";
+}
+function toggleCompare(id){
+ const p=listings.find(x=>x.id===id);if(!p)return;
+ if(compareIds.includes(id)){compareIds=compareIds.filter(x=>x!==id)}
+ else if(compareIds.length>=2){alert("يمكنك مقارنة حسابين فقط. أزل أحد الحسابين أولاً.");return}
+ else compareIds.push(id);
+ render();renderCompare();
+ if(compareIds.length===2)$("compareDialog").showModal();
+}
 function listingCard(p){
  const imgs=photoList(p);
- return `<article class="card ${p.is_featured?"featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_verified?'<span class="verified-tag" title="تمت مراجعة الحساب بواسطة الإدارة">✓ حساب موثّق</span>':""} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""} ${p.is_negotiable?'<span class="feature-tag">قابل للتفاوض</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div><div class="stat"><span>المشاهدات</span><b>${Number(p.views_count||0).toLocaleString("ar-EG")}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${favs().includes(p.id)?tr("remove"):tr("save")}</button><button class="btn alt tiny" data-share="${esc(p.id)}">مشاركة الإعلان</button></div></div></article>`;
+ return `<article class="card ${p.is_featured?"featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_verified?'<span class="verified-tag" title="تمت مراجعة الحساب بواسطة الإدارة">✓ حساب موثّق</span>':""} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""} ${p.is_negotiable?'<span class="feature-tag">قابل للتفاوض</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div><div class="stat"><span>المشاهدات</span><b>${Number(p.views_count||0).toLocaleString("ar-EG")}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn alt tiny" data-compare="${esc(p.id)}">${compareIds.includes(p.id)?"✓ تم الاختيار":"⚖ قارن الحساب"}</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${favs().includes(p.id)?tr("remove"):tr("save")}</button><button class="btn alt tiny" data-share="${esc(p.id)}">مشاركة الإعلان</button></div></div></article>`;
 }
 function render(){
  const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase(),pb=$("powerFilter").value,hb=$("hqFilter").value,fs=favs();
@@ -550,6 +589,12 @@ if(adminMode){document.body.classList.add("admin-mode");document.title="Last War
 let detailListing=null;
 $("closeDetails").addEventListener("click",()=>$("detailDialog").close());
 $("closeOffer").addEventListener("click",()=>$("offerDialog").close());
+$("publicCards").addEventListener("click",e=>{
+ const b=e.target.closest("button[data-compare]");if(!b)return;
+ e.preventDefault();e.stopPropagation();toggleCompare(b.dataset.compare);
+},true);
+$("closeCompare").addEventListener("click",()=>$("compareDialog").close());
+$("clearCompare").addEventListener("click",()=>{compareIds=[];render();renderCompare()});
 $("publicCards").addEventListener("click",e=>{
  const b=e.target.closest("button[data-offer]");if(!b)return;
  e.preventDefault();e.stopPropagation();
