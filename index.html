@@ -338,7 +338,7 @@ body.account-mode main.wrap>section.panel#accountPage{display:block!important;vi
 </section>
 <div class="adminlayout">
 <div><h3>الإعلانات</h3><div id="adminListings"></div></div>
-<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div><div style="grid-column:1/-1"><h3>عروض الأسعار من المشترين</h3><div id="adminOffers">جاري التحميل...</div></div>
+<div><h3>طلبات الشراء</h3><div id="adminOrders"></div></div><div style="grid-column:1/-1"><h3>عروض الأسعار من المشترين</h3><div id="adminOffers">جاري التحميل...</div></div><div style="grid-column:1/-1"><h3>بلاغات الإعلانات</h3><div id="adminReports">جاري التحميل...</div></div>
 </div>
 </div>
 </section>
@@ -408,7 +408,7 @@ function toggleCompare(id){
 }
 function listingCard(p){
  const imgs=photoList(p);
- return `<article class="card ${p.is_featured?"featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_verified?'<span class="verified-tag" title="تمت مراجعة الحساب بواسطة الإدارة">✓ حساب موثّق</span>':""} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""} ${p.is_negotiable?'<span class="feature-tag">قابل للتفاوض</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div><div class="stat"><span>المشاهدات</span><b>${Number(p.views_count||0).toLocaleString("ar-EG")}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn alt tiny" data-compare="${esc(p.id)}">${compareIds.includes(p.id)?"✓ تم الاختيار":"⚖ قارن الحساب"}</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${favs().includes(p.id)?tr("remove"):tr("save")}</button><button class="btn alt tiny" data-share="${esc(p.id)}">مشاركة الإعلان</button></div></div></article>`;
+ return `<article class="card ${p.is_featured?"featured-card":""}"><div class="gallery">${imgs.length?imgs.map(u=>`<img src="${esc(u)}" alt="صورة الإعلان" loading="lazy">`).join(""):"<div class='empty'>No photos</div>"}</div><div class="body"><h3>${esc(p.name)} ${p.is_verified?'<span class="verified-tag" title="تمت مراجعة الحساب بواسطة الإدارة">✓ حساب موثّق</span>':""} ${p.is_featured?'<span class="feature-tag">مميز</span>':""} ${p.is_sold?'<span class="sold-tag">تم البيع</span>':""} ${p.is_negotiable?'<span class="feature-tag">قابل للتفاوض</span>':""}</h3><div class="muted">Listing #${esc(p.id.slice(0,8))} · ${tr("server")} ${esc(p.server)}</div><div class="stats"><div class="stat"><span>${tr("power")}</span><b>${esc(p.power)}M</b></div><div class="stat"><span>${tr("hq")}</span><b>${esc(p.base_level)}</b></div><div class="stat"><span>${tr("price")}</span><b>${esc(p.price||"تواصل مع الإدارة")}</b></div><div class="stat"><span>المشاهدات</span><b>${Number(p.views_count||0).toLocaleString("ar-EG")}</b></div><div class="stat"><span>${tr("heroes")}</span><b>${esc(p.heroes||"غير محدد")}</b></div></div><p class="muted">${esc(p.gear||"")}</p><div class="row"><button class="btn alt tiny" data-details="${esc(p.id)}">تفاصيل الحساب</button><button class="btn alt tiny" data-compare="${esc(p.id)}">${compareIds.includes(p.id)?"✓ تم الاختيار":"⚖ قارن الحساب"}</button><button class="btn gold tiny" data-buy="${esc(p.id)}">${tr("buy")}</button><button class="btn alt tiny" data-offer="${esc(p.id)}">اعرض سعرك</button><button class="btn alt tiny" data-fav="${esc(p.id)}">${favs().includes(p.id)?tr("remove"):tr("save")}</button><button class="btn alt tiny" data-share="${esc(p.id)}">مشاركة الإعلان</button><button class="btn alt tiny" data-report="${esc(p.id)}">⚑ إبلاغ</button></div></div></article>`;
 }
 function render(){
  const q=$("search").value.trim().toLowerCase(),s=$("serverFilter").value.trim().toLowerCase(),pb=$("powerFilter").value,hb=$("hqFilter").value,fs=favs();
@@ -497,6 +497,18 @@ $("myListings").addEventListener("submit",async e=>{const f=e.target.closest("[d
 function openPhoto(src){if(!src)return;$("lightboxImage").src=src;$("photoLightbox").showModal()}
 $("closeLightbox").addEventListener("click",()=>$("photoLightbox").close());
 document.addEventListener("click",e=>{const img=e.target.closest(".gallery img,.review-gallery img,#detailMainPhoto");if(img){e.preventDefault();openPhoto(img.currentSrc||img.src)}});
+document.getElementById("publicCards").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-report]");if(!b)return;
+ const p=listings.find(x=>x.id===b.dataset.report);if(!p)return;
+ const reason=prompt("سبب الإبلاغ عن الإعلان (مثلاً: معلومات مضللة، سعر غير صحيح، إعلان مشبوه):");
+ if(!reason||reason.trim().length<3)return;
+ const details=prompt("تفاصيل إضافية (اختياري):")||"";
+ b.disabled=true;
+ const {data:{user}}=await db.auth.getUser();
+ const {error}=await db.from("listing_reports").insert({profile_id:p.id,reason:reason.trim().slice(0,500),details:details.trim().slice(0,1000),reporter_user_id:user?.id||null});
+ b.disabled=false;
+ if(error)alert("تعذر إرسال البلاغ: "+error.message);else alert("تم إرسال البلاغ للإدارة بنجاح. شكرًا لمساعدتنا في حماية السوق.");
+});
 
 db.auth.onAuthStateChange(()=>{if(document.getElementById("accountPage").style.display!=="none")refreshAccount()});
 
@@ -710,6 +722,9 @@ async function loadAdmin(){
  const {data:offers,error:offerError}=await db.from("market_offers").select("id,profile_id,buyer_name,buyer_contact,offer_price,buyer_notes,status,created_at,player_profiles(name,server,price)").order("created_at",{ascending:false});
  if(offerError)$("adminOffers").textContent="تعذر تحميل عروض الأسعار: "+offerError.message;
  else $("adminOffers").innerHTML=(offers||[]).map(o=>`<div class="item"><b>${esc(o.player_profiles?.name||"إعلان")} — عرض ${Number(o.offer_price).toLocaleString("ar-EG")}</b><div class="muted">السعر المطلوب: ${esc(o.player_profiles?.price||"غير محدد")} · السيرفر: ${esc(o.player_profiles?.server||"—")}</div><div class="muted">المشتري: ${esc(o.buyer_name)} · التواصل: ${esc(o.buyer_contact)}</div><div class="muted">ملاحظات: ${esc(o.buyer_notes||"لا يوجد")} · ${esc(new Date(o.created_at).toLocaleString("ar-EG"))}</div><a class="btn alt tiny" target="_blank" rel="noopener" href="${adminWhatsApp("عرض سعر جديد في Last War Market\\nالإعلان: "+(o.player_profiles?.name||"إعلان")+"\\nالسعر المعروض: "+o.offer_price+"\\nالمشتري: "+o.buyer_name+"\\nالتواصل: "+o.buyer_contact)}">واتساب الإدارة</a><label>حالة العرض</label><select data-offer-status="${o.id}"><option value="new" ${o.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${o.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="accepted" ${o.status==="accepted"?"selected":""}>مقبول</option><option value="rejected" ${o.status==="rejected"?"selected":""}>مرفوض</option></select><button class="btn danger tiny" type="button" data-delete-offer="${o.id}">حذف العرض</button></div>`).join("")||"لا توجد عروض أسعار حتى الآن.";
+ const {data:reports,error:reportsError}=await db.from("listing_reports").select("id,profile_id,reason,details,status,created_at,player_profiles(name,server)").order("created_at",{ascending:false});
+ if(reportsError) $("adminReports").textContent="تعذر تحميل البلاغات: "+reportsError.message;
+ else $("adminReports").innerHTML=(reports||[]).map(r=>`<div class="item"><b>${esc(r.player_profiles?.name||"إعلان محذوف")} — ${esc(r.reason)}</b><div class="muted">السيرفر: ${esc(r.player_profiles?.server||"—")} · ${esc(new Date(r.created_at).toLocaleString("ar-EG"))}</div><div>${esc(r.details||"بدون تفاصيل")}</div><label>حالة البلاغ</label><select data-report-status="${r.id}"><option value="new" ${r.status==="new"?"selected":""}>جديد</option><option value="reviewing" ${r.status==="reviewing"?"selected":""}>قيد المراجعة</option><option value="resolved" ${r.status==="resolved"?"selected":""}>تمت المعالجة</option><option value="dismissed" ${r.status==="dismissed"?"selected":""}>غير صحيح</option></select></div>`).join("")||"لا توجد بلاغات حتى الآن.";
  await loadAnalytics();
 }
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){msg("loginStatus",error.message);return}if(await verifyAdmin(data.user))await loadAdmin()});
@@ -761,6 +776,7 @@ $("adminOffers").addEventListener("click",async e=>{
  else await loadAdmin();
 });
 $("adminOffers").addEventListener("change",async e=>{const sel=e.target.closest("[data-offer-status]");if(!sel)return;const {error}=await db.from("market_offers").update({status:sel.value}).eq("id",sel.dataset.offerStatus);if(error)alert("تعذر تحديث الحالة: "+error.message);else alert("تم تحديث حالة العرض");});
+$("adminReports").addEventListener("change",async e=>{const sel=e.target.closest("[data-report-status]");if(!sel)return;const {error}=await db.from("listing_reports").update({status:sel.value}).eq("id",sel.dataset.reportStatus);if(error)alert("تعذر تحديث البلاغ: "+error.message);});
 $("adminOrders").addEventListener("change",async e=>{const s=e.target.closest("[data-order]");if(!s)return;const {error}=await db.from("market_orders").update({status:s.value,updated_at:new Date().toISOString()}).eq("id",s.dataset.order);if(error)alert(error.message);else alert("تم تحديث حالة الطلب")});
 db.auth.getSession().then(async({data})=>{if(data.session?.user&&await verifyAdmin(data.session.user))loadAdmin()});
 loadPublic();
