@@ -651,6 +651,7 @@ function subscribeAdminOrderAlerts(){
   }).subscribe();
 }
 async function loadAdmin(){
+ subscribeAdminOrderAlerts();
  const [{data:ps,error:pe},{data:os,error:oe}]=await Promise.all([
  db.from("player_profiles").select("*").order("created_at",{ascending:false}),
  db.from("market_orders").select("id,profile_id,buyer_name,buyer_contact,buyer_notes,status,created_at,player_profiles(name,server)").order("created_at",{ascending:false})
