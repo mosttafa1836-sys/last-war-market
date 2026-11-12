@@ -82,6 +82,48 @@ footer{padding-bottom:16px}
 @media(max-width:380px){.trust-strip>div{font-size:9px}.action-tile b{font-size:15px}.cards{grid-template-columns:1fr}}
 
 
+/* Homepage account cards: clearer marketplace hierarchy */
+#publicCards,#bestDealsCards{align-items:stretch}
+#publicCards .card,#bestDealsCards .card{display:flex;flex-direction:column;border:1px solid #343b49;border-radius:16px;background:linear-gradient(160deg,#191d27,#101319);box-shadow:0 8px 22px rgba(0,0,0,.2);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+#publicCards .card:hover,#bestDealsCards .card:hover{transform:translateY(-3px);border-color:#a93442;box-shadow:0 12px 28px rgba(185,39,56,.14)}
+#publicCards .card .gallery,#bestDealsCards .card .gallery{height:auto;aspect-ratio:16/10;position:relative;background:linear-gradient(135deg,#35151d,#202b3b)}
+#publicCards .card .gallery img,#bestDealsCards .card .gallery img{height:100%;min-width:100%;object-fit:cover}
+#publicCards .card .body,#bestDealsCards .card .body{display:flex;flex:1;flex-direction:column;padding:13px}
+#publicCards .card .body h3,#bestDealsCards .card .body h3{font-size:15px;line-height:1.45;margin:0 0 5px;overflow-wrap:anywhere}
+#publicCards .card .seller-rating,#bestDealsCards .card .seller-rating{font-size:11px;margin-top:2px}
+#publicCards .card .stats,#bestDealsCards .card .stats{gap:7px;margin:12px 0 8px}
+#publicCards .card .stat,#bestDealsCards .card .stat{border:1px solid rgba(255,255,255,.055);background:#0e1117;border-radius:10px;padding:8px 9px;min-width:0}
+#publicCards .card .stat span,#bestDealsCards .card .stat span{font-size:10px}
+#publicCards .card .stat b,#bestDealsCards .card .stat b{font-size:13px;overflow-wrap:anywhere}
+#publicCards .card .stat:nth-child(3),#bestDealsCards .card .stat:nth-child(3){border-color:rgba(213,43,61,.42);background:linear-gradient(135deg,rgba(213,43,61,.16),rgba(14,17,23,.96))}
+#publicCards .card .stat:nth-child(3) b,#bestDealsCards .card .stat:nth-child(3) b{color:#ff6876;font-size:16px}
+#publicCards .card .body>p,#bestDealsCards .card .body>p{font-size:11px;line-height:1.5;margin:5px 0 10px}
+#publicCards .card .row,#bestDealsCards .card .row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:auto;padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}
+#publicCards .card .row .btn,#bestDealsCards .card .row .btn{width:100%;min-width:0;min-height:38px;font-size:12px;padding:7px 8px;white-space:normal}
+#publicCards .card .row [data-buy],#bestDealsCards .card .row [data-buy]{background:linear-gradient(135deg,#ed2939,#9e1727);box-shadow:0 4px 12px rgba(213,43,61,.2)}
+#publicCards .featured-card,#bestDealsCards .featured-card{border-color:#a77b39;box-shadow:0 0 0 1px rgba(239,198,110,.12),0 8px 22px rgba(0,0,0,.2)}
+@media(max-width:620px){
+ #publicCards,#bestDealsCards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #publicCards .card,#bestDealsCards .card{border-radius:13px}
+ #publicCards .card .body,#bestDealsCards .card .body{padding:9px}
+ #publicCards .card .body h3,#bestDealsCards .card .body h3{font-size:12px}
+ #publicCards .card .stats,#bestDealsCards .card .stats{gap:5px;margin:9px 0 7px}
+ #publicCards .card .stat,#bestDealsCards .card .stat{padding:6px}
+ #publicCards .card .stat b,#bestDealsCards .card .stat b{font-size:11px}
+ #publicCards .card .stat:nth-child(3) b,#bestDealsCards .card .stat:nth-child(3) b{font-size:14px}
+ #publicCards .card .row,#bestDealsCards .card .row{gap:5px}
+ #publicCards .card .row .btn,#bestDealsCards .card .row .btn{font-size:10px;min-height:36px;padding:6px 4px}
+}
+@media(max-width:360px){
+ #publicCards,#bestDealsCards{grid-template-columns:1fr}
+ #publicCards .card .gallery,#bestDealsCards .card .gallery{aspect-ratio:16/9}
+}
+@media(prefers-reduced-motion:reduce){
+ #publicCards .card,#bestDealsCards .card{transition:none}
+ #publicCards .card:hover,#bestDealsCards .card:hover{transform:none}
+}
+
+
 /* Clean standalone listing form */
 body.add-mode{padding:0 0 24px!important;background:radial-gradient(ellipse at 50% 0%,#351018 0%,#0a0b10 48%);min-height:100vh}
 body.add-mode>header,body.add-mode .mobile-dock,body.add-mode footer{display:none!important}
